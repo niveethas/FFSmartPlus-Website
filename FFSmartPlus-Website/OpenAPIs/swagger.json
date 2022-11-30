@@ -822,6 +822,55 @@
         }
       }
     },
+    "/api/Item/{id}/Unit": {
+      "get": {
+        "tags": [
+          "Unit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnitsDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnitsDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnitsDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/WeatherForecast": {
       "get": {
         "tags": [
@@ -1178,6 +1227,20 @@
           "itemId": {
             "type": "integer",
             "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UnitsDto": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
