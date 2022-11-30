@@ -1,7 +1,67 @@
 ﻿@page "/t"
+@using MatBlazor;
+
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+
 <div>
-<h3>ItemList</h3>
-    @foreach(var x in Items){
-        <h1>Test: @x.Name</h1>
-    }
+    <h2> Choose item to manage</h2>
+    <p>    <MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID" ></MatTextField> </p>
+    <MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>
 </div>
+
+<div>
+
+    
+<h2> View Items</h2>
+
+@if (itemInfo != null){
+        <p> id: @itemInfo.Id </p>
+        <p> name: @itemInfo.Name</p>
+        <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
+        @foreach (var x in unitStock)
+        {
+
+            <p>expiry: @x.ExpiryDate</p>
+            <p>quantity: @x.Quantity</p>
+
+        }
+}
+   else{
+       <p> Please enter item ID to view relevant information. </p>
+   }     
+       
+    
+       
+</div>
+
+<div>
+    <h2> Add Item Management</h2>
+        <p>
+            <MatTextField Label="Item Name" @bind-Value="@inputItemName"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputItemQuantity" Label="Item Quantity"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputUnitDesc" Label="Unit Description"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputItemMinStock" Label="Minimum Stock"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputSupplierID" Label="Supplier ID"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputUnitExpDate" Label="Expiry Date"></MatTextField>
+        </p>
+
+        <MatButton @onclick="() => addNewItem(inputItemName,inputUnitDesc, inputItemMinStock, inputSupplierID)"> Add Item</MatButton>
+        
+</div>
+
+<br />
+<br />
+
+@code{
+
+}
