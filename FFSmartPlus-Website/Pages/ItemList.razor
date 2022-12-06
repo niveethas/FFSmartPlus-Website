@@ -6,8 +6,10 @@
 <div>
     <h2> Choose item to manage</h2>
     <p>    <MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID" ></MatTextField> </p>
+    <p @bind="@itemErrorMessage" id="ItemErrorMessage" style="color:red; display:none;"  > Item can not be found. </p>
     <MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>
 </div>
+<!--The item id is input by the user and passed to the loadItem function -->
 
 <div>
 
@@ -18,6 +20,7 @@
         <p> id: @itemInfo.Id </p>
         <p> name: @itemInfo.Name</p>
         <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
+        <!-- the item is loaded if the id is found, and the ID is passed to the deleteItem function-->
         @foreach (var x in unitStock)
         {
 
@@ -40,9 +43,6 @@
             <MatTextField Label="Item Name" @bind-Value="@inputItemName"></MatTextField>
         </p>
         <p>
-            <MatTextField @bind-Value="@inputItemQuantity" Label="Item Quantity"></MatTextField>
-        </p>
-        <p>
             <MatTextField @bind-Value="@inputUnitDesc" Label="Unit Description"></MatTextField>
         </p>
         <p>
@@ -52,10 +52,17 @@
             <MatTextField @bind-Value="@inputSupplierID" Label="Supplier ID"></MatTextField>
         </p>
         <p>
-            <MatTextField @bind-Value="@inputUnitExpDate" Label="Expiry Date"></MatTextField>
+            <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
         </p>
+            
+            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
+       
+        
+<br />
 
-        <MatButton @onclick="() => addNewItem(inputItemName,inputUnitDesc, inputItemMinStock, inputSupplierID)"> Add Item</MatButton>
+    <!-- The input boxes above are passed to the addNewItem function on the click of the Add Item button below-->
+
+        <MatButton @onclick="() => addNewItem(inputItemName,inputUnitDesc, inputItemMinStock, inputSupplierID, inputUnitQuantity, inputUnitExpDate )"> Add Item</MatButton>
         
 </div>
 
