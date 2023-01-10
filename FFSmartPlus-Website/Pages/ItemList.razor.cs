@@ -70,7 +70,7 @@ namespace FFSmartPlus_Website.Pages
 
         }
 
-        public async Task addNewItem(string name, string unitDesc, string minStock, string supplierID )
+        public async Task addNewItem(string name, string unitDesc, string minStock, string supplierID, string desiredStock )
         {
 
             var newNID = new NewItemDto();
@@ -80,7 +80,7 @@ namespace FFSmartPlus_Website.Pages
             newNID.UnitDesc = unitDesc;
             newNID.SupplierId = Int32.Parse(supplierID);
             newNID.MinimumStock = Convert.ToDouble(minStock);
-
+            newNID.DesiredStock = Convert.ToDouble(desiredStock);
 
             var newItemResponse =  await _client.ItemAsync(newNID);
 
