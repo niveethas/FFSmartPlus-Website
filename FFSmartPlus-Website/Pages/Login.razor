@@ -1,0 +1,15 @@
+﻿@page "/Login"
+<h3>Login</h3>
+
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+
+<div>
+    <p>
+        <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
+    </p>
+    <p>
+        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+    </p>
+    <MatButton @onclick="() => userLogin(inputUsername,inputPassword)"> Find Item</MatButton>
+
+</div>
