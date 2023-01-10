@@ -13,31 +13,38 @@ namespace FFSmartPlus_Website.Pages
     {
         public ICollection<UnitsDto> unitStock { get; set; }
         public ICollection<ItemDto> itemsInfo { get; set; }
-        public Item newItemResponse { get; set; }
+        public Item newItemResponse;
         
         public ItemDto? itemInfo {get;set;}
         public NewItemDto addItem { get; set; }
         public NewUnitDto addUnit { get; set; }
 
         public string inputItemName;
-        public string inputUnitQuantity;
+        public string inputUnitQuantity;                                              
         public string inputSupplierID;
         public string inputUnitDesc;
         public string inputItemMinStock;
+        public string inputItemDesiredStock;
         public DateTime inputUnitExpDate;
         public string itemErrorMessage;
+        public long returnedId;
+
+        public bool itemAdditionSuccess = false;
+        
         private string inputID { get; set; }
+
+        [Inject]
+        public FFSBackEnd? _client { get; set; }
+
 
         protected async override Task OnInitializedAsync()
         {
-           
+            
         }
 
         public async Task loadItem(string itemID)
         {
-            string baseurl = "https://localhost:7041";
-            var httpclient = new HttpClient();
-            var _client = new FFSBackEnd(baseurl, httpclient);
+            
 
             itemsInfo = await _client.ItemAllAsync();
 
@@ -53,10 +60,6 @@ namespace FFSmartPlus_Website.Pages
         }
         public async Task deleteItem(long id)
         {
-            string baseurl = "https://localhost:7041";
-            var httpclient = new HttpClient();
-            var _client = new FFSBackEnd(baseurl, httpclient);
-
 
             await _client.Item4Async(id);
             itemsInfo = await _client.ItemAllAsync();
@@ -67,36 +70,39 @@ namespace FFSmartPlus_Website.Pages
 
         }
 
-        public async Task addNewItem(string name, string unitDesc, string minStock, string supplierID, string quantity, DateTime expiryDate )
+        public async Task addNewItem(string name, string unitDesc, string minStock, string supplierID )
         {
-            string baseurl = "https://localhost:7041";
-            var httpclient = new HttpClient();
-            var _client = new FFSBackEnd(baseurl, httpclient);
 
             var newNID = new NewItemDto();
-            var newAUD = new NewUnitDto();
-
-
-
+            
+            //instantiates a NewItemDto class and populates it with user input
             newNID.Name = name;
             newNID.UnitDesc = unitDesc;
             newNID.SupplierId = Int32.Parse(supplierID);
             newNID.MinimumStock = Convert.ToDouble(minStock);
 
+
+            var newItemResponse =  await _client.ItemAsync(newNID);
+
+            //checks an id has been returned before showing the stock information
+            if (newItemResponse.Id != null)
+            {
+                itemAdditionSuccess = true;
+                returnedId = newItemResponse.Id;
+            }
+           
+        }
+
+        public async Task addStock (string quantity, DateTime expiryDate)
+        {
+           
+            var newAUD = new NewUnitDto();
             newAUD.ExpiryDate = expiryDate;
             newAUD.Quantity = Convert.ToDouble(quantity);
 
-            newItemResponse = await _client.ItemAsync(newNID);
-            Console.WriteLine(newItemResponse.Id);
-            itemsInfo = await _client.ItemAllAsync();
-            await _client.AddAsync(newItemResponse.Id,newAUD);
-            
-            //add new unit
-            //add comments
-            //clean up code - get rid of baseurl connections and rename variables
-            //search by name?
-            
-
+            //instantiates a NewUnitDto class and populates it with user input
+            //using the returned Id from the post method and send object with expirydate, quantity
+            await _client.AddAsync(returnedId, newAUD);
         }
 
     }

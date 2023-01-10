@@ -49,20 +49,29 @@
             <MatTextField @bind-Value="@inputItemMinStock" Label="Minimum Stock"></MatTextField>
         </p>
         <p>
-            <MatTextField @bind-Value="@inputSupplierID" Label="Supplier ID"></MatTextField>
+        <MatTextField @bind-Value="@inputItemDesiredStock" Label="Desired Stock"></MatTextField>
         </p>
+    <p>
+        <MatTextField @bind-Value="@inputSupplierID" Label="Supplier ID"></MatTextField>
+    </p>
+    @if (itemAdditionSuccess == true)
+    {
+        
         <p>
             <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
         </p>
-            
+    
+            <p>
             <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
-       
+            </p>
+            <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+    }
         
 <br />
 
     <!-- The input boxes above are passed to the addNewItem function on the click of the Add Item button below-->
 
-        <MatButton @onclick="() => addNewItem(inputItemName,inputUnitDesc, inputItemMinStock, inputSupplierID, inputUnitQuantity, inputUnitExpDate )"> Add Item</MatButton>
+        <MatButton @onclick="() => addNewItem(inputItemName,inputUnitDesc, inputItemMinStock, inputSupplierID )"> Add Item</MatButton>
         
 </div>
 
