@@ -10,6 +10,7 @@
         "tags": [
           "Admin"
         ],
+        "summary": "Get Expired Items",
         "responses": {
           "200": {
             "description": "Success",
@@ -48,6 +49,7 @@
         "tags": [
           "Admin"
         ],
+        "summary": "Runs End of day operations",
         "responses": {
           "200": {
             "description": "Success"
@@ -60,6 +62,7 @@
         "tags": [
           "Authenticate"
         ],
+        "summary": "User Login",
         "requestBody": {
           "content": {
             "application/json": {
@@ -81,7 +84,44 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRespDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRespDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRespDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -91,6 +131,7 @@
         "tags": [
           "Authenticate"
         ],
+        "summary": "Register user",
         "requestBody": {
           "content": {
             "application/json": {
@@ -122,6 +163,7 @@
         "tags": [
           "Authenticate"
         ],
+        "summary": "Admin function to add user to role",
         "parameters": [
           {
             "name": "username",
@@ -141,7 +183,64 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
           }
         }
       }
@@ -151,6 +250,7 @@
         "tags": [
           "Authenticate"
         ],
+        "summary": "Admin function to remove user from role",
         "parameters": [
           {
             "name": "username",
@@ -170,7 +270,64 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
           }
         }
       }
@@ -180,6 +337,7 @@
         "tags": [
           "Authenticate"
         ],
+        "summary": "DEV FUNCTION - Registers new user on all role",
         "requestBody": {
           "content": {
             "application/json": {
@@ -211,6 +369,7 @@
         "tags": [
           "Item"
         ],
+        "summary": "Get all active items",
         "responses": {
           "200": {
             "description": "Success",
@@ -247,6 +406,7 @@
         "tags": [
           "Item"
         ],
+        "summary": "Create a new Item",
         "requestBody": {
           "content": {
             "application/json": {
@@ -267,22 +427,42 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Item"
+                  "$ref": "#/components/schemas/ItemDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Item"
+                  "$ref": "#/components/schemas/ItemDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Item"
+                  "$ref": "#/components/schemas/ItemDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
                 }
               }
             }
@@ -295,6 +475,7 @@
         "tags": [
           "Item"
         ],
+        "summary": "Get Item by ID",
         "parameters": [
           {
             "name": "id",
@@ -333,6 +514,7 @@
         "tags": [
           "Item"
         ],
+        "summary": "Update an item by ID",
         "parameters": [
           {
             "name": "id",
@@ -366,6 +548,26 @@
         "responses": {
           "200": {
             "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              }
+            }
           }
         }
       },
@@ -373,6 +575,7 @@
         "tags": [
           "Item"
         ],
+        "summary": "Deletes a specific Item",
         "parameters": [
           {
             "name": "id",
@@ -396,6 +599,7 @@
         "tags": [
           "Item"
         ],
+        "summary": "Deactivate an item",
         "parameters": [
           {
             "name": "id",
@@ -419,6 +623,7 @@
         "tags": [
           "Orders"
         ],
+        "summary": "Get list of items below minimum stock level",
         "responses": {
           "200": {
             "description": "Success",
@@ -457,6 +662,7 @@
         "tags": [
           "Orders"
         ],
+        "summary": "Generates an order of items below the minimum stock level",
         "responses": {
           "200": {
             "description": "Success",
@@ -495,6 +701,7 @@
         "tags": [
           "Stock"
         ],
+        "summary": "Get the current stock of an Item",
         "parameters": [
           {
             "name": "id",
@@ -535,6 +742,7 @@
         "tags": [
           "Stock"
         ],
+        "summary": "Add units to stock",
         "parameters": [
           {
             "name": "id",
@@ -594,6 +802,7 @@
         "tags": [
           "Stock"
         ],
+        "summary": "Remove units from stock following FIFO",
         "parameters": [
           {
             "name": "id",
@@ -642,6 +851,7 @@
         "tags": [
           "Supplier"
         ],
+        "summary": "Get list of all suppliers",
         "responses": {
           "200": {
             "description": "Success",
@@ -678,6 +888,7 @@
         "tags": [
           "Supplier"
         ],
+        "summary": "Create a new supplier",
         "requestBody": {
           "content": {
             "application/json": {
@@ -703,17 +914,37 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Supplier"
+                  "$ref": "#/components/schemas/SupplierDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Supplier"
+                  "$ref": "#/components/schemas/SupplierDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Supplier"
+                  "$ref": "#/components/schemas/SupplierDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
                 }
               }
             }
@@ -726,6 +957,7 @@
         "tags": [
           "Supplier"
         ],
+        "summary": "Get Supplier by ID",
         "parameters": [
           {
             "name": "id",
@@ -764,6 +996,7 @@
         "tags": [
           "Supplier"
         ],
+        "summary": "Update a supplier record",
         "parameters": [
           {
             "name": "id",
@@ -796,7 +1029,44 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupplierDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationResult"
+                }
+              }
+            }
           }
         }
       },
@@ -804,6 +1074,7 @@
         "tags": [
           "Supplier"
         ],
+        "summary": "Delete a supplier by its ID",
         "parameters": [
           {
             "name": "id",
@@ -827,6 +1098,7 @@
         "tags": [
           "Unit"
         ],
+        "summary": "Get units by item ID",
         "parameters": [
           {
             "name": "id",
@@ -959,6 +1231,10 @@
             "type": "number",
             "format": "double"
           },
+          "desiredStock": {
+            "type": "number",
+            "format": "double"
+          },
           "supplier": {
             "$ref": "#/components/schemas/Supplier"
           }
@@ -981,6 +1257,10 @@
             "nullable": true
           },
           "minimumStock": {
+            "type": "number",
+            "format": "double"
+          },
+          "desiredStock": {
             "type": "number",
             "format": "double"
           },
@@ -1007,6 +1287,20 @@
         },
         "additionalProperties": false
       },
+      "LoginRespDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiration": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "NewItemDto": {
         "type": "object",
         "properties": {
@@ -1019,6 +1313,10 @@
             "nullable": true
           },
           "minimumStock": {
+            "type": "number",
+            "format": "double"
+          },
+          "desiredStock": {
             "type": "number",
             "format": "double"
           },
@@ -1083,6 +1381,33 @@
         },
         "additionalProperties": false
       },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
       "RegisterModel": {
         "required": [
           "email",
@@ -1103,6 +1428,29 @@
           }
         },
         "additionalProperties": false
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Severity": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Supplier": {
         "type": "object",
@@ -1241,6 +1589,62 @@
           "expiryDate": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidationFailure": {
+        "type": "object",
+        "properties": {
+          "propertyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "attemptedValue": {
+            "nullable": true
+          },
+          "customState": {
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "formattedMessagePlaceholderValues": {
+            "type": "object",
+            "additionalProperties": { },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidationResult": {
+        "type": "object",
+        "properties": {
+          "isValid": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            },
+            "nullable": true
+          },
+          "ruleSetsExecuted": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
