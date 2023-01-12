@@ -1,5 +1,6 @@
-﻿@page "/Login"
-<h3>Login</h3>
+﻿
+@page "/SignUp"
+<h3>SignUp</h3>
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 
@@ -10,6 +11,12 @@
     <p>
         <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
     </p>
-    <MatButton @onclick="() => userLogin(inputUsername,inputPassword)"> Login</MatButton>
+    <p>
+        <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
+    </p>
+    <MatButton @onclick="() => userSignUp(inputUsername,inputPassword, inputEmail)"> Login</MatButton>
 
 </div>
+@code {
+
+}
