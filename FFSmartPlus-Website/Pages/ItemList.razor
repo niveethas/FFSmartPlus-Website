@@ -74,7 +74,11 @@
                     <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
                 </p>
                 <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+
+
+                Toaster.Add("Item successfully added, please add stock information.", MatToastType.Info, "code");
             }
+
 
             <br />
 

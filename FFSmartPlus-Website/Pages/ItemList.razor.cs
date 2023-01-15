@@ -11,6 +11,8 @@ namespace FFSmartPlus_Website.Pages
 {
     public partial class ItemList
     {
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
         public ICollection<UnitsDto> unitStock { get; set; }
         public ICollection<ItemDto> itemsInfo { get; set; }
         public Item newItemResponse;
