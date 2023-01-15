@@ -1,0 +1,27 @@
+﻿@page "/SignUp"
+@using MatBlazor
+
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/Forms.css" rel="stylesheet" />
+
+<div class="formTitle">
+    <h1>Account Registration</h1>
+    <h3 class="mat-subtitle1">Please enter your registration details below to create an account</h3>
+</div>
+
+<!-- The form the user will enter their account details into for registration -->
+<div class="formInput">
+    <p>
+        <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
+    </p>
+    <p>
+        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+    </p>
+    <p>
+        <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
+    </p>
+    <MatButton @onclick="() => userSignUp(inputUsername,inputPassword, inputEmail)"> Sign Up</MatButton>
+</div>
+@code {
+
+}
