@@ -1,0 +1,23 @@
+﻿@page "/Login"
+@using MatBlazor
+
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/Forms.css" rel="stylesheet" />
+
+<div class="formTitle">
+    <h1>Welcome to the Future Fridges Stock Management System</h1>
+    <h3 class="mat-subtitle1">Please enter your login details to log in</h3>
+</div>
+
+<!-- The form the user will enter their login details into -->
+<div class="formInput">
+    <p>
+        <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
+    </p>
+    <p>
+        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+    </p>
+    <MatButton @onclick="() => userLogin(inputUsername,inputPassword)"> Login</MatButton>
+    <br />
+    <MatButton @onclick="() => userLogin(inputUsername,inputPassword)"> Sign Up A New Account</MatButton>
+</div>

@@ -1,0 +1,14 @@
+﻿/*For Login and Sign Up pages */
+.formTitle {
+    margin: auto;
+    position: absolute;
+    left: 15%;
+    margin-right: 5%;
+}
+
+.formInput {
+    margin: auto;
+    position: absolute;
+    left: 20%;
+    margin-top: 150px;
+}
