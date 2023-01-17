@@ -1,0 +1,62 @@
+﻿@page "/ManageUsers"
+@using MatBlazor
+
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/manageUsers.css" rel="stylesheet" />
+
+<MatHeadline3>Manage Users</MatHeadline3>
+<MatTabGroup>
+    <MatTab Label="Add User">
+        <br />
+        <div>
+            <MatHeadline4> Add User</MatHeadline4>
+            <p>
+                <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
+            </p>
+            <p>
+                <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+            </p>
+            <p>
+                <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
+            </p>
+            <MatButton @onclick="() => addUser(inputUsername,inputPassword, inputEmail)"> Add New User</MatButton>
+
+            @if (additionSuccess){
+                Toaster.Add("Toast body text", MatToastType.Success, "code");
+            }else{
+                Toaster.Add("Toast body text", MatToastType.Warning, "code");
+            }
+            <!--Check that the toast actually shows useful information-->
+        </div>
+    </MatTab>
+    <MatTab Label="Delete User">
+        <br />
+        <MatHeadline4> Delete User</MatHeadline4>
+        <br />
+        <!--Bring back all users and provide delete user functionality on each one-->
+       
+        <MatList>
+            @foreach (var user in @allUsers) {
+                <div class="userContainer">
+                    <div class="userDataContainer">
+                        <p id="userName">@user</p>
+                        <MatButton id="userDeleteButton" class="deleteUserButton" @onclick="() => deleteUser(user)">Delete User</MatButton>
+                        <br>
+                        <MatDivider id="userDivider"></MatDivider>
+                    </div>
+                    
+                </div>
+            }
+        </MatList>
+        
+        <!--Toast on successfull or failure of deletion-->
+        @if (successDelete)
+        {
+            Toaster.Add("Toast body text", MatToastType.Success, "code");
+        }
+        else
+        {
+            Toaster.Add("Toast body text", MatToastType.Warning, "code");
+        }
+    </MatTab>
+</MatTabGroup>

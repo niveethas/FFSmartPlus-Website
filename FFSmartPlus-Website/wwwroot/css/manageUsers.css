@@ -1,0 +1,65 @@
+﻿.userContainer {
+    display: inline-block;
+    width: 100%;
+}
+
+.userDataContainer {
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+#userName {
+    width: 20%;
+    float: left;
+}
+
+#userDeleteButton {
+    width: 30%;
+    float: left;
+}
+
+#userDivider {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+@media only screen and (max-width: 429px) {
+    #userName {
+        width: 30%;
+    }
+
+    #userDeleteButton {
+        width: 40%;
+    }
+}
+
+@media only screen and (min-width: 430px) and (max-width: 514px) {
+    #userName {
+        width: 20%;
+    }
+
+    #userDeleteButton {
+        width: 30%;
+    }
+}
+
+@media only screen and (min-width: 515px) and (max-width: 749px) {
+    #userName {
+        width: 15%;
+    }
+
+    #userDeleteButton {
+        width: 25%;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    #userName {
+        width: 10%;
+    }
+
+    #userDeleteButton {
+        width: 20%;
+    }
+} 
