@@ -1,50 +1,62 @@
 ﻿@page "/ManageUsers"
-
-<h3>ManageUsers</h3>
+@using MatBlazor
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/manageUsers.css" rel="stylesheet" />
 
-<div>
-    <h3> Add User</h3>
-    <p>
-        <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
-    </p>
-    <p>
-        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
-    </p>
-    <p>
-        <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
-    </p>
-    <MatButton @onclick="() => addUser(inputUsername,inputPassword, inputEmail)"> Login</MatButton>
+<MatHeadline3>Manage Users</MatHeadline3>
+<MatTabGroup>
+    <MatTab Label="Add User">
+        <br />
+        <div>
+            <MatHeadline4> Add User</MatHeadline4>
+            <p>
+                <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
+            </p>
+            <p>
+                <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+            </p>
+            <p>
+                <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
+            </p>
+            <MatButton @onclick="() => addUser(inputUsername,inputPassword, inputEmail)"> Add New User</MatButton>
 
-    @if (additionSuccess){
-        Toaster.Add("Toast body text", MatToastType.Success, "code");
-    }else{
-        Toaster.Add("Toast body text", MatToastType.Warning, "code");
-    }
-    <!--Check that the toast actually shows useful information-->
-
-
-    <h3> Delete User</h3>
-    <!--Bring back all users and provide delete user functionality on each one-->
-    <!--The code below has been derived from the MatBlazor documentation at: https://www.matblazor.com/VirtualScroll-->
-    <h4>VirtualScroll with @allUsers.Count() users</h4> <!--Delete this heading, not needed, just used for helping delvelopment-->
- 
-        <MatVirtualScroll style="height: 500px;" ItemType="string" Items="@allUsers" ItemHeight="50">
-            <ItemTemplate>
-                <div>@context</div>
-                <MatButton @onclick="() => deleteUser(context)">Delete User</MatButton> <!--Get button to sit next to name-->
-            <MatListDivider></MatListDivider>
-            </ItemTemplate>
-        </MatVirtualScroll>
-        <!--Toast on successfull or failure of deletion-->
-    @if (successDelete)
-    {
-        Toaster.Add("Toast body text", MatToastType.Success, "code");
-    }
-    else
-    {
-        Toaster.Add("Toast body text", MatToastType.Warning, "code");
-    }
+            @if (additionSuccess){
+                Toaster.Add("Toast body text", MatToastType.Success, "code");
+            }else{
+                Toaster.Add("Toast body text", MatToastType.Warning, "code");
+            }
+            <!--Check that the toast actually shows useful information-->
+        </div>
+    </MatTab>
+    <MatTab Label="Delete User">
+        <br />
+        <MatHeadline4> Delete User</MatHeadline4>
+        <br />
+        <!--Bring back all users and provide delete user functionality on each one-->
+       
+        <MatList>
+            @foreach (var user in @allUsers) {
+                <div class="userContainer">
+                    <div class="userDataContainer">
+                        <p id="userName">@user</p>
+                        <MatButton id="userDeleteButton" class="deleteUserButton" @onclick="() => deleteUser(user)">Delete User</MatButton>
+                        <br>
+                        <MatDivider id="userDivider"></MatDivider>
+                    </div>
+                    
+                </div>
+            }
+        </MatList>
         
-</div>
+        <!--Toast on successfull or failure of deletion-->
+        @if (successDelete)
+        {
+            Toaster.Add("Toast body text", MatToastType.Success, "code");
+        }
+        else
+        {
+            Toaster.Add("Toast body text", MatToastType.Warning, "code");
+        }
+    </MatTab>
+</MatTabGroup>
