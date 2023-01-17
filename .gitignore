@@ -364,5 +364,7 @@ FodyWeavers.xsd
 
 # Swagger Service Connections Folder
 OpenAPIs/
+
+#Config files
+FFSmartPlus-Website.csproj
 FFSmartPlus-Website/FFSmartPlus-Website.sln
-FFSmartPlus-Website/FFSmartPlus-Website.csproj
