@@ -1,0 +1,11 @@
+﻿@page "/OrderConfirm"
+
+<div>
+    <h2>Items with low stock</h2>
+@foreach(var x in orderItems){
+        @foreach (var v in x.Orders){
+            <p>@v.Name</p>
+            <p>@v.OrderQuantity</p>
+            <p>@v.UnitDesc</p>
+}}
+</div>
