@@ -70,7 +70,7 @@ namespace FFSmartPlus_Tests
         public async Task deleteItem_ValidId()
         {
             await itemList.deleteItem(newItemId);
-            Assert.AreEqual(validItemId, itemList.itemInfo.Id);
+            Assert.IsNull(itemList.itemInfo);
         }
     }
 
