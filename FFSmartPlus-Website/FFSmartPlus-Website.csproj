@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
-      <SourceUri>https://localhost:7041/swagger/v1/swagger.json</SourceUri>
-    </OpenApiReference>
+    <None Include="OpenAPIs\swagger.json" ClassName="FFSBackEnd" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="OpenAPIs\swagger3.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
+    <None Include="OpenAPIs\swagger3.json" ClassName="FFSBackEnd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <OpenApiReference Include="OpenAPIs\swagger4.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
       <SourceUri>https://localhost:7041/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
   </ItemGroup>
