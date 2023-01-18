@@ -16,7 +16,7 @@ namespace FFSmartPlus_Website.Pages
         public string inputUsername;
         public string inputPassword;
         public string inputEmail;
-        public bool additionSuccess;
+        public string additionSuccess;
         public bool successDelete;
         [Inject]
         protected IMatToaster Toaster { get; set; }
@@ -56,11 +56,11 @@ namespace FFSmartPlus_Website.Pages
             allUsers = await _client.AllAsync();
            if (currentCount < allUsers.Count)
             {
-                 additionSuccess = true;
+                 additionSuccess = "true";
             }
             else
             {
-                additionSuccess = false;
+                additionSuccess = "false";
             }
         }
 

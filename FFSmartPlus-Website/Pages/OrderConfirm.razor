@@ -2,10 +2,23 @@
 
 <div>
     <h2>Items with low stock</h2>
+
 @foreach(var x in orderItems){
         @foreach (var v in x.Orders){
             <p>@v.Name</p>
             <p>@v.OrderQuantity</p>
             <p>@v.UnitDesc</p>
-}}
+            <p><MatTextField @bind-Value="newQuantity" @oninput="@((e) => { newQuantity=(double)e.Value;})"> </MatTextField></p>
+            <MatButton @onclick="() => changeQuantity(v.Id, newQuantity)">Change Quantity</MatButton>
+        }
+
+        <br />
+}
+
+<MatButton @onclick="() => confirmOrder()"></MatButton>
+    @if (additionSuccess == "True")
+    {
+        Toaster.Add("Order has been successfully added.", MatToastType.Success, "code");
+    }
+
 </div>

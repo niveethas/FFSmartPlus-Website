@@ -21,10 +21,11 @@
             </p>
             <MatButton @onclick="() => addUser(inputUsername,inputPassword, inputEmail)"> Add New User</MatButton>
 
-            @if (additionSuccess){
-                Toaster.Add("Toast body text", MatToastType.Success, "code");
-            }else{
-                Toaster.Add("Toast body text", MatToastType.Warning, "code");
+            @if (additionSuccess == "true"){
+                Toaster.Add("User has been successfully added.", MatToastType.Success, "code");
+            } else if (additionSuccess == "false")
+            {
+                Toaster.Add("User refistration failed.", MatToastType.Warning, "code");
             }
             <!--Check that the toast actually shows useful information-->
         </div>
@@ -52,11 +53,7 @@
         <!--Toast on successfull or failure of deletion-->
         @if (successDelete)
         {
-            Toaster.Add("Toast body text", MatToastType.Success, "code");
-        }
-        else
-        {
-            Toaster.Add("Toast body text", MatToastType.Warning, "code");
+            Toaster.Add("User is successfully deleted.", MatToastType.Success, "code");
         }
     </MatTab>
 </MatTabGroup>
