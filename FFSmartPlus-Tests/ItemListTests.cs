@@ -65,14 +65,13 @@ namespace FFSmartPlus_Tests
         }
 
         // --- deleteItem(long id) ---
-        /*
+
         [TestMethod]
         public async Task deleteItem_ValidId()
         {
-            await itemList.deleteItem(1);
+            await itemList.deleteItem(newItemId);
             Assert.AreEqual(validItemId, itemList.itemInfo.Id);
         }
-        */
     }
 
 }
