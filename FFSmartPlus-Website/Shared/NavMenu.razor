@@ -14,28 +14,31 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ItemList" >
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Items
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ManageUsers" >
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Users
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="OrderConfirm">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Confirm Orders
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Account">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Account
-            </NavLink>
-        </div>
+        @if (CurrentUserRoles._role != null)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="ItemList" >
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Items
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="ManageUsers" >
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Users
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="OrderConfirm">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Confirm Orders
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="Account">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Account
+                </NavLink>
+            </div>
 
-        <MatButtonLink Href="/Login"><span class="oi oi-account-logout" aria-hidden="true"></span>Sign Out</MatButtonLink>
+            <MatButtonLink Href="/Login"><span class="oi oi-account-logout" aria-hidden="true"></span>Sign Out</MatButtonLink>
+        }
     </nav>
 </div>
 
