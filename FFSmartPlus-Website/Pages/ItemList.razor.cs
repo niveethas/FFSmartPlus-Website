@@ -6,6 +6,7 @@ using MatBlazor;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using System.Text.Encodings.Web;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace FFSmartPlus_Website.Pages
 {
@@ -15,7 +16,7 @@ namespace FFSmartPlus_Website.Pages
         protected IMatToaster Toaster { get; set; }
         public ICollection<UnitsDto> unitStock { get; set; }
         public ICollection<ItemDto> itemsInfo { get; set; }
-        public Item newItemResponse;
+        public ItemDto newItemResponse;
         
         public ItemDto? itemInfo {get;set;}
         public NewItemDto addItem { get; set; }
@@ -32,16 +33,26 @@ namespace FFSmartPlus_Website.Pages
         public long returnedId;
 
         public bool itemAdditionSuccess = false;
-        
+
+        public List<string> currentRoles;
+
         private string inputID { get; set; }
 
         [Inject]
         public FFSBackEnd? _client { get; set; }
 
 
+
         protected async override Task OnInitializedAsync()
         {
-            
+            CurrentUserRoles i = new CurrentUserRoles();
+            currentRoles = CurrentUserRoles._role;
+
+        }
+
+        public async Task GetRoles()
+        {
+           
         }
 
         public async Task loadItem(string itemID)
