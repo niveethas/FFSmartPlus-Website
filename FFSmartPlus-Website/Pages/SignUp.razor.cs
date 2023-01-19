@@ -1,11 +1,15 @@
 ﻿using ClientAPI;
 using Microsoft.AspNetCore.Components;
+using System.IdentityModel.Tokens.Jwt;
+
 
 namespace FFSmartPlus_Website.Pages
 {
     public partial class SignUp
     {
 
+        [Inject]
+        public NavigationManager NavManager { get; set; }
         [Inject]
         public FFSBackEnd? _client { get; set; }
 
@@ -20,6 +24,8 @@ namespace FFSmartPlus_Website.Pages
             newRM.Password = password;
             newRM.Email = email;
             await _client.RegisterAsync(newRM);
+            NavManager.NavigateTo("/SignUp");
+
         }
     }
 }
