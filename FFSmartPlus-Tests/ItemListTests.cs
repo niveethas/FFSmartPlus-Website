@@ -10,7 +10,7 @@ namespace FFSmartPlus_Tests
         private readonly ItemList itemList;
         int validItemId = 1;
         private string[] validNewItem = { "Apple", "per Bag", "1", "1", "2" };
-        //name, unitDesc, minStock, supplierID, desiredStock
+                                        //name, unitDesc, minStock, supplierID, desiredStock
         private long newItemId = 3;
 
         public ItemListTests()
