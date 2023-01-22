@@ -6,8 +6,6 @@ namespace FFSmartPlus_Tests
     [TestClass]
     public class ItemListTests
     {
-
-
         private readonly ItemList itemList;
         int validItemId = 1;
         private string[] validNewItem = { "Apple", "per Bag", "1", "1", "2" };
@@ -116,6 +114,7 @@ namespace FFSmartPlus_Tests
 
         #region addStock Tests
         // --- addStock (string quantity, DateTime expiryDate) ---
+        // TODO: Write stock adding checks when complete
         [TestMethod]
         public async Task addStock_Valid()
         {
@@ -140,8 +139,9 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task deleteItem_InvalidId()
         {
-            long invalidId = 500;
+            long invalidId = 5000;
             await itemList.deleteItem(invalidId);
+            Assert.IsNull(itemList.itemInfo);
         }
         #endregion
     }
