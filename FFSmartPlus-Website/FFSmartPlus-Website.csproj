@@ -16,6 +16,8 @@
     <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,6 +27,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
   </ItemGroup>
 
   <ItemGroup>
