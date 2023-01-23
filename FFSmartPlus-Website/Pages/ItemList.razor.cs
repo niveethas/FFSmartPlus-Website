@@ -61,10 +61,10 @@ namespace FFSmartPlus_Website.Pages
 
             itemsInfo = await _client.ItemAllAsync();
 
-            if (Regex.IsMatch(inputID, "^[0-9]*$")) {
+            if (Regex.IsMatch(itemID, "^[0-9]*$")) {
 
-                unitStock = await _client.UnitAsync(long.Parse(inputID));
-                itemInfo = await _client.Item2Async(long.Parse(inputID));
+                unitStock = await _client.UnitAsync(long.Parse(itemID));
+                itemInfo = await _client.Item2Async(long.Parse(itemID));
             }
             // When the user searches an item, this function is called
             // All existing items wil be loaded in
