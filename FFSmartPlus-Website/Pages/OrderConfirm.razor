@@ -1,24 +1,34 @@
 ﻿@page "/OrderConfirm"
-
+@using MatBlazor
 <div>
+
     <h2>Items with low stock</h2>
+
 
 @foreach(var x in orderItems){
         @foreach (var v in x.Orders){
             <p>@v.Name</p>
             <p>@v.OrderQuantity</p>
             <p>@v.UnitDesc</p>
-            <p><MatTextField @bind-Value="newQuantity" @oninput="@((e) => { newQuantity=(double)e.Value;})"> </MatTextField></p>
+            <p><MatTextField @bind-Value="newQuantity" @oninput="@((e) => { newQuantity=(string)e.Value;})"> </MatTextField></p>
             <MatButton @onclick="() => changeQuantity(v.Id, newQuantity)">Change Quantity</MatButton>
+            @if (additionSuccess == "True")
+            {
+                Toaster.Add("Item order has been confirmed", MatToastType.Success, "Item Order");
+                ToasterStatus();
+
+            }
+            else if (additionSuccess == "False")
+            {
+                Toaster.Add("Item order not successfull.", MatToastType.Warning, "Item Order");
+                ToasterStatus();
+
         }
 
         <br />
 }
-
-<MatButton @onclick="() => confirmOrder()"></MatButton>
-    @if (additionSuccess == "True")
-    {
-        Toaster.Add("Order has been successfully added.", MatToastType.Success, "code");
+ 
     }
+
 
 </div>

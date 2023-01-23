@@ -1,6 +1,7 @@
 ﻿using ClientAPI;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using System.IdentityModel.Tokens.Jwt;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FFSmartPlus_Website.Pages
@@ -12,12 +13,10 @@ namespace FFSmartPlus_Website.Pages
         [Inject]
         protected IMatToaster Toaster { get; set; }
 
-        public ICollection<SupplierOrderDto> orderItems;
+        public ICollection<SupplierOrderDto> orderItems = new List<SupplierOrderDto>();
 
-        public bool checkedAllConfirm;
 
-        public Dictionary<string, string> changedQuantities;
-        public double newQuantity;
+        public string newQuantity;
         public string additionSuccess;
 
         protected async override Task OnInitializedAsync()
@@ -25,18 +24,42 @@ namespace FFSmartPlus_Website.Pages
             orderItems = await _client.GenerateOrderAsync();
         }
 
-        //waiting from nick for post method for the data collected
 
-        void changeQuantity(long id, double quantity)
+        public async Task changeQuantity(long id, string quantity)
         {
-            changedQuantities.Add("id", id.ToString());
-            changedQuantities.Add("quantity", quantity.ToString());
-            //use post to add new quanitty and id ?
+            ItemRequestDto changedQuantityRequest = new ItemRequestDto();
+            OrderRequestDto changedQuantityOrder = new OrderRequestDto();
+            changedQuantityRequest.Quantity = Convert.ToDouble(quantity);
+            changedQuantityRequest.Id = id;
+            ICollection<ItemRequestDto> itemRequests = new List<ItemRequestDto>();
+            try
+            {
+                itemRequests.Add(changedQuantityRequest);
+                changedQuantityOrder.Items = itemRequests;
+                var cobIDResponse = await _client.ConfirmOrderByIDsAsync(changedQuantityOrder);
+                if (cobIDResponse)
+                {
+                    additionSuccess = "True";
+                    orderItems = await _client.GenerateOrderAsync();
+
+                }
+                else
+                {
+                    additionSuccess = "False";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);  
+            }
         }
 
-        async void confirmOrder()
+
+        public async Task ToasterStatus()
         {
-           // await _client.
+           additionSuccess = "";
+
         }
 
     }
