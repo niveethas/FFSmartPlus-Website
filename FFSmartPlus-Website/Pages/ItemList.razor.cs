@@ -61,10 +61,10 @@ namespace FFSmartPlus_Website.Pages
 
             itemsInfo = await _client.ItemAllAsync();
 
-            if (Regex.IsMatch(inputID, "^[0-9]*$")) {
+            if (Regex.IsMatch(itemID, "^[0-9]*$")) {
 
-                unitStock = await _client.UnitAsync(long.Parse(inputID));
-                itemInfo = await _client.Item2Async(long.Parse(inputID));
+                unitStock = await _client.UnitAsync(long.Parse(itemID));
+                itemInfo = await _client.Item2Async(long.Parse(itemID));
             }
             // When the user searches an item, this function is called
             // All existing items wil be loaded in
@@ -85,23 +85,29 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task addNewItem(string name, string unitDesc, string minStock, string supplierID, string desiredStock )
         {
-
-            var newNID = new NewItemDto();
-            
-            //instantiates a NewItemDto class and populates it with user input
-            newNID.Name = name;
-            newNID.UnitDesc = unitDesc;
-            newNID.SupplierId = Int32.Parse(supplierID);
-            newNID.MinimumStock = Convert.ToDouble(minStock);
-            newNID.DesiredStock = Convert.ToDouble(desiredStock);
-
-            var newItemResponse =  await _client.ItemAsync(newNID);
-
-            //checks an id has been returned before showing the stock information
-            if (newItemResponse.Id != null)
+            try
             {
-                itemAdditionSuccess = true;
-                returnedId = newItemResponse.Id;
+                var newNID = new NewItemDto();
+
+                //instantiates a NewItemDto class and populates it with user input
+                newNID.Name = name;
+                newNID.UnitDesc = unitDesc;
+                newNID.SupplierId = Int32.Parse(supplierID);
+                newNID.MinimumStock = Convert.ToDouble(minStock);
+                newNID.DesiredStock = Convert.ToDouble(desiredStock);
+
+                var newItemResponse = await _client.ItemAsync(newNID);
+
+                //checks an id has been returned before showing the stock information
+                if (newItemResponse.Id != null)
+                {
+                    itemAdditionSuccess = true;
+                    returnedId = newItemResponse.Id;
+                }
+            }
+            catch(Exception e)
+            {
+                itemAdditionSuccess = false;
             }
            
         }
