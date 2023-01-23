@@ -71,9 +71,17 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
+        public async Task addNewItem_Valid_DecimalMaxStockAndDesiredStock()
+        {
+            string decimalStr = "0.1";
+            await itemList.addNewItem(validNewItem[0], validNewItem[1], decimalStr, validNewItem[3], decimalStr);
+            Assert.IsTrue(itemList.itemAdditionSuccess);
+        }
+
+        [TestMethod]
         public async Task addNewItem_InvalidSupplierID()
         {
-            String invalidId = "500";
+            string invalidId = "500";
             await itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], invalidId, validNewItem[4]);
             Assert.IsFalse(itemList.itemAdditionSuccess);
         }
@@ -81,31 +89,16 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task addNewItem_InvalidMaxStock_AlphaChars()
         {
-            String invalidMaxStock = "abc";
+            string invalidMaxStock = "abc";
             await itemList.addNewItem(validNewItem[0], validNewItem[1], invalidMaxStock, validNewItem[3], validNewItem[4]);
             Assert.IsFalse(itemList.itemAdditionSuccess);
         }
 
-        [TestMethod]
-        public async Task addNewItem_InvalidMaxStock_Decimal()
-        {
-            String invalidMaxStock = "0.1";
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], invalidMaxStock, validNewItem[3], validNewItem[4]);
-            Assert.IsFalse(itemList.itemAdditionSuccess);
-        }
 
         [TestMethod]
         public async Task addNewItem_InvalidDesiredStock_AlphaChars()
         {
-            String invalidDesiredStock = "abc";
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], validNewItem[3], invalidDesiredStock);
-            Assert.IsFalse(itemList.itemAdditionSuccess);
-        }
-
-        [TestMethod]
-        public async Task addNewItem_InvalidDesiredStock_Decimal()
-        {
-            String invalidDesiredStock = "0.1";
+            string invalidDesiredStock = "abc";
             await itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], validNewItem[3], invalidDesiredStock);
             Assert.IsFalse(itemList.itemAdditionSuccess);
         }

@@ -14,13 +14,16 @@ namespace FFSmartPlus_Tests
     {
         private readonly ManageUsers manageUsers;
 
-        private String validUsername = "UnitUser";
-        private String validPassword = "@UnitTests123";
-        private String validEmail = "Email@email.com";
+        private string validUsername = "UnitUser";
+        private string validPassword = "@UnitTests123";
+        private string validEmail = "Email@email.com";
 
-        private String validUsernameToo = "UnitUser2";
+        private string validUsernameToo = "UnitUser2";
 
-        private String blankString = "";
+        private string blankString = "";
+
+        private string trueStr = "true";
+        private string falseStr = "false";
 
         public ManageUsersTests()
         {
@@ -44,8 +47,10 @@ namespace FFSmartPlus_Tests
         public async Task AddUser_ValidUser()
         {
             await manageUsers.addUser(validUsername, validPassword, validEmail);
-            Assert.IsTrue(manageUsers.additionSuccess);
+            Assert.AreEqual(trueStr, manageUsers.additionSuccess);
             CollectionAssert.Contains((System.Collections.ICollection)manageUsers.allUsers, validUsername);
+
+            manageUsers.additionSuccess = null;
 
         }
 
@@ -53,7 +58,9 @@ namespace FFSmartPlus_Tests
         public async Task AddUser_ExistingUser()
         {
             await manageUsers.addUser(validUsername, validPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
@@ -61,7 +68,9 @@ namespace FFSmartPlus_Tests
         {
             String invalidPassword = "@Password";
             await manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
@@ -69,7 +78,9 @@ namespace FFSmartPlus_Tests
         {
             String invalidPassword = "Password123";
             await manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
@@ -77,21 +88,27 @@ namespace FFSmartPlus_Tests
         {
             String invalidPassword = "@password123";
             await manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
         public async Task AddUser_InvalidPassword_Blank()
         {
             await manageUsers.addUser(validUsernameToo, blankString, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
         public async Task AddUser_InvalidUsername_Blank()
         {
             await manageUsers.addUser(blankString, validPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
@@ -99,14 +116,18 @@ namespace FFSmartPlus_Tests
         {
             String invalidEmail = "test";
             await manageUsers.addUser(validUsernameToo, validPassword, invalidEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
         public async Task AddUser_InvalidEmail_Blank()
         {
             await manageUsers.addUser(validUsernameToo, validPassword, blankString);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            Assert.AreEqual(falseStr, manageUsers.additionSuccess);
+
+            manageUsers.additionSuccess = null;
         }
         #endregion
 

@@ -1,5 +1,7 @@
 ﻿using ClientAPI;
 using FFSmartPlus_Website.Pages;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,8 @@ namespace FFSmartPlus_Tests
         {
             login = new Login();
             login._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
+
+            login.NavManager = new TestNav();
         }
 
         // --- userLogin(string username, string password) --- 
@@ -36,6 +40,7 @@ namespace FFSmartPlus_Tests
         public async Task Login_ValidUser_Admin()
         {
             await login.userLogin(adminUsername, adminPassword);
+
         }
 
         [TestMethod]
