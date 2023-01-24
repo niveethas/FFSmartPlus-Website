@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using FFSmartPlus_Website.Shared;
+using MatBlazor;
 
 namespace FFSmartPlus_Website.Pages
 {
@@ -14,15 +15,15 @@ namespace FFSmartPlus_Website.Pages
 
         [Inject]
         public NavigationManager NavManager { get; set; }
-
-
         [Inject]
         public FFSBackEnd? _client { get; set; }
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
 
         public string inputUsername;
         public string inputPassword;
         public LoginRespDto loginResponse;
-
+        public string loginSuccess = "";
 
         protected async override Task OnInitializedAsync()
         {
@@ -36,28 +37,40 @@ namespace FFSmartPlus_Website.Pages
             
             newLogin.Username = username;
             newLogin.Password = password;
-            loginResponse =  await _client.LoginAsync(newLogin);
+            try
+            {
+                loginResponse = await _client.LoginAsync(newLogin);
 
-            var token = new JwtSecurityToken(jwtEncodedString: loginResponse.Token.ToString());
-            var temp = token.Claims.ToList();
-            var tempcount = 0;
-            CurrentUserRoles currentRole = new CurrentUserRoles();
-            List<string> roles = new List<string>();
+                var token = new JwtSecurityToken(jwtEncodedString: loginResponse.Token.ToString());
+                var temp = token.Claims.ToList();
+                CurrentUserRoles currentRole = new CurrentUserRoles();
+                List<string> roles = new List<string>();
 
-            for (int i = 0; i < temp.Count; i++){
-                if ((temp[i].Value == "HeadChef") || (temp[i].Value == "Chef") || (temp[i].Value == "Delivery") || (temp[i].Value == "Admin"))
+                for (int i = 0; i < temp.Count; i++)
                 {
-                    var temp3 = temp[i].Value;
-                    roles.Add(temp3);
-                                        
+                    if ((temp[i].Value == "HeadChef") || (temp[i].Value == "Chef") || (temp[i].Value == "Delivery") || (temp[i].Value == "Admin"))
+                    {
+                        var roleVal = temp[i].Value;
+                        roles.Add(roleVal);
+
+                    }
                 }
+                CurrentUserRoles._role = roles;
+                CurrentUserRoles._user = username;
+
+                NavManager.NavigateTo("/ItemList");
             }
-            CurrentUserRoles._role = roles;
-            NavMenu Nm = new NavMenu();
-            Nm.GetRoles();
-            NavManager.NavigateTo("/ItemList");
+            catch (Exception ex)
+            {
+                loginSuccess = "False";
+            }
         }
 
+        public void ToasterStatus()
+        {
+            loginSuccess = "";
+
+        }
 
         public async Task SignUpPageRedirect()
         {
