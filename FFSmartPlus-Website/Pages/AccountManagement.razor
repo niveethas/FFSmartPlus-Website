@@ -1,6 +1,5 @@
 ﻿@page "/Account"
 @using MatBlazor
-
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="~/css/TabStylings.css" rel="stylesheet" />
 
@@ -10,24 +9,40 @@
         <div class="tabSubtitle">
             <MatHeadline3>View all users</MatHeadline3>
         </div>
-        <!--Change titles to more appropriate ones -->
-        <MatSelect Label="Pick a User" Outlined="true" TValue="string">
-            <MatOptionString></MatOptionString>
-            <MatOptionString Value="grains">Bread, Cereal, Rice, and Pasta</MatOptionString>
-            <MatOptionString Value="vegetables">Vegetables</MatOptionString>
-            <MatOptionString Value="fruit">Fruit</MatOptionString>
-        </MatSelect>
-    </MatTab>
-    <!--Tab for adding a role to a user-->
-    <MatTab Label="Add Role">
+<MatSelect Label="Pick a User" Outlined="true" ValueChanged="(string i) => OnChangeUser(i)">
+    <MatOptionString Value="-1"></MatOptionString>
+    @foreach (var user in getUsersToList()){
+        <MatOptionString Value="@user.ToString()">@user.ToString()</MatOptionString>
+    }
+</MatSelect>
+</MatTab>
+    <MatTab Label="Modify Roles">
         <div class="tabSubtitle">
-            <MatHeadline3>Add Role</MatHeadline3>
+            <MatHeadline3>Modify Roles</MatHeadline3>
         </div>
-        <MatTextField @bind-Value="inputUsername" Label="Username"></MatTextField>
-        <MatTextField @bind-Value="inputRole" Label="Role"></MatTextField>
-
+        <MatTextField @bind-Value="inputUsername" Label="Username" ReadOnly="true"></MatTextField> 
+        <MatSelect Label="Pick a Role" Outlined="true" @bind-Value="inputRole">
+            <MatOptionString Value="Admin">Admin</MatOptionString>
+            <MatOptionString Value="Chef">Chef</MatOptionString>
+            <MatOptionString Value="Delivery">Delivery Driver</MatOptionString>
+        </MatSelect>
         <MatButton @onclick="() => addRole(inputUsername,inputRole)">Add User Role</MatButton>
-        <!-- Send error message if the user doesn't already have a role, or role already exists-->
-        <MatButton @onclick="() => deleteRole(inputUsername, inputRole)"></MatButton>
+        <MatButton @onclick="() => deleteRole(inputUsername, inputRole)">Delete Role</MatButton>
     </MatTab>
 </MatTabGroup>
+ @if (success == "True")
+ {
+    Toaster.Add("Role Change Successful.", MatToastType.Success, "Role");
+    ToasterStatus();
+
+ }
+ else if (success == "False"){
+    Toaster.Add("Role Change Unsuccessful.", MatToastType.Warning, "Role");
+    ToasterStatus();
+
+ }
+ else if (success == "TrueSelf"){
+    Toaster.Add("Own Role Change Successful.", MatToastType.Info, "Own Role");
+    ToasterStatus();
+
+ }
