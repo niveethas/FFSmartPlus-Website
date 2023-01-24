@@ -1,4 +1,5 @@
 ﻿using ClientAPI;
+using FFSmartPlus_Website;
 using FFSmartPlus_Website.Pages;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace FFSmartPlus_Tests
         string falseStr = "False";
         string trueSelfStr = "TrueSelf";
 
-        string[] roles = { "Admin", "Chef", "Driver"};
+        string[] roles = { "admin", "chef", "delivery"};
 
         string validUsername = "User2";
 
@@ -33,6 +34,9 @@ namespace FFSmartPlus_Tests
             accountManagement._client.LoginAsync(newLogin);
             var loginCode = accountManagement._client.LoginAsync(newLogin);
             accountManagement._client.AddAuth(loginCode.Result.Token);
+
+            CurrentUserRoles currentUser = new CurrentUserRoles() { Role = new List<string> { "admin", "chef" }, User = "admin1" };
+            accountManagement.currentUser = currentUser;
 
         }
 
