@@ -31,8 +31,12 @@ namespace FFSmartPlus_Website.Pages
         public DateTime inputUnitExpDate;
         public string itemErrorMessage;
         public long returnedId;
+        public string inputItemIdE;
+        public string inputUnitQuantityE;
+        public DateTime inputUnitExpDateE;
 
         public bool itemAdditionSuccess = false;
+        public string stockAdditionSuccess = "";
 
         public List<string> currentRoles;
 
@@ -45,8 +49,8 @@ namespace FFSmartPlus_Website.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            CurrentUserRoles i = new CurrentUserRoles();
-            currentRoles = CurrentUserRoles._role;
+            //CurrentUserRoles i = new CurrentUserRoles();
+            //currentRoles = CurrentUserRoles._role;
 
         }
 
@@ -123,6 +127,19 @@ namespace FFSmartPlus_Website.Pages
             //using the returned Id from the post method and send object with expirydate, quantity
             await _client.AddAsync(returnedId, newAUD);
         }
+
+        public async Task addStockExisting (string quantity, DateTime expiryDate, string itemId)
+        {
+            var newAUD = new NewUnitDto();
+            newAUD.ExpiryDate = expiryDate;
+            newAUD.Quantity = Convert.ToDouble(quantity);
+            var itemID = long.Parse(itemId);
+            //instantiates a NewUnitDto class and populates it with user input
+            //using the returned Id from the post method and send object with expirydate, quantity
+            await _client.AddAsync(itemID, newAUD);
+        }
+
+
 
     }
 

@@ -44,8 +44,8 @@
         </div>
 
     </MatTab>
-    @if (currentRoles.Contains("HeadChef") || currentRoles.Contains("Delivery"))
-    {
+   @* @if (currentRoles.Contains("HeadChef") || currentRoles.Contains("Delivery"))
+    {*@
         <MatTab Label="Add Item">
             <div>
                 <h2> Add Item Management</h2>
@@ -82,15 +82,27 @@
                     </p>
                     <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
 
-
                 }
-
 
             <br />
 
         </div>
     </MatTab>
-    }
+    
+    <MatTab Label="Add Stock to Existing Item">
+        <p>
+            <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
+        </p>
+
+        <p>
+            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
+        </p>
+        <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+    </MatTab>
+
 </MatTabGroup>
 
 <br />

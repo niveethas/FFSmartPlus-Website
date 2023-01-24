@@ -1,4 +1,5 @@
 ﻿using ClientAPI;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -13,9 +14,13 @@ namespace FFSmartPlus_Website.Pages
         [Inject]
         public FFSBackEnd? _client { get; set; }
 
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
+
         public string inputUsername;
         public string inputPassword;
         public string inputEmail;
+        public string signUpSuccess;
 
         public async Task userSignUp(string username, string password, string email)
         {
@@ -27,5 +32,14 @@ namespace FFSmartPlus_Website.Pages
             NavManager.NavigateTo("/ItemList");
 
         }
+
+
+        public async Task ToasterStatus()
+        {
+            signUpSuccess = "";
+
+        }
+
+
     }
 }
