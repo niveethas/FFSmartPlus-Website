@@ -27,6 +27,9 @@ namespace FFSmartPlus_Tests
 
         private String blankString = "";
 
+        private string trueStr = "true";
+        private string falseStr = "false";
+
         public LoginTests()
         {
             login = new Login();
@@ -43,6 +46,8 @@ namespace FFSmartPlus_Tests
             await login.userLogin(adminUsername, adminPassword);
             CollectionAssert.Contains(CurrentUserRoles._role, "Admin");
 
+            Assert.AreEqual(trueStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
@@ -52,30 +57,45 @@ namespace FFSmartPlus_Tests
 
             Assert.IsNotNull(login.loginResponse);
             CollectionAssert.DoesNotContain(CurrentUserRoles._role, "Admin");
+
+            Assert.AreEqual(trueStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task Login3_InvalidUsername_ValidPassword()
         {
             await login.userLogin(invalidUsername, adminPassword);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task Login4_BlankUsername_ValidPassword()
         {
             await login.userLogin(blankString, adminPassword);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task Login5_InvalidPassword_ValidUsername()
         {
             await login.userLogin(adminUsername, invalidPassword);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task Login6_BlankPassword_ValidUsername()
         {
             await login.userLogin(adminUsername, blankString);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
     }
 }
