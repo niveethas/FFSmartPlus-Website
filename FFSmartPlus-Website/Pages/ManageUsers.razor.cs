@@ -56,15 +56,19 @@ namespace FFSmartPlus_Website.Pages
             allUsers = await _client.AllAsync();
            if (currentCount < allUsers.Count)
             {
-                 additionSuccess = "true";
+                 additionSuccess = "True";
             }
             else
             {
-                additionSuccess = "false";
+                additionSuccess = "False";
             }
         }
 
-        
+        public void ToasterStatus()
+        {
+            additionSuccess = "";
+
+        }
 
     }
 }

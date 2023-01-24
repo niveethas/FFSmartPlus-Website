@@ -24,7 +24,7 @@ namespace FFSmartPlus_Website.Pages
             newRM.Password = password;
             newRM.Email = email;
             await _client.RegisterAsync(newRM);
-            NavManager.NavigateTo("/SignUp");
+            NavManager.NavigateTo("/ItemList");
 
         }
     }

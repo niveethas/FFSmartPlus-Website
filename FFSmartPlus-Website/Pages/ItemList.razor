@@ -71,6 +71,7 @@
 
                 @if (itemAdditionSuccess == true)
                 {
+                    Toaster.Add("Item successfully added, please add stock information.", MatToastType.Info, "Stock");
 
                     <p>
                         <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
@@ -82,7 +83,6 @@
                     <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
 
 
-                    Toaster.Add("Item successfully added, please add stock information.", MatToastType.Info, "Stock");
                 }
 
 
