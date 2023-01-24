@@ -1,18 +1,33 @@
 ﻿@page "/Account"
+@using MatBlazor
 
-<h3>View all users</h3>
-<!--Change titles to more appropriate ones -->
-<MatSelect Label="Pick a User" Outlined="true" TValue="string">
-    <MatOptionString></MatOptionString>
-    <MatOptionString Value="grains">Bread, Cereal, Rice, and Pasta</MatOptionString>
-    <MatOptionString Value="vegetables">Vegetables</MatOptionString>
-    <MatOptionString Value="fruit">Fruit</MatOptionString>
-</MatSelect>
-<h3>Add role</h3>
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/TabStylings.css" rel="stylesheet" />
 
-<MatTextField @bind-Value="inputUsername" Label="Username"></MatTextField>
-<MatTextField @bind-Value="inputRole" Label="Role"></MatTextField>
+<MatTabGroup>
+    <!--Tab for viewing all users-->
+    <MatTab Label="View All Users">
+        <div class="tabSubtitle">
+            <MatHeadline3>View all users</MatHeadline3>
+        </div>
+        <!--Change titles to more appropriate ones -->
+        <MatSelect Label="Pick a User" Outlined="true" TValue="string">
+            <MatOptionString></MatOptionString>
+            <MatOptionString Value="grains">Bread, Cereal, Rice, and Pasta</MatOptionString>
+            <MatOptionString Value="vegetables">Vegetables</MatOptionString>
+            <MatOptionString Value="fruit">Fruit</MatOptionString>
+        </MatSelect>
+    </MatTab>
+    <!--Tab for adding a role to a user-->
+    <MatTab Label="Add Role">
+        <div class="tabSubtitle">
+            <MatHeadline3>Add Role</MatHeadline3>
+        </div>
+        <MatTextField @bind-Value="inputUsername" Label="Username"></MatTextField>
+        <MatTextField @bind-Value="inputRole" Label="Role"></MatTextField>
 
-<MatButton @onclick="() => addRole(inputUsername,inputRole)">Add User Role</MatButton>
-<!-- Send error message if the user doesn't already have a role, or role already exists-->
-<MatButton @onclick="() => deleteRole(inputUsername, inputRole)"></MatButton>
+        <MatButton @onclick="() => addRole(inputUsername,inputRole)">Add User Role</MatButton>
+        <!-- Send error message if the user doesn't already have a role, or role already exists-->
+        <MatButton @onclick="() => deleteRole(inputUsername, inputRole)"></MatButton>
+    </MatTab>
+</MatTabGroup>

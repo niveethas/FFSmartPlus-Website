@@ -1,0 +1,10 @@
+﻿/* Padding for subtitles inside MatTabs across the application */
+.tabSubtitle {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Styling for the MatCard in the View Item Management tab */
+.item-card {
+    padding: 10px;
+}

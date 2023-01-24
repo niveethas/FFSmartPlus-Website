@@ -2,13 +2,17 @@
 .formTitle {
     margin: auto;
     position: absolute;
-    left: 15%;
     margin-right: 5%;
 }
 
 .formInput {
     margin: auto;
     position: absolute;
-    left: 20%;
     margin-top: 150px;
+}
+
+@media only screen and (max-width: 640px) {
+    .formInput {
+        left: 20%;
+    }
 }

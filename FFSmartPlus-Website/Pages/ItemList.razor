@@ -3,17 +3,20 @@
 
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/TabStylings.css" rel="stylesheet" />
 
 <MatHeadline3>Item Management</MatHeadline3>
 <MatTabGroup>
     <MatTab Label="View Item">
-        <div>
-            <h2> Choose item to manage</h2>
+        <div class="tabSubtitle">
+            <MatHeadline4>Choose item to manage</MatHeadline4>
+        </div>
             <p>    <MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID"></MatTextField> </p>
             <p @bind="@itemErrorMessage" id="ItemErrorMessage" style="color:red; display:none;"> Item can not be found. </p>
             <MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>
+        <div class="tabSubtitle">
+            <h2> View Items</h2>
         </div>
-        <h2> View Items</h2>
 
         <div class="InventoryView">
             @if (itemInfo != null) {
