@@ -1,4 +1,5 @@
 ﻿using ClientAPI;
+using FFSmartPlus_Website;
 using FFSmartPlus_Website.Pages;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -26,6 +27,9 @@ namespace FFSmartPlus_Tests
 
         private String blankString = "";
 
+        private string trueStr = "true";
+        private string falseStr = "false";
+
         public LoginTests()
         {
             login = new Login();
@@ -37,41 +41,61 @@ namespace FFSmartPlus_Tests
         // --- userLogin(string username, string password) --- 
 
         [TestMethod]
-        public async Task Login_ValidUser_Admin()
+        public async Task Login1_ValidUser_Admin()
         {
             await login.userLogin(adminUsername, adminPassword);
+            CollectionAssert.Contains(CurrentUserRoles._role, "Admin");
 
+            Assert.AreEqual(trueStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
-        public async Task Login_ValidUser_User()
+        public async Task Login2_ValidUser_User()
         {
             await login.userLogin(userUsername, userPassword);
+
+            Assert.IsNotNull(login.loginResponse);
+            CollectionAssert.DoesNotContain(CurrentUserRoles._role, "Admin");
+
+            Assert.AreEqual(trueStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
-        public async Task Login_InvalidUsername_ValidPassword()
+        public async Task Login3_InvalidUsername_ValidPassword()
         {
-            
             await login.userLogin(invalidUsername, adminPassword);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
-        public async Task Login_BlankUsername_ValidPassword()
+        public async Task Login4_BlankUsername_ValidPassword()
         {
             await login.userLogin(blankString, adminPassword);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
-        public async Task Login_InvalidPassword_ValidUsername()
+        public async Task Login5_InvalidPassword_ValidUsername()
         {
             await login.userLogin(adminUsername, invalidPassword);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
 
         [TestMethod]
-        public async Task Login_BlankPassword_ValidUsername()
+        public async Task Login6_BlankPassword_ValidUsername()
         {
             await login.userLogin(adminUsername, blankString);
+
+            Assert.AreEqual(falseStr, login.loginSuccess);
+            login.ToasterStatus();
         }
     }
 }
