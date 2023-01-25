@@ -1,0 +1,27 @@
+﻿@page "/Deliveries"
+@using MatBlazor
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<h1>orders
+</h1>
+
+
+<p>Please find order id in your email</p>
+<p>
+    <MatTextField @bind-Value="@inputOrderId" Label="Order Id"></MatTextField>
+</p>
+
+<p>
+    <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Order Date" @bind-Value="@inputOrderDate"> </MatDatePicker>
+</p>
+
+<MatButton @onclick="() => getDeliveriesOnDate(inputOrderId,inputOrderDate)"> Get Orders</MatButton>
+
+@if (deliveriesOnDate != null){
+@foreach (var x in deliveriesOnDate.Orders){
+    <p>id: @x.Id</p>
+    <p>name: @x.Name</p>
+    <p>quanitity ordered: @x.QuantityOrdered</p>
+    <p>unit: @x.UnitDescription</p>
+}
+//add checkbox to confirm each order in the delivery
+}
