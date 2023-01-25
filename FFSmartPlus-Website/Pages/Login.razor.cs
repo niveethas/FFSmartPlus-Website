@@ -19,7 +19,6 @@ namespace FFSmartPlus_Website.Pages
         public FFSBackEnd? _client { get; set; }
         [Inject]
         protected IMatToaster Toaster { get; set; }
-       
 
         public string inputUsername;
         public string inputPassword;
@@ -43,7 +42,6 @@ namespace FFSmartPlus_Website.Pages
                 loginResponse = await _client.LoginAsync(newLogin);
 
                 var token = new JwtSecurityToken(jwtEncodedString: loginResponse.Token.ToString());
-                _client.Authorisation(loginResponse.Token.ToString());
                 var temp = token.Claims.ToList();
                 CurrentUserRoles currentRole = new CurrentUserRoles();
                 List<string> roles = new List<string>();
