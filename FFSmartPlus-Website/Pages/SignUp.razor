@@ -22,6 +22,9 @@
     </p>
     <MatButton @onclick="() => userSignUp(inputUsername,inputPassword, inputEmail)"> Sign Up</MatButton>
 </div>
-@code {
 
-}
+@if (signUpSuccess == "False"){
+    Toaster.Add("Sign Up Unsuccessful.", MatToastType.Warning, "Registration");
+    ToasterStatus();
+
+    }
