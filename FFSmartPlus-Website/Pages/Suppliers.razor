@@ -1,0 +1,39 @@
+﻿<h3>Suppliers</h3>
+@page "/Account"
+@using MatBlazor
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/TabStylings.css" rel="stylesheet" />
+
+
+
+<MatSelect Label="Pick a Supplier" Outlined="true" ValueChanged="(string i) => OnChangeSupplier(i)">
+    <MatOptionString Value="-1"></MatOptionString>
+    @foreach (var user in getSuppliersToList())
+    {
+        <MatOptionString Value="@user.Id.ToString()">@user.Name.ToString()</MatOptionString>
+    }
+</MatSelect>
+
+@if (selectedSupplierId != null){
+    <p>@selectedSupplier.Name</p>
+    <p>@selectedSupplier.Address</p>
+    <p>@selectedSupplier.Email</p>
+
+    <MatButton @onclick="() => deleteSupplier(selectedSupplier.Id)">Delete Supplier</MatButton>
+
+    <MatButton @onclick="() => changeSupplierOption()">Modify Supplier</MatButton>
+}
+
+if (changeSupplierCheck = "True"){
+<MatTextField @bind-Value="inputName" Label="Name" ></MatTextField>
+<MatTextField @bind-Value="inputAddress" Label="Address" ></MatTextField>
+<MatTextField @bind-Value="inputEmail" Label="Username"></MatTextField>
+
+<MatButton @onclick="() => changeSupplierDetails(selectedSupplier.Id, inputAddress, inputEmail, inputName)">Confirm Changes</MatButton>
+
+}
+
+
+@code {
+
+}
