@@ -15,8 +15,6 @@ namespace FFSmartPlus_Tests
     {
         AccountManagement accountManagement;
 
-        string trueStr = "True";
-        string falseStr = "False";
         string trueSelfStr = "TrueSelf";
 
         string[] roles = { "admin", "chef", "delivery"};
@@ -58,7 +56,7 @@ namespace FFSmartPlus_Tests
             string role = roles[0];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -67,7 +65,7 @@ namespace FFSmartPlus_Tests
             string role = roles[0];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
 
@@ -77,7 +75,7 @@ namespace FFSmartPlus_Tests
             string role = roles[0];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -86,7 +84,7 @@ namespace FFSmartPlus_Tests
             string role = roles[0];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         #endregion
@@ -99,7 +97,7 @@ namespace FFSmartPlus_Tests
             string role = roles[1];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -108,7 +106,7 @@ namespace FFSmartPlus_Tests
             string role = roles[1];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -117,7 +115,7 @@ namespace FFSmartPlus_Tests
             string role = roles[1];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -126,7 +124,7 @@ namespace FFSmartPlus_Tests
             string role = roles[1];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         #endregion
@@ -140,7 +138,7 @@ namespace FFSmartPlus_Tests
             string role = roles[2];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -149,7 +147,7 @@ namespace FFSmartPlus_Tests
             string role = roles[2];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -158,7 +156,7 @@ namespace FFSmartPlus_Tests
             string role = roles[2];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -167,7 +165,7 @@ namespace FFSmartPlus_Tests
             string role = roles[2];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         #endregion
@@ -180,7 +178,7 @@ namespace FFSmartPlus_Tests
             string role = "adghf";
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -190,7 +188,7 @@ namespace FFSmartPlus_Tests
             string username = "askmlfkl";
             await accountManagement.addRole(username, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -199,7 +197,7 @@ namespace FFSmartPlus_Tests
             string role = "adghf";
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
         [TestMethod]
@@ -209,7 +207,7 @@ namespace FFSmartPlus_Tests
             string username = "askjakgkl";
             await accountManagement.deleteRole(username, role);
 
-            Assert.AreEqual(falseStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
         #endregion
 

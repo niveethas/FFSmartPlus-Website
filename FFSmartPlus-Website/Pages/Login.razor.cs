@@ -58,12 +58,12 @@ namespace FFSmartPlus_Website.Pages
                 CurrentUserRoles._role = roles;
                 CurrentUserRoles._user = username;
 
-                loginSuccess = "true";
+                loginSuccess = "True";
                 NavManager.NavigateTo("/ItemList");
             }
             catch (Exception ex)
             {
-                loginSuccess = "false";
+                loginSuccess = "False";
             }
         }
 
