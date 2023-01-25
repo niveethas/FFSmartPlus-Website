@@ -24,12 +24,29 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task userSignUp(string username, string password, string email)
         {
-            var newRM = new RegisterModel();
-            newRM.Username = username;
-            newRM.Password = password;
-            newRM.Email = email;
-            await _client.RegisterAsync(newRM);
-            NavManager.NavigateTo("/ItemList");
+            try
+            {
+                var newRM = new RegisterModel();
+                newRM.Username = username;
+                newRM.Password = password;
+                newRM.Email = email;
+                await _client.RegisterAsync(newRM);
+
+                ICollection<string>users = await _client.AllAsync();
+                if (users.Contains(username))
+                {
+                    signUpSuccess = "True";
+                    NavManager.NavigateTo("/ItemList");
+                }
+                else
+                {
+                    signUpSuccess = "False";
+                }
+            }
+            catch(Exception e)
+            {
+                signUpSuccess = "False";
+            }
 
         }
 

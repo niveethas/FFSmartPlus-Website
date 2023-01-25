@@ -1,5 +1,6 @@
 ﻿using ClientAPI;
 using FFSmartPlus_Website.Pages;
+using Microsoft.AspNetCore.Components;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,13 @@ namespace FFSmartPlus_Tests
     {
         private SignUp signUp;
 
-        private String validUsername = "SignUpUser";
-        private String validPassword = "@SU_tests123";
-        private String validEmail = "Email@email.com";
+        private string validUsername = "SignUpUser";
+        private string validPassword = "@SU_tests123";
+        private string validEmail = "Email@email.com";
 
-        private String validUsernameToo = "SUUser2";
+        private string validUsernameToo = "SUUser2";
 
-        private String blankString = "";
-
-        private bool testsComplete = false;
+        private string blankString = "";
 
         public SignUpTests()
         {
@@ -33,64 +32,72 @@ namespace FFSmartPlus_Tests
 
         // --- userSignUp(string username, string password, string email) ---
         [TestMethod]
-        public async Task SignUp1_ValidUser()
+        public async Task TA1_SignUp_ValidUser()
         {
             await signUp._client.DeleteUserAsync(validUsername);
             await signUp.userSignUp(validUsername, validPassword, validEmail);
-            //Assert.AreEqual("/SignUp", signUp.NavManager.BaseUri);
+
+            Assert.AreEqual(TestConsts.TRUE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp2_InvalidUser_ExistingUser()
+        public async Task TA2_SignUp_InvalidUser_ExistingUser()
         {
             await signUp.userSignUp(validUsername, validPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp3_InvalidPassword_NoNumbers()
+        public async Task TA3_SignUp_InvalidPassword_NoNumbers()
         {
-            String invalidPassword = "@Password";
+            string invalidPassword = "@Password";
             await signUp.userSignUp(validUsernameToo, invalidPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp4_InvalidPassword_NoSpecial()
+        public async Task TA4_SignUp_InvalidPassword_NoSpecial()
         {
-            String invalidPassword = "Password123";
+            string invalidPassword = "Password123";
             await signUp.userSignUp(validUsernameToo, invalidPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp5_InvalidPassword_NoCapital()
+        public async Task TA5_SignUp_InvalidPassword_NoCapital()
         {
-            String invalidPassword = "@password123";
+            string invalidPassword = "@password123";
             await signUp.userSignUp(validUsernameToo, invalidPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp6_InvalidPassword_Blank()
+        public async Task TA6_SignUp_InvalidPassword_Blank()
         {
             await signUp.userSignUp(validUsernameToo, blankString, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp7_InvalidUsername_Blank()
+        public async Task TA7_SignUp_InvalidUsername_Blank()
         {
             await signUp.userSignUp(blankString, validPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp8_InvalidEmail_InvalidFormat()
+        public async Task TA8_SignUp_InvalidEmail_InvalidFormat()
         {
-            String invalidEmail = "test";
+            string invalidEmail = "test";
             await signUp.userSignUp(validUsernameToo, validPassword, invalidEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
         [TestMethod]
-        public async Task SignUp9_InvalidEmail_Blank()
+        public async Task TA9_SignUp_InvalidEmail_Blank()
         {
             await signUp.userSignUp(validUsernameToo, validPassword, blankString);
-            testsComplete = true;
+            Assert.AreEqual(TestConsts.FALSE_STR, signUp.signUpSuccess);
         }
 
     }

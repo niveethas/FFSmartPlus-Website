@@ -15,8 +15,6 @@ namespace FFSmartPlus_Tests
     {
         AccountManagement accountManagement;
 
-        string trueStr = "True";
-        string falseStr = "False";
         string trueSelfStr = "TrueSelf";
 
         string[] roles = { "admin", "chef", "delivery"};
@@ -40,8 +38,9 @@ namespace FFSmartPlus_Tests
 
         }
 
+
         [TestMethod]
-        public async Task T1_GetUsers_Valid()
+        public async Task T0_GetUsers_Valid()
         {
             await accountManagement.getUsers();
 
@@ -49,62 +48,168 @@ namespace FFSmartPlus_Tests
             validUsername = accountManagement.users.First();
         }
 
+        #region Admin
 
         [TestMethod]
-        public async Task T2_addRole_Valid_Admin()
+        public async Task TA1_addRole_Valid_Admin()
         {
             string role = roles[0];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
+        }
+
+        [TestMethod]
+        public async Task TA2_addRole_Invalid_AlreadyHave_Admin()
+        {
+            string role = roles[0];
+            await accountManagement.addRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
         }
 
 
         [TestMethod]
-        public async Task T3_deleteRole_Admin()
+        public async Task TA3_deleteRole_Valid_Admin()
         {
             string role = roles[0];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
-        public async Task T4_addRole_Valid_Chef()
+        public async Task TA4_deleteRole_Invalid_DontHave_Admin()
+        {
+            string role = roles[0];
+            await accountManagement.deleteRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        #endregion
+
+        #region Chef
+
+        [TestMethod]
+        public async Task TB1_addRole_Valid_Chef()
         {
             string role = roles[1];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
-        public async Task T5_deleteRole_Admin()
+        public async Task TB2_addRole_Invalid_AlreadyHave_Chef()
+        {
+            string role = roles[1];
+            await accountManagement.addRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        [TestMethod]
+        public async Task TB3_deleteRole_Valid_Chef()
         {
             string role = roles[1];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
-        public async Task T6_addRole_Valid_Delivery()
+        public async Task TB4_deleteRole_Invalid_DontHave_Chef()
+        {
+            string role = roles[1];
+            await accountManagement.deleteRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        #endregion
+
+
+        #region Delivery
+
+        [TestMethod]
+        public async Task TC1_addRole_Valid_Delivery()
         {
             string role = roles[2];
             await accountManagement.addRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
         [TestMethod]
-        public async Task T7_deleteRole_Admin()
+        public async Task TC2_addRole_Invalid_AlreadyHave_Delivery()
+        {
+            string role = roles[2];
+            await accountManagement.addRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        [TestMethod]
+        public async Task TC3_deleteRole_Valid_Delivery()
         {
             string role = roles[2];
             await accountManagement.deleteRole(validUsername, role);
 
-            Assert.AreEqual(trueStr, accountManagement.success);
+            Assert.AreEqual(TestConsts.TRUE_STR, accountManagement.success);
         }
 
+        [TestMethod]
+        public async Task TC4_deleteRole_Invalid_DontHave_Delivery()
+        {
+            string role = roles[2];
+            await accountManagement.deleteRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        #endregion
+
+        #region error tests
+
+        [TestMethod]
+        public async Task TD1_addRole_Invalid_Role()
+        {
+            string role = "adghf";
+            await accountManagement.addRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        [TestMethod]
+        public async Task TD2_addRole_Invalid_User()
+        {
+            string role = roles[2];
+            string username = "askmlfkl";
+            await accountManagement.addRole(username, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        [TestMethod]
+        public async Task TD3_deleteRole_Invalid_Role()
+        {
+            string role = "adghf";
+            await accountManagement.deleteRole(validUsername, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+
+        [TestMethod]
+        public async Task TD4_deleteRole_Invalid_User()
+        {
+            string role = roles[2];
+            string username = "askjakgkl";
+            await accountManagement.deleteRole(username, role);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, accountManagement.success);
+        }
+        #endregion
 
 
     }
