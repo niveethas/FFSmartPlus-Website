@@ -32,10 +32,9 @@ namespace FFSmartPlus_Tests
 
         }
 
-
+        #region changeQuantity
         //changeQuantity(long id, string quantity)
         [TestMethod]
-
         public async Task T1_ChangeQuantity_Valid_Integer()
         {
             orderConfirm.orderItems = await orderConfirm._client.GenerateOrderAsync();
@@ -53,7 +52,6 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
-
         public async Task T2_ChangeQuantity_Valid_Decimal()
         {
             string validQuantity = "0.5";
@@ -67,7 +65,6 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
-
         public async Task T3_ChangeQuantity_Invalid_InvalidId()
         {
             string validQuantity = "5";
@@ -78,7 +75,6 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
-
         public async Task T3_ChangeQuantity_Invalid_InvalidQuantity_StringChars()
         {
             string invalidQuantity = "abc";
@@ -86,6 +82,6 @@ namespace FFSmartPlus_Tests
 
             Assert.AreEqual(TestConsts.FALSE_STR, orderConfirm.additionSuccess);
         }
-
+        #endregion
     }
 }

@@ -29,11 +29,12 @@ namespace FFSmartPlus_Website.Pages
         {
             ItemRequestDto changedQuantityRequest = new ItemRequestDto();
             OrderRequestDto changedQuantityOrder = new OrderRequestDto();
-            changedQuantityRequest.Quantity = Convert.ToDouble(quantity);
             changedQuantityRequest.Id = id;
             ICollection<ItemRequestDto> itemRequests = new List<ItemRequestDto>();
             try
             {
+                changedQuantityRequest.Quantity = Convert.ToDouble(quantity);
+
                 itemRequests.Add(changedQuantityRequest);
                 changedQuantityOrder.Items = itemRequests;
                 var cobIDResponse = await _client.ConfirmOrderByIDsAsync(changedQuantityOrder);
