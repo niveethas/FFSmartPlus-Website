@@ -51,7 +51,8 @@ namespace FFSmartPlus_Website.Pages
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  
+                additionSuccess = "False";
+                Console.WriteLine(ex);
             }
         }
 
