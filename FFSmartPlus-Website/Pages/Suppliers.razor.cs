@@ -24,6 +24,10 @@ namespace FFSmartPlus_Website.Pages
         public string inputEmailNew;
         public string inputAddressNew;
 
+        public string supplierAdditionSuccess;
+        public string supplierModifySuccess;
+        public string supplierDeleteSuccess;
+
 
         protected async override Task OnInitializedAsync()
         {
@@ -63,10 +67,18 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task deleteSupplier(long id)
         {
-            await _client.Supplier4Async(id);
+            try
+            {
+                await _client.Supplier4Async(id);
+                supplierDeleteSuccess = "True";
+
+            }
+            catch
+            {
+                supplierDeleteSuccess = "False";
+            }
             //delete a supplier using the id given
-            getSuppliers();
-            //resets the dropdown by recalling the method to get all suppliers.
+            
         }
 
         public async Task changeSupplierDetails(long id, string? address, string? email, string? name)
@@ -103,8 +115,16 @@ namespace FFSmartPlus_Website.Pages
 
             //if null take original values. 
             //pass back id of supplier and changed information dto
-            await _client.Supplier3Async(id, modifiedSupplier);
-            supplierOptionStatus();
+            try
+            {
+                await _client.Supplier3Async(id, modifiedSupplier);
+                supplierModifySuccess = "True";
+
+            }
+            catch 
+            {
+                supplierModifySuccess = "False";
+            }
         }
 
         public async Task AddNewSupplier (string address, string email, string name)
@@ -113,7 +133,15 @@ namespace FFSmartPlus_Website.Pages
             newSupplier.Address = address;
             newSupplier.Email = email;
             newSupplier.Name = name;
-            await _client.SupplierAsync(newSupplier);
+            try
+            {
+                await _client.SupplierAsync(newSupplier);
+                supplierAdditionSuccess = "True";
+            }
+            catch
+            {
+                supplierAdditionSuccess= "False";
+            }
             //take user input values and send information to create new supplier.
         }
 
@@ -127,6 +155,13 @@ namespace FFSmartPlus_Website.Pages
         {
             changeSupplierCheck = "";
             //to reset view
+        }
+
+        public void toastStatus()
+        {
+            supplierAdditionSuccess = "";
+            supplierDeleteSuccess = "";
+            supplierModifySuccess = "";
         }
 
 
