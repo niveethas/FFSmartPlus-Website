@@ -23,7 +23,7 @@ namespace FFSmartPlus_Tests
             newLogin.Username = "admin1";
             newLogin.Password = "@Admin123";
             var loginCode =  itemList._client.LoginAsync(newLogin);
-            itemList._client.AddAuth(loginCode.Result.Token);
+            itemList._client.Authorisation(loginCode.Result.Token);
 
         }
 

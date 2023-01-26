@@ -32,7 +32,7 @@ namespace FFSmartPlus_Tests
             newLogin.Password = "@Admin123"; // Password requires a symbol, capital letter and 3 numbers
             manageUsers._client.LoginAsync(newLogin);
             var loginCode = manageUsers._client.LoginAsync(newLogin);
-            manageUsers._client.AddAuth(loginCode.Result.Token);
+            manageUsers._client.Authorisation(loginCode.Result.Token);
 
             Task<ICollection<String>> allUsers = manageUsers._client.AllAsync();
             manageUsers.allUsers = allUsers.Result;

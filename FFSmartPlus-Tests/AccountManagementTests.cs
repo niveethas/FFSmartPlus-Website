@@ -31,7 +31,7 @@ namespace FFSmartPlus_Tests
             newLogin.Password = "@Admin123"; // Password requires a symbol, capital letter and 3 numbers
             accountManagement._client.LoginAsync(newLogin);
             var loginCode = accountManagement._client.LoginAsync(newLogin);
-            accountManagement._client.AddAuth(loginCode.Result.Token);
+            accountManagement._client.Authorisation(loginCode.Result.Token);
 
             CurrentUserRoles currentUser = new CurrentUserRoles() { Role = new List<string> { "admin", "chef" }, User = "admin1" };
             accountManagement.currentUser = currentUser;
