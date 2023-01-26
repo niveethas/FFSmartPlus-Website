@@ -28,15 +28,23 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task addUser(string username, string password, string email)
         {
+
             //create new instance of model that has registration information
             //assign input information to model
-            var newRM = new RegisterModel();
-            newRM.Username = username;
-            newRM.Password = password;
-            newRM.Email = email;
-            await _client.RegisterAsync(newRM);
-            await checkSuccess();
-            allUsers = await _client.AllAsync();
+            try
+            {
+                var newRM = new RegisterModel();
+                newRM.Username = username;
+                newRM.Password = password;
+                newRM.Email = email;
+                await _client.RegisterAsync(newRM);
+                await checkSuccess();
+                allUsers = await _client.AllAsync();
+            }
+            catch(Exception e)
+            {
+                additionSuccess = "False";
+            }
             
         }
 
@@ -44,9 +52,16 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task deleteUser(string username)
         {
-            //delete user via username; it is unique
-            successDelete =  await _client.DeleteUserAsync(username);
-            allUsers = await _client.AllAsync();
+            try
+            {
+                //delete user via username; it is unique
+                successDelete = await _client.DeleteUserAsync(username);
+                allUsers = await _client.AllAsync();
+            }
+            catch(Exception e)
+            {
+                successDelete = false;
+            }
             
         }
 
@@ -54,7 +69,7 @@ namespace FFSmartPlus_Website.Pages
         {
             var currentCount = allUsers.Count;
             allUsers = await _client.AllAsync();
-           if (currentCount < allUsers.Count)
+            if (currentCount < allUsers.Count)
             {
                  additionSuccess = "True";
             }
