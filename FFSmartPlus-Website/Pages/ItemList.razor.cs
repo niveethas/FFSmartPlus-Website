@@ -61,14 +61,19 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task loadItem(string itemID)
         {
-            
+            //itemsInfo = await _client.ItemAllAsync();
 
-            itemsInfo = await _client.ItemAllAsync();
-
-            if (Regex.IsMatch(itemID, "^[0-9]*$")) {
-
-                unitStock = await _client.UnitAsync(long.Parse(itemID));
-                itemInfo = await _client.Item2Async(long.Parse(itemID));
+            try
+            {
+                if (Regex.IsMatch(itemID, "^[0-9]*$"))
+                {
+                    unitStock = await _client.UnitAsync(long.Parse(itemID));
+                    itemInfo = await _client.Item2Async(long.Parse(itemID));
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
             }
             // When the user searches an item, this function is called
             // All existing items wil be loaded in
@@ -77,14 +82,19 @@ namespace FFSmartPlus_Website.Pages
         }
         public async Task deleteItem(long id)
         {
-
-            await _client.Item4Async(id);
-            itemsInfo = await _client.ItemAllAsync();
-            itemInfo = null;
-            //function is called when the user presses the delete item button
-            //the is of the item on display is passed in and the items are reloaded
-            //itemInfo is set as null so the page resets
-
+            try
+            {
+                await _client.Item4Async(id);
+                itemsInfo = await _client.ItemAllAsync();
+                itemInfo = null;
+                //function is called when the user presses the delete item button
+                //the is of the item on display is passed in and the items are reloaded
+                //itemInfo is set as null so the page resets
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);                
+            }
         }
 
         public async Task addNewItem(string name, string unitDesc, string minStock, string supplierID, string desiredStock )
@@ -118,25 +128,44 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task addStock (string quantity, DateTime expiryDate)
         {
-           
-            var newAUD = new NewUnitDto();
-            newAUD.ExpiryDate = expiryDate;
-            newAUD.Quantity = Convert.ToDouble(quantity);
+            stockAdditionSuccess = "";
 
-            //instantiates a NewUnitDto class and populates it with user input
-            //using the returned Id from the post method and send object with expirydate, quantity
-            await _client.AddAsync(returnedId, newAUD);
+            try
+            {
+                var newAUD = new NewUnitDto();
+                newAUD.ExpiryDate = expiryDate;
+                newAUD.Quantity = Convert.ToDouble(quantity);
+
+                //instantiates a NewUnitDto class and populates it with user input
+                //using the returned Id from the post method and send object with expirydate, quantity
+                await _client.AddAsync(returnedId, newAUD);
+
+                stockAdditionSuccess = "True";
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                stockAdditionSuccess = "False";
+            }
         }
 
         public async Task addStockExisting (string quantity, DateTime expiryDate, string itemId)
         {
-            var newAUD = new NewUnitDto();
-            newAUD.ExpiryDate = expiryDate;
-            newAUD.Quantity = Convert.ToDouble(quantity);
-            var itemID = long.Parse(itemId);
-            //instantiates a NewUnitDto class and populates it with user input
-            //using the returned Id from the post method and send object with expirydate, quantity
-            await _client.AddAsync(itemID, newAUD);
+            try
+            {
+                var newAUD = new NewUnitDto();
+                newAUD.ExpiryDate = expiryDate;
+                newAUD.Quantity = Convert.ToDouble(quantity);
+                var itemID = long.Parse(itemId);
+                //instantiates a NewUnitDto class and populates it with user input
+                //using the returned Id from the post method and send object with expirydate, quantity
+                await _client.AddAsync(itemID, newAUD);
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
 

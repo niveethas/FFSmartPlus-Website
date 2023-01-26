@@ -12,7 +12,7 @@ namespace FFSmartPlus_Tests
                                         //name, unitDesc, minStock, supplierID, desiredStock
         private long newItemId = 2;
 
-        private int stockCount = 0;
+        private int stockCount;
 
         public ItemListTests()
         {
@@ -134,7 +134,7 @@ namespace FFSmartPlus_Tests
 
 
             await itemList.loadItem(validItemId.ToString());
-            stockCount = itemList.unitStock.Count();
+            
 
             Assert.IsTrue(itemList.unitStock.Last().Quantity == Convert.ToDouble(quantity)
                 && itemList.unitStock.Last().ExpiryDate.Date == expiry.Date);
@@ -147,10 +147,28 @@ namespace FFSmartPlus_Tests
             itemList.returnedId = validItemId;
             String quantity = "ABC";
             DateTime expiry = DateTime.Now.AddMonths(2);
-            await itemList.addStock(quantity, expiry);
+
 
             await itemList.loadItem(validItemId.ToString());
-            Assert.IsTrue(itemList.unitStock.Count() == stockCount);
+            stockCount = itemList.unitStock.Count();
+
+            await itemList.addStock(quantity, expiry);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockAdditionSuccess);
+            
+            await itemList.loadItem(validItemId.ToString());
+            Assert.AreEqual(stockCount, itemList.unitStock.Count());
+        }
+
+        [TestMethod]
+        public async Task TC4_addStock_Invalid_InvalidId()
+        {
+            itemList.returnedId = 500;
+            String quantity = "10";
+            DateTime expiry = DateTime.Now.AddMonths(2);
+            await itemList.addStock(quantity, expiry);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockAdditionSuccess);
         }
 
         #endregion
