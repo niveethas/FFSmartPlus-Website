@@ -1,5 +1,5 @@
 ﻿<h3>Suppliers</h3>
-@page "/Account"
+@page "/Suppliers"
 @using MatBlazor
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="~/css/TabStylings.css" rel="stylesheet" />
@@ -13,8 +13,8 @@
         <MatOptionString Value="@user.Id.ToString()">@user.Name.ToString()</MatOptionString>
     }
 </MatSelect>
-
-@if (selectedSupplierId != null){
+<br />
+@if (@selectedSupplierId != null){
     <p>@selectedSupplier.Name</p>
     <p>@selectedSupplier.Address</p>
     <p>@selectedSupplier.Email</p>
@@ -23,8 +23,9 @@
 
     <MatButton @onclick="() => changeSupplierOption()">Modify Supplier</MatButton>
 }
+<br />
 
-if (changeSupplierCheck = "True"){
+@if (changeSupplierCheck == "True"){
 <MatTextField @bind-Value="inputName" Label="Name" ></MatTextField>
 <MatTextField @bind-Value="inputAddress" Label="Address" ></MatTextField>
 <MatTextField @bind-Value="inputEmail" Label="Username"></MatTextField>
@@ -32,8 +33,9 @@ if (changeSupplierCheck = "True"){
 <MatButton @onclick="() => changeSupplierDetails(selectedSupplier.Id, inputAddress, inputEmail, inputName)">Confirm Changes</MatButton>
 
 }
-
-
-@code {
-
-}
+<br />
+<h3>Add new supplier</h3>
+<MatTextField @bind-Value="inputNameNew" Label="Name"></MatTextField>
+<MatTextField @bind-Value="inputAddressNew" Label="Address"></MatTextField>
+<MatTextField @bind-Value="inputEmailNew" Label="Username"></MatTextField>
+<MatButton @onclick="() => AddNewSupplier(inputAddress, inputEmail, inputName)">Submit</MatButton>
