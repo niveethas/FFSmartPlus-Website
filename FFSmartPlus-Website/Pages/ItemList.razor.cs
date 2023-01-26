@@ -37,6 +37,7 @@ namespace FFSmartPlus_Website.Pages
 
         public bool itemAdditionSuccess = false;
         public string stockAdditionSuccess = "";
+        public string itemFound = "";
 
         public List<string> currentRoles;
 
@@ -61,25 +62,43 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task loadItem(string itemID)
         {
-            //itemsInfo = await _client.ItemAllAsync();
+            
 
-            try
-            {
-                if (Regex.IsMatch(itemID, "^[0-9]*$"))
+            itemsInfo = await _client.ItemAllAsync();
+
+            if (Regex.IsMatch(itemID, "^[0-9]*$")) {
+                try
                 {
-                    unitStock = await _client.UnitAsync(long.Parse(itemID));
                     itemInfo = await _client.Item2Async(long.Parse(itemID));
+                    try
+                    {
+                        await loadStock(itemID);
+                    }
+                    catch
+                    {
+                        itemFound = "False";
+                    }
+                   
+                }catch
+                {
+                    itemFound = "False";
                 }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
+                
+
+                
             }
             // When the user searches an item, this function is called
             // All existing items wil be loaded in
             // The user's input is validated and passed to find the relevant item and unit info
 
         }
+
+        public async Task loadStock(string itemID)
+        {
+            unitStock = await _client.UnitAsync(long.Parse(itemID));
+
+        }
+
         public async Task deleteItem(long id)
         {
             try
@@ -169,7 +188,10 @@ namespace FFSmartPlus_Website.Pages
         }
 
 
-
+        public void itemFoundStatus()
+        {
+            itemFound = "";
+        }
     }
 
 }

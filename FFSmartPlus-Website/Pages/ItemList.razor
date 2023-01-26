@@ -27,18 +27,33 @@
                         <MatHeadline2>@itemInfo.Name</MatHeadline2>
                         <MatHeadline4>@itemInfo.Id</MatHeadline4>
                     </div>
-                    <div class="item-card-quantity-info">
-                        @foreach (var quantityData in unitStock) {
-                            <MatBody1>Quantity: @quantityData.Quantity units remaining</MatBody1>
-                            <MatBody2>Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy HH:mm")</MatBody2>
+                        @if (unitStock != null)
+                        {
+                            <div class="item-card-quantity-info">
+                                @foreach (var quantityData in unitStock)
+                                {
+                                    <MatBody1>Quantity: @quantityData.Quantity units remaining</MatBody1>
+                                    <MatBody2>Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy HH:mm")</MatBody2>
+                                }
+
+                    
+                            </div>
+                        }else{
+                            <div class="item-card-quantity-info">
+                                <MatBody1>Item has no stock.</MatBody1>
+                            </div>
                         }
-                    </div>
                 </MatCardContent>
                 <MatCardActions>
                     <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
                 </MatCardActions>
                 </MatCard>
-            } else {
+                }
+            else if (itemFound == "False"){
+                Toaster.Add("Item could not be found", MatToastType.Danger, "Item");
+                itemFoundStatus();
+            }
+            else {
                 <p> Please enter item ID to view relevant information.</p>
             }
         </div>
@@ -107,7 +122,3 @@
 
 <br />
 <br />
-
-@code{
-
-}
