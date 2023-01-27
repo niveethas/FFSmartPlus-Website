@@ -34,9 +34,11 @@ namespace FFSmartPlus_Website.Pages
         public string inputItemIdE;
         public string inputUnitQuantityE;
         public DateTime inputUnitExpDateE;
+        public string inputItemIdR;
+        public string inputUnitQuantityR;
 
         public bool itemAdditionSuccess = false;
-        public string stockAdditionSuccess = "";
+        public string stockModifySuccess = "";
         public string itemFound = "";
 
         public List<string> currentRoles;
@@ -147,7 +149,6 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task addStock (string quantity, DateTime expiryDate)
         {
-            stockAdditionSuccess = "";
 
             try
             {
@@ -159,12 +160,12 @@ namespace FFSmartPlus_Website.Pages
                 //using the returned Id from the post method and send object with expirydate, quantity
                 await _client.AddAsync(returnedId, newAUD);
 
-                stockAdditionSuccess = "True";
+                stockModifySuccess = "True";
             }
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                stockAdditionSuccess = "False";
+                stockModifySuccess = "False";
             }
         }
 
@@ -187,6 +188,36 @@ namespace FFSmartPlus_Website.Pages
             }
         }
 
+        public async Task removeStock(string quantity, string itemId)
+        {
+
+            try
+            {
+                 var idLong= Int64.Parse(itemId);
+                var quantDouble = Convert.ToDouble(quantity);
+
+                //take the users input of id and delete the 
+                await _client.RemoveAsync(idLong, quantDouble);
+                stockModifySuccess = "True";
+            }
+            catch (ApiException<ValidationResult> ex)
+            {
+                //returning the error messages into a list for dev
+                var errorMessages = ex.Result.Errors.Select(i => i.ErrorMessage).ToList();
+                stockModifySuccess = "False";
+            }
+            catch (Exception e)
+            {
+                stockModifySuccess = "False";
+                //generic catch to ensure the user is informed of failure
+            }
+        }
+
+        public void toastStatus()
+        {
+            stockModifySuccess = "";
+
+        }
 
         public void itemFoundStatus()
         {

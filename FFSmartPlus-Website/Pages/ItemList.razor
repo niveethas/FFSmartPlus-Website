@@ -104,6 +104,16 @@
         </div>
     </MatTab>
     
+
+    @if (stockModifySuccess == "True"){
+        Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
+        toastStatus();
+    }else if
+    (stockModifySuccess == "False"){
+        Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+        toastStatus();
+    }
+
     <MatTab Label="Add Stock to Existing Item">
         <p>
             <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
@@ -115,9 +125,18 @@
         <p>
             <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
         </p>
-        <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+        <MatButton @onclick="() => addStockExisting (inputUnitQuantity,inputUnitExpDate,inputItemIdE)">Add Stock</MatButton>
     </MatTab>
 
+    <MatTab Label = "Remove Stock">
+        <p>
+            <MatTextField @bind-Value="@inputItemIdR" Label="Item Id"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@inputUnitQuantityR" Label="Unit Quantity"></MatTextField>
+        </p>
+        <MatButton @onclick="() => removeStock (inputUnitQuantityR,inputItemIdR)">Remove Stock</MatButton>
+    </MatTab>
 </MatTabGroup>
 
 <br />
