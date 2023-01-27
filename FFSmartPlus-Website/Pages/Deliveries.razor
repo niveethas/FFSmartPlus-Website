@@ -18,10 +18,10 @@
 
 @if (deliveriesOnDate != null){
 @foreach (var x in deliveriesOnDate.Orders){
-    <p>id: @x.Id</p>
+    <p @bind="@currentOrderId">id: @x.Id </p>
     <p>name: @x.Name</p>
-    <p>quanitity ordered: @x.QuantityOrdered</p>
+    <p @bind="@currentOrderQuant">quanitity ordered: @x.QuantityOrdered</p>
     <p>unit: @x.UnitDescription</p>
+    <MatButton @onclick="() => ConfirmCurrentDelivery(currentOrderId, currentOrderQuant)">Order Is Correct</MatButton>
 }
-//add checkbox to confirm each order in the delivery
 }
