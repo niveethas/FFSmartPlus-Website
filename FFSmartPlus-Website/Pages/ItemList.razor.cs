@@ -15,13 +15,14 @@ namespace FFSmartPlus_Website.Pages
         [Inject]
         protected IMatToaster Toaster { get; set; }
         public ICollection<UnitsDto> unitStock { get; set; }
-        public ICollection<ItemDto> itemsInfo { get; set; }
+        public ICollection<ItemDto> itemsInfo = new List<ItemDto>();
         public ItemDto newItemResponse;
         
         public ItemDto? itemInfo {get;set;}
         public NewItemDto addItem { get; set; }
         public NewUnitDto addUnit { get; set; }
 
+        public string selectedItemId;
         public string inputItemName;
         public string inputUnitQuantity;                                              
         public string inputSupplierID;
@@ -36,10 +37,17 @@ namespace FFSmartPlus_Website.Pages
         public DateTime inputUnitExpDateE;
         public string inputItemIdR;
         public string inputUnitQuantityR;
+        public string? inputItemNameM;
+        public string? inputSupplierIDM;
+        public string? inputUnitDescM;
+        public string? inputItemMinStockM;
+        public string? inputItemDesiredStockM;
 
         public bool itemAdditionSuccess = false;
         public string stockModifySuccess = "";
         public string itemFound = "";
+        public string showItemModifyContent = "";
+        public string itemModifySuccess = "";
 
         public List<string> currentRoles;
 
@@ -54,7 +62,19 @@ namespace FFSmartPlus_Website.Pages
         {
             //CurrentUserRoles i = new CurrentUserRoles();
             //currentRoles = CurrentUserRoles._role;
+            itemsInfo = await _client.ItemAllAsync();
 
+        }
+
+        public List<ItemDto> itemsToList()
+        {
+            return itemsInfo.ToList();
+        }
+
+        public void onChangeItem(string id)
+        {
+            selectedItemId = id;
+            loadItem(selectedItemId);
         }
 
         public async Task GetRoles()
@@ -62,12 +82,10 @@ namespace FFSmartPlus_Website.Pages
            
         }
 
+
         public async Task loadItem(string itemID)
         {
             
-
-            itemsInfo = await _client.ItemAllAsync();
-
             if (Regex.IsMatch(itemID, "^[0-9]*$")) {
                 try
                 {
@@ -193,7 +211,7 @@ namespace FFSmartPlus_Website.Pages
 
             try
             {
-                 var idLong= Int64.Parse(itemId);
+                var idLong = Int64.Parse(itemId);
                 var quantDouble = Convert.ToDouble(quantity);
 
                 //take the users input of id and delete the 
@@ -211,11 +229,81 @@ namespace FFSmartPlus_Website.Pages
                 stockModifySuccess = "False";
                 //generic catch to ensure the user is informed of failure
             }
+
+
+        }
+
+        public async Task modifyItem(string? name, string? minStock, string? desStock, string? supplierId, string? unitDesc )
+        {
+            try
+            {
+                ItemDto modifyItem = new ItemDto();
+                if (name == null)
+                {
+                    modifyItem.Name = itemInfo.Name;
+
+                }
+                else
+                {
+                    modifyItem.Name = name;
+                }
+                if (minStock == null)
+                {
+                    modifyItem.MinimumStock = itemInfo.MinimumStock;
+                }
+                else
+                {
+                    modifyItem.MinimumStock = Convert.ToDouble(minStock);
+                }
+                if (desStock == null)
+                {
+                    modifyItem.DesiredStock = itemInfo.DesiredStock;
+                }
+                else
+                {
+                    modifyItem.DesiredStock = Convert.ToDouble(desStock);
+                }
+                if (supplierId == null)
+                {
+                    modifyItem.SupplierId = itemInfo.SupplierId;
+                }
+                else
+                {
+                    modifyItem.SupplierId = long.Parse(supplierId);
+                }
+                if (unitDesc == null)
+                {
+                    modifyItem.UnitDesc = itemInfo.UnitDesc;
+                }
+                else
+                {
+                    modifyItem.UnitDesc = unitDesc;
+                }
+                try
+                {
+                    await _client.Item3Async(itemInfo.Id, modifyItem);
+                    itemModifySuccess = "True";
+                }
+                catch
+                {
+                    itemModifySuccess = "False";
+                }
+            }
+            catch
+            {
+                itemModifySuccess = "False";
+
+            }
+        }
+        public void modifyItemOption()
+        {
+            showItemModifyContent = "True";
         }
 
         public void toastStatus()
         {
             stockModifySuccess = "";
+            itemModifySuccess = "";
 
         }
 

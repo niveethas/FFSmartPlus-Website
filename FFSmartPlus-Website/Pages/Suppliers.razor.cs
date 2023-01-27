@@ -46,11 +46,7 @@ namespace FFSmartPlus_Website.Pages
             //saves the supplier id of the supplier selected from the drop down menu
         }
 
-        public async Task getSuppliers()
-        {
-            var t = await _client.SupplierAllAsync();
-            //calls all suppliers using get method and calls the list function
-        }
+        
 
         public List<SupplierDto> getSuppliersToList()
         {

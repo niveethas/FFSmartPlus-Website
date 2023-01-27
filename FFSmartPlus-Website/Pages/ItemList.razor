@@ -11,22 +11,35 @@
         <div class="tabSubtitle">
             <MatHeadline4>Choose item to manage</MatHeadline4>
         </div>
-            <p>    <MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID"></MatTextField> </p>
+            @*<p>    <MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID"></MatTextField> </p>
             <p @bind="@itemErrorMessage" id="ItemErrorMessage" style="color:red; display:none;"> Item can not be found. </p>
-            <MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>
+            *@
+            <MatSelect Label="Pick an Item" Outlined="true" ValueChanged="(string i) => onChangeItem(i)">
+            @foreach (var item in itemsToList()){
+                <MatOptionString Value="@item.Id.ToString()">@item.Name.ToString()</MatOptionString>
+            }
+            </MatSelect>
+
+            @*<MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>*@
         <div class="tabSubtitle">
             <h2> View Items</h2>
         </div>
 
         <div class="InventoryView">
-            @if (itemInfo != null) {
+            @if (itemInfo != null)
+            {
                 <MatCard class="item-card">
-                <MatCardContent>
-                    <MatCardMedia Wide="false" ImageUrl=""></MatCardMedia>
-                    <div class="item-card-content">
-                        <MatHeadline2>@itemInfo.Name</MatHeadline2>
-                        <MatHeadline4>@itemInfo.Id</MatHeadline4>
-                    </div>
+                    <MatCardContent>
+                        <MatCardMedia Wide="false" ImageUrl=""></MatCardMedia>
+                        <div class="item-card-content">
+                            <MatHeadline2>@itemInfo.Name</MatHeadline2>
+                            <MatHeadline2>@itemInfo.DesiredStock</MatHeadline2>
+                            <MatHeadline2>@itemInfo.MinimumStock</MatHeadline2>
+                            <MatHeadline4>@itemInfo.Id</MatHeadline4>
+                            <MatHeadline1>@itemInfo.SupplierId</MatHeadline1>
+                            <MatHeadline1>@itemInfo.UnitDesc</MatHeadline1>
+
+                        </div>
                         @if (unitStock != null)
                         {
                             <div class="item-card-quantity-info">
@@ -36,24 +49,59 @@
                                     <MatBody2>Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy HH:mm")</MatBody2>
                                 }
 
-                    
+
                             </div>
-                        }else{
+                        }
+                        else
+                        {
                             <div class="item-card-quantity-info">
                                 <MatBody1>Item has no stock.</MatBody1>
                             </div>
                         }
-                </MatCardContent>
-                <MatCardActions>
-                    <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
-                </MatCardActions>
+                    </MatCardContent>
+                    <MatCardActions>
+                        <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
+                        <MatButton @onclick="() => modifyItemOption()"> Modify Item</MatButton>
+                    </MatCardActions>
                 </MatCard>
+
+                @if (showItemModifyContent == "True")
+                {
+                    <p> Leave field blank if you would like to take the original values.</p>
+                    <p>
+                        <MatTextField Label="Item Name" @bind-Value="@inputItemNameM"></MatTextField>
+                    </p>
+                    <p>
+                        <MatTextField @bind-Value="@inputItemMinStockM" Label="Minimum Stock"></MatTextField>
+                    </p>
+                    <p>
+                        <MatTextField @bind-Value="@inputItemDesiredStockM" Label="Desired Stock"></MatTextField>
+                    </p>
+                    <p>
+                        <MatTextField @bind-Value="@inputSupplierIDM" Label="Supplier ID"></MatTextField>
+                    </p>
+                    <p>
+                        <MatTextField @bind-Value="@inputUnitDescM" Label="Unit Description"></MatTextField>
+                    </p>
+                    <MatButton @onclick="() => modifyItem(inputItemNameM, inputItemMinStockM, inputItemDesiredStockM, inputSupplierIDM, inputUnitDescM)"> Modify Item</MatButton>
+
                 }
-            else if (itemFound == "False"){
+
+                @if (itemModifySuccess == "True"){
+                    Toaster.Add("Item Successfully Changed", MatToastType.Success, "Change Item");
+                    toastStatus();
+                }else if (itemModifySuccess == "False"){
+                    Toaster.Add("Item change not saved.", MatToastType.Warning, "Change Item");
+                }
+
+            }
+            else if (itemFound == "False")
+            {
                 Toaster.Add("Item could not be found", MatToastType.Danger, "Item");
                 itemFoundStatus();
             }
-            else {
+            else
+            {
                 <p> Please enter item ID to view relevant information.</p>
             }
         </div>
