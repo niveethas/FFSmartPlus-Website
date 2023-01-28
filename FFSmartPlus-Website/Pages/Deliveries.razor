@@ -5,16 +5,16 @@
 </h1>
 
 
-<p>Please find order id in your email</p>
+<p>Please provide supplier id as stated in your email</p>
 <p>
-    <MatTextField @bind-Value="@inputOrderId" Label="Order Id"></MatTextField>
+    <MatTextField @bind-Value="@inputSupplierId" Label="Order Id"></MatTextField>
 </p>
 
 <p>
     <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Order Date" @bind-Value="@inputOrderDate"> </MatDatePicker>
 </p>
 
-<MatButton @onclick="() => getDeliveriesOnDate(inputOrderId,inputOrderDate)"> Get Orders</MatButton>
+<MatButton @onclick="() => getDeliveriesOnDate(inputSupplierId,inputOrderDate)"> Get Orders</MatButton>
 
 @if (deliveriesOnDate != null){
 @foreach (var x in deliveriesOnDate.Orders){
@@ -22,6 +22,9 @@
     <p>name: @x.Name</p>
     <p @bind="@currentOrderQuant">quanitity ordered: @x.QuantityOrdered</p>
     <p>unit: @x.UnitDescription</p>
-    <MatButton @onclick="() => ConfirmCurrentDelivery(currentOrderId, currentOrderQuant)">Order Is Correct</MatButton>
+        <p>
+            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Select Expiry Date" @bind-Value="@inputExpDate"> </MatDatePicker>
+        </p>
+        <MatButton @onclick="() => ConfirmCurrentDelivery(currentOrderId, currentOrderQuant, inputExpDate)">Order Is Correct</MatButton>
 }
 }

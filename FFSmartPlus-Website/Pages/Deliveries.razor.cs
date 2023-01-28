@@ -15,16 +15,17 @@ namespace FFSmartPlus_Website.Pages
 
         public CurrentUserRoles currentUser = new CurrentUserRoles();
         public DateTime inputOrderDate;
-        public string inputOrderId;
+        public DateTime inputExpDate;
+        public string inputSupplierId;
         public ActiveOrdersDto deliveriesOnDate;
         public OrderConfirmationDTO orderConfirmation = new OrderConfirmationDTO();
         public long currentOrderId;
         public double currentOrderQuant;
         public async Task getDeliveriesOnDate(string id, DateTime date)
         {
-            long orderId = long.Parse(id);
-            deliveriesOnDate = await _client.DeliveryAsync(orderId, date);
-            //calls the get method to retrieve a list orders
+            long supplierId = long.Parse(id);
+            deliveriesOnDate = await _client.DeliveryAsync(supplierId, date);
+            //calls the get method to retrieve a list orders within specified supplier and date
         }
 
         public async Task confirmOrder(string id, string quantity, DateTime date )
@@ -38,7 +39,7 @@ namespace FFSmartPlus_Website.Pages
             await _client.ConfirmAsync(orderConfirmation);
         }
 
-        public async Task ConfirmCurrentDelivery(long id, double quantity)
+        public async Task ConfirmCurrentDelivery(long id, double quantity, DateTime expDate)
         {
             //not sure if this is right
 
@@ -46,7 +47,7 @@ namespace FFSmartPlus_Website.Pages
             orderConfirmation.OrderLogId = id; //think this is wrong
             NewUnitDto newUnit = new NewUnitDto();
             newUnit.Quantity = quantity;
-            newUnit.ExpiryDate = DateTime.Now;  //where is expiry found?
+            newUnit.ExpiryDate = expDate;
             orderConfirmation.UnitDeliver = newUnit;
             await _client.ConfirmAsync(orderConfirmation);
         }
