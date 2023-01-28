@@ -28,16 +28,7 @@ namespace FFSmartPlus_Website.Pages
             //calls the get method to retrieve a list orders within specified supplier and date
         }
 
-        public async Task confirmOrder(string id, string quantity, DateTime date )
-        {
-            //this will change
-            NewUnitDto newUnit = new NewUnitDto();
-            newUnit.Quantity = Int32.Parse(quantity);
-            newUnit.ExpiryDate = date;
-            orderConfirmation.OrderLogId = long.Parse(id);
-            orderConfirmation.UnitDeliver = newUnit;
-            await _client.ConfirmAsync(orderConfirmation);
-        }
+
 
         public async Task ConfirmCurrentDelivery(long id, double quantity, DateTime expDate)
         {
