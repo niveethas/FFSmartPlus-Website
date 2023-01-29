@@ -4,27 +4,29 @@
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="~/css/TabStylings.css" rel="stylesheet" />
-
-<MatHeadline3>Item Management</MatHeadline3>
-<MatTabGroup>
+<div class="pageTitle">
+    <MatHeadline3 id="pageTitle">Item Management</MatHeadline3>
+</div>
+<MatTabGroup id="tabGroup">
     <MatTab Label="View Item">
         <div class="tabSubtitle">
-            <MatHeadline4>Choose item to manage</MatHeadline4>
+            <MatHeadline4>Choose Item to Manage</MatHeadline4>
         </div>
-            @*<p>    <MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID"></MatTextField> </p>
+            @*<p><MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID"></MatTextField> </p>
             <p @bind="@itemErrorMessage" id="ItemErrorMessage" style="color:red; display:none;"> Item can not be found. </p>
             *@
-            <MatSelect Label="Pick an Item" Outlined="true" ValueChanged="(string i) => onChangeItem(i)">
-            @foreach (var item in itemsToList()){
-                <MatOptionString Value="@item.Id.ToString()">@item.Name.ToString()</MatOptionString>
-            }
-            </MatSelect>
+            <div class="itemInput">
+                <MatSelect Label="Pick an Item" Outlined="true" ValueChanged="(string i) => onChangeItem(i)">
+                @foreach (var item in itemsToList()){
+                    <MatOptionString Value="@item.Id.ToString()">@item.Name.ToString()</MatOptionString>
+                }
+                </MatSelect>
+            </div>
 
             @*<MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>*@
         <div class="tabSubtitle">
             <h2> View Items</h2>
         </div>
-
         <div class="InventoryView">
             @if (itemInfo != null)
             {
@@ -32,21 +34,24 @@
                     <MatCardContent>
                         <MatCardMedia Wide="false" ImageUrl=""></MatCardMedia>
                         <div class="item-card-content">
+                            <div class="itemID">
+                                <small>Item ID: @itemInfo.Id</small>
+                            </div>
+                            <div class="itemID">
+                                <small>Supplier ID: @itemInfo.SupplierId</small>
+                            </div>
                             <MatHeadline2>@itemInfo.Name</MatHeadline2>
-                            <MatHeadline2>@itemInfo.DesiredStock</MatHeadline2>
-                            <MatHeadline2>@itemInfo.MinimumStock</MatHeadline2>
-                            <MatHeadline4>@itemInfo.Id</MatHeadline4>
-                            <MatHeadline1>@itemInfo.SupplierId</MatHeadline1>
-                            <MatHeadline1>@itemInfo.UnitDesc</MatHeadline1>
-
+                            <MatHeadline4>Unit Description: @itemInfo.UnitDesc</MatHeadline4>
+                            <MatHeadline4>Minimum Stock: @itemInfo.MinimumStock</MatHeadline4>
+                            <MatHeadline4>Desired Stock: @itemInfo.DesiredStock</MatHeadline4>
                         </div>
                         @if (unitStock != null)
                         {
                             <div class="item-card-quantity-info">
                                 @foreach (var quantityData in unitStock)
                                 {
-                                    <MatBody1>Quantity: @quantityData.Quantity units remaining</MatBody1>
-                                    <MatBody2>Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy HH:mm")</MatBody2>
+                                    <MatBody1>Quantity: @quantityData.Quantity units remaining<br>
+                                    Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy HH:mm")</MatBody1>
                                 }
 
 
@@ -102,7 +107,7 @@
             }
             else
             {
-                <p> Please enter item ID to view relevant information.</p>
+                <p class="viewItemText"> Please enter item ID to view relevant information.</p>
             }
         </div>
 
@@ -110,8 +115,10 @@
    @* @if (currentRoles.Contains("HeadChef") || currentRoles.Contains("Delivery"))
     {*@
         <MatTab Label="Add Item">
-            <div>
-                <h2> Add Item Management</h2>
+            <div class="itemInput">
+                <div class="tabSubtitle">
+                    <MatHeadline4>Add Item Management</MatHeadline4>
+                </div>
                 <p>
                     <MatTextField Label="Item Name" @bind-Value="@inputItemName"></MatTextField>
                 </p>
@@ -163,27 +170,36 @@
     }
 
     <MatTab Label="Add Stock to Existing Item">
-        <p>
-            <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
-        </p>
-        <p>
-            <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
-        </p>
-
-        <p>
-            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
-        </p>
-        <MatButton @onclick="() => addStockExisting (inputUnitQuantity,inputUnitExpDate,inputItemIdE)">Add Stock</MatButton>
+        <div class="tabSubtitle">
+            <MatHeadline4>Add Stock to Existing Item</MatHeadline4>
+        </div>
+        <div class="itemInput">
+            <p>
+                <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
+            </p>
+            <p>
+                <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
+            </p>
+            <p>
+                <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
+            </p>
+            <MatButton @onclick="() => addStockExisting (inputUnitQuantity,inputUnitExpDate,inputItemIdE)">Add Stock</MatButton>
+        </div>
     </MatTab>
 
     <MatTab Label = "Remove Stock">
-        <p>
-            <MatTextField @bind-Value="@inputItemIdR" Label="Item Id"></MatTextField>
-        </p>
-        <p>
-            <MatTextField @bind-Value="@inputUnitQuantityR" Label="Unit Quantity"></MatTextField>
-        </p>
-        <MatButton @onclick="() => removeStock (inputUnitQuantityR,inputItemIdR)">Remove Stock</MatButton>
+        <div class="tabSubtitle">
+            <MatHeadline4>Remove Stock</MatHeadline4>
+        </div>
+        <div class="itemInput">
+            <p>
+                <MatTextField @bind-Value="@inputItemIdR" Label="Item Id"></MatTextField>
+            </p>
+            <p>
+                <MatTextField @bind-Value="@inputUnitQuantityR" Label="Unit Quantity"></MatTextField>
+            </p>
+            <MatButton @onclick="() => removeStock (inputUnitQuantityR,inputItemIdR)">Remove Stock</MatButton>
+        </div>
     </MatTab>
 </MatTabGroup>
 
