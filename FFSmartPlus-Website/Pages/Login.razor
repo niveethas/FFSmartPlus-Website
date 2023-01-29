@@ -19,10 +19,11 @@
     </p>
     <MatButton Raised="true" @onclick="() => userLogin(inputUsername,inputPassword)"> Login</MatButton>
     <br />
-    <MatButton @onclick="() => SignUpPageRedirect()"> Sign Up</MatButton>
+    <br />
+    <br />
+    <MatButton @onclick="() => SignUpPageRedirect()">Register A New Account</MatButton>
     @if (loginSuccess == "False"){
-    Toaster.Add("Login Unsuccessful.", MatToastType.Warning, "Role");
+    Toaster.Add("Login Unsuccessful.", MatToastType.Warning, "Login");
     ToasterStatus();
-
     }
 </div>

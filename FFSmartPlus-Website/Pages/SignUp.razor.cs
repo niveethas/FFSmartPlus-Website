@@ -20,37 +20,37 @@ namespace FFSmartPlus_Website.Pages
         public string inputUsername;
         public string inputPassword;
         public string inputEmail;
+        public string inputPasswordR;
         public string signUpSuccess;
 
-        public async Task userSignUp(string username, string password, string email)
+        public async Task userSignUp(string username, string password, string email, string passwordR)
         {
-            try
-            {
+            
                 var newRM = new RegisterModel();
                 newRM.Username = username;
                 newRM.Password = password;
                 newRM.Email = email;
-                await _client.RegisterAsync(newRM);
 
-                ICollection<string>users = await _client.AllAsync();
-                if (users.Contains(username))
+            if (passwordR == password)
+            {
+                try
                 {
+                    await _client.RegisterAsync(newRM);
                     signUpSuccess = "True";
-                    NavManager.NavigateTo("/ItemList");
                 }
-                else
+                catch
                 {
                     signUpSuccess = "False";
+
                 }
             }
-            catch(Exception e)
+            else
             {
-                signUpSuccess = "False";
+                signUpSuccess = "FalsePassword";
+
             }
-
         }
-
-
+            
         public async Task ToasterStatus()
         {
             signUpSuccess = "";
