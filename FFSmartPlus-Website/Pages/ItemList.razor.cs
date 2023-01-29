@@ -199,11 +199,14 @@ namespace FFSmartPlus_Website.Pages
                 //instantiates a NewUnitDto class and populates it with user input
                 //using the returned Id from the post method and send object with expirydate, quantity
                 await _client.AddAsync(itemID, newAUD);
+                stockModifySuccess = "True";
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
+                stockModifySuccess = "False";
+
             }
         }
 

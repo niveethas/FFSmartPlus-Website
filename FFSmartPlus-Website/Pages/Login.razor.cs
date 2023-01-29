@@ -43,6 +43,7 @@ namespace FFSmartPlus_Website.Pages
 
                 var token = new JwtSecurityToken(jwtEncodedString: loginResponse.Token.ToString());
                 var temp = token.Claims.ToList();
+                 _client.Authorisation(loginResponse.Token);
                 CurrentUserRoles currentRole = new CurrentUserRoles();
                 List<string> roles = new List<string>();
 
