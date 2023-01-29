@@ -12,8 +12,8 @@ namespace FFSmartPlus_Website.Pages
         [Inject]
         protected IMatToaster Toaster { get; set; }
 
-        ICollection<SupplierDto> allSuppliers = new List<SupplierDto>();
-        SupplierDto selectedSupplier = new SupplierDto();
+        public ICollection<SupplierDto> allSuppliers = new List<SupplierDto>();
+        public SupplierDto selectedSupplier = new SupplierDto();
 
         public long selectedSupplierId;
         public string changeSupplierCheck;
@@ -37,13 +37,21 @@ namespace FFSmartPlus_Website.Pages
 
         public async Task OnChangeSupplier(string supplier)
         {
-            if (supplier != "-1")
-                //do not want to consider the blank option in the drop down
+            try
             {
-                selectedSupplierId = Convert.ToInt64(supplier);
+                if (supplier != "-1")
+                //do not want to consider the blank option in the drop down
+                {
+                    selectedSupplierId = Convert.ToInt64(supplier);
+                }
+                await getSupplierById();
+                //saves the supplier id of the supplier selected from the drop down menu
             }
-            await getSupplierById();
-            //saves the supplier id of the supplier selected from the drop down menu
+            catch(Exception e)
+            {
+                selectedSupplierId = 0;
+                Console.WriteLine(e);
+            }
         }
 
         
@@ -80,6 +88,7 @@ namespace FFSmartPlus_Website.Pages
         public async Task changeSupplierDetails(long id, string? address, string? email, string? name)
         {
             SupplierDto modifiedSupplier = new SupplierDto();
+            modifiedSupplier.Id = id;
             if (address != null)
             {
                 modifiedSupplier.Address = address;
@@ -105,7 +114,7 @@ namespace FFSmartPlus_Website.Pages
             }
             else
             {
-                modifiedSupplier.Email = selectedSupplier.Email;
+                modifiedSupplier.Name = selectedSupplier.Name;
 
             }
 

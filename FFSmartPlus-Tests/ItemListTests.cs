@@ -24,7 +24,6 @@ namespace FFSmartPlus_Tests
             newLogin.Password = "@Admin123";
             var loginCode =  itemList._client.LoginAsync(newLogin);
             itemList._client.Authorisation(loginCode.Result.Token);
-
         }
 
         #region LoadItem Tests
@@ -154,7 +153,7 @@ namespace FFSmartPlus_Tests
 
             await itemList.addStock(quantity, expiry);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockAdditionSuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockModifySuccess);
             
             await itemList.loadItem(validItemId.ToString());
             Assert.AreEqual(stockCount, itemList.unitStock.Count());
@@ -168,7 +167,7 @@ namespace FFSmartPlus_Tests
             DateTime expiry = DateTime.Now.AddMonths(2);
             await itemList.addStock(quantity, expiry);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockAdditionSuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockModifySuccess);
         }
 
         #endregion
