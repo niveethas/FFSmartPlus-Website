@@ -14,7 +14,7 @@ namespace FFSmartPlus_Tests
     [TestClass]
     public class LoginTests
     {
-        Login login;
+        Login _login;
 
         private String adminUsername = "admin1";
         private String adminPassword = "@Admin123";
@@ -32,10 +32,10 @@ namespace FFSmartPlus_Tests
 
         public LoginTests()
         {
-            login = new Login();
-            login._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
+            _login = new Login();
+            _login._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
 
-            login.NavManager = new TestNav();
+            _login.NavManager = new TestNav();
         }
 
         // --- userLogin(string username, string password) --- 
@@ -43,59 +43,59 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA1_Login_ValidUser_Admin()
         {
-            await login.userLogin(adminUsername, adminPassword);
+            await _login.userLogin(adminUsername, adminPassword);
             CollectionAssert.Contains(CurrentUserRoles._role, "Admin");
 
-            Assert.AreEqual(TestConsts.TRUE_STR, login.loginSuccess);
-            login.ToasterStatus();
+            Assert.AreEqual(TestConsts.TRUE_STR, _login.loginSuccess);
+            _login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task TA2_Login_ValidUser_User()
         {
-            await login.userLogin(userUsername, userPassword);
+            await _login.userLogin(userUsername, userPassword);
 
-            Assert.IsNotNull(login.loginResponse);
+            Assert.IsNotNull(_login.loginResponse);
             CollectionAssert.DoesNotContain(CurrentUserRoles._role, "Admin");
 
-            Assert.AreEqual(TestConsts.TRUE_STR, login.loginSuccess);
-            login.ToasterStatus();
+            Assert.AreEqual(TestConsts.TRUE_STR, _login.loginSuccess);
+            _login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task TA3_Login_InvalidUsername_ValidPassword()
         {
-            await login.userLogin(invalidUsername, adminPassword);
+            await _login.userLogin(invalidUsername, adminPassword);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, login.loginSuccess);
-            login.ToasterStatus();
+            Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
+            _login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task TA4_Login_BlankUsername_ValidPassword()
         {
-            await login.userLogin(blankString, adminPassword);
+            await _login.userLogin(blankString, adminPassword);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, login.loginSuccess);
-            login.ToasterStatus();
+            Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
+            _login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task TA5_Login_InvalidPassword_ValidUsername()
         {
-            await login.userLogin(adminUsername, invalidPassword);
+            await _login.userLogin(adminUsername, invalidPassword);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, login.loginSuccess);
-            login.ToasterStatus();
+            Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
+            _login.ToasterStatus();
         }
 
         [TestMethod]
         public async Task TA6_Login_BlankPassword_ValidUsername()
         {
-            await login.userLogin(adminUsername, blankString);
+            await _login.userLogin(adminUsername, blankString);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, login.loginSuccess);
-            login.ToasterStatus();
+            Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
+            _login.ToasterStatus();
         }
     }
 }

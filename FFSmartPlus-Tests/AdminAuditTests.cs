@@ -19,14 +19,7 @@ namespace FFSmartPlus_Tests
         public AdminAuditTests()
         {
             _adminAudit = new AdminAudit();
-            _adminAudit._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
-
-            var newLogin = new LoginModel();
-            newLogin.Username = "Admin2";
-            newLogin.Password = "@Admin123"; // Password requires a symbol, capital letter and 3 numbers
-            _adminAudit._client.LoginAsync(newLogin);
-            var loginCode = _adminAudit._client.LoginAsync(newLogin);
-            _adminAudit._client.Authorisation(loginCode.Result.Token);
+            _adminAudit._client = new SetupClient().SignInAdmin();
         }
 
         //expStockToList()

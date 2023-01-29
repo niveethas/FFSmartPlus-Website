@@ -6,7 +6,7 @@ namespace FFSmartPlus_Tests
     [TestClass]
     public class ItemListTests
     {
-        private readonly ItemList itemList;
+        private ItemList _itemList;
         int validItemId = 3;
         private string[] validNewItem = { "Apple", "per Bag", "1", "1", "2" };
                                         //name, unitDesc, minStock, supplierID, desiredStock
@@ -16,14 +16,8 @@ namespace FFSmartPlus_Tests
 
         public ItemListTests()
         {
-            itemList = new ItemList();
-            itemList._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
-            
-            var newLogin = new LoginModel();
-            newLogin.Username = "admin1";
-            newLogin.Password = "@Admin123";
-            var loginCode =  itemList._client.LoginAsync(newLogin);
-            itemList._client.Authorisation(loginCode.Result.Token);
+            _itemList = new ItemList();
+            _itemList._client = new SetupClient().SignInAdmin();
         }
 
         #region LoadItem Tests
@@ -33,32 +27,32 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA1_LoadItem_ValidId()
         {
-            await itemList.loadItem(validItemId.ToString());
-            Assert.AreEqual(validItemId, itemList.itemInfo.Id);
+            await _itemList.loadItem(validItemId.ToString());
+            Assert.AreEqual(validItemId, _itemList.itemInfo.Id);
         }
 
         // Testing load items for a valid item id that doesn't exist in the database
         [TestMethod]
         public async Task TA2_LoadItem_NonExistentItem()
         {
-            await itemList.loadItem("0");
-            Assert.IsNull(itemList.itemInfo);
+            await _itemList.loadItem("0");
+            Assert.IsNull(_itemList.itemInfo);
         }
 
         // Testing load items for a invalid item id - string character
         [TestMethod]
         public async Task TA3_LoadItem_InvalidId_StringChar()
         {
-            await itemList.loadItem("A");
-            Assert.IsNull(itemList.itemInfo);
+            await _itemList.loadItem("A");
+            Assert.IsNull(_itemList.itemInfo);
         }
 
         // Testing load items for a invalid item id - special character
         [TestMethod]
         public async Task TA4_LoadItem_InvalidId_SpecialChar()
         {
-            await itemList.loadItem("!");
-            Assert.IsNull(itemList.itemInfo);
+            await _itemList.loadItem("!");
+            Assert.IsNull(_itemList.itemInfo);
         }
         #endregion
 
@@ -68,33 +62,33 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TB1_addNewItem_Valid()
         {
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], validNewItem[3], validNewItem[4]);
-            Assert.IsTrue(itemList.itemAdditionSuccess);
-            newItemId = itemList.returnedId;
+            await _itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], validNewItem[3], validNewItem[4]);
+            Assert.IsTrue(_itemList.itemAdditionSuccess);
+            newItemId = _itemList.returnedId;
         }
 
         [TestMethod]
         public async Task TB2_addNewItem_Valid_DecimalMaxStockAndDesiredStock()
         {
             string decimalStr = "0.1";
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], decimalStr, validNewItem[3], decimalStr);
-            Assert.IsTrue(itemList.itemAdditionSuccess);
+            await _itemList.addNewItem(validNewItem[0], validNewItem[1], decimalStr, validNewItem[3], decimalStr);
+            Assert.IsTrue(_itemList.itemAdditionSuccess);
         }
 
         [TestMethod]
         public async Task TB3_addNewItem_InvalidSupplierID()
         {
             string invalidId = "500";
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], invalidId, validNewItem[4]);
-            Assert.IsFalse(itemList.itemAdditionSuccess);
+            await _itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], invalidId, validNewItem[4]);
+            Assert.IsFalse(_itemList.itemAdditionSuccess);
         }
 
         [TestMethod]
         public async Task TB4_addNewItem_InvalidMaxStock_AlphaChars()
         {
             string invalidMaxStock = "abc";
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], invalidMaxStock, validNewItem[3], validNewItem[4]);
-            Assert.IsFalse(itemList.itemAdditionSuccess);
+            await _itemList.addNewItem(validNewItem[0], validNewItem[1], invalidMaxStock, validNewItem[3], validNewItem[4]);
+            Assert.IsFalse(_itemList.itemAdditionSuccess);
         }
 
 
@@ -102,8 +96,8 @@ namespace FFSmartPlus_Tests
         public async Task TB5_addNewItem_InvalidDesiredStock_AlphaChars()
         {
             string invalidDesiredStock = "abc";
-            await itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], validNewItem[3], invalidDesiredStock);
-            Assert.IsFalse(itemList.itemAdditionSuccess);
+            await _itemList.addNewItem(validNewItem[0], validNewItem[1], validNewItem[2], validNewItem[3], invalidDesiredStock);
+            Assert.IsFalse(_itemList.itemAdditionSuccess);
         }
 
         #endregion
@@ -113,61 +107,64 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TC1_addStock_Valid()
         {
-            itemList.returnedId = validItemId;
+            _itemList.returnedId = validItemId;
             String quantity = "5";
             DateTime expiry = DateTime.Now.AddMonths(2);
-            await itemList.addStock(quantity, expiry);
+            await _itemList.addStock(quantity, expiry);
 
-            await itemList.loadItem(validItemId.ToString());
-            Assert.IsTrue(itemList.unitStock.Last().Quantity == Convert.ToDouble(quantity) 
-                && itemList.unitStock.Last().ExpiryDate.Date == expiry.Date);
+            Assert.AreEqual(TestConsts.TRUE_STR ,_itemList.stockModifySuccess);
+
+            await _itemList.loadStock(validItemId.ToString());
+            Assert.IsTrue(_itemList.unitStock.Last().Quantity == Convert.ToDouble(quantity) 
+                && _itemList.unitStock.Last().ExpiryDate.Date == expiry.Date);
         }
 
         [TestMethod]
         public async Task TC2_addStock_Valid_DecimalQuantity()
         {
-            itemList.returnedId = validItemId;
+            _itemList.returnedId = validItemId;
             String quantity = "0.5";
             DateTime expiry = DateTime.Now.AddMonths(2);
-            await itemList.addStock(quantity, expiry);
+            await _itemList.addStock(quantity, expiry);
 
+            Assert.AreEqual(TestConsts.TRUE_STR, _itemList.stockModifySuccess);
 
-            await itemList.loadItem(validItemId.ToString());
-            
+            await _itemList.loadStock(validItemId.ToString());
+            UnitsDto lastUnit = _itemList.unitStock.Last();
 
-            Assert.IsTrue(itemList.unitStock.Last().Quantity == Convert.ToDouble(quantity)
-                && itemList.unitStock.Last().ExpiryDate.Date == expiry.Date);
+            Assert.IsTrue(lastUnit.Quantity == Convert.ToDouble(quantity)
+                && lastUnit.ExpiryDate.Date == expiry.Date);
 
         }
 
         [TestMethod]
         public async Task TC3_addStock_Invalid_NonNumericQuantity()
         {
-            itemList.returnedId = validItemId;
+            _itemList.returnedId = validItemId;
             String quantity = "ABC";
             DateTime expiry = DateTime.Now.AddMonths(2);
 
+            await _itemList.loadStock(validItemId.ToString());
+            stockCount = _itemList.unitStock.Count();
 
-            await itemList.loadItem(validItemId.ToString());
-            stockCount = itemList.unitStock.Count();
 
-            await itemList.addStock(quantity, expiry);
+            await _itemList.addStock(quantity, expiry);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockModifySuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, _itemList.stockModifySuccess);
             
-            await itemList.loadItem(validItemId.ToString());
-            Assert.AreEqual(stockCount, itemList.unitStock.Count());
+            await _itemList.loadItem(validItemId.ToString());
+            Assert.AreEqual(stockCount, _itemList.unitStock.Count());
         }
 
         [TestMethod]
         public async Task TC4_addStock_Invalid_InvalidId()
         {
-            itemList.returnedId = 500;
+            _itemList.returnedId = 500;
             String quantity = "10";
             DateTime expiry = DateTime.Now.AddMonths(2);
-            await itemList.addStock(quantity, expiry);
+            await _itemList.addStock(quantity, expiry);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, itemList.stockModifySuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, _itemList.stockModifySuccess);
         }
 
         #endregion
@@ -178,16 +175,16 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD1_deleteItem_ValidId()
         {
-            await itemList.deleteItem(newItemId);
-            Assert.IsNull(itemList.itemInfo);
+            await _itemList.deleteItem(newItemId);
+            Assert.IsNull(_itemList.itemInfo);
         }
 
         [TestMethod]
         public async Task TD2_deleteItem2_InvalidId()
         {
             long invalidId = 5000;
-            await itemList.deleteItem(invalidId);
-            Assert.IsNull(itemList.itemInfo);
+            await _itemList.deleteItem(invalidId);
+            Assert.IsNull(_itemList.itemInfo);
         }
         #endregion
     }

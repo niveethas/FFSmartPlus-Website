@@ -13,22 +13,15 @@ namespace FFSmartPlus_Tests
     [TestClass]
     public class SupplierTests
     {
-        Suppliers suppliers;
+        Suppliers _suppliers;
 
         public SupplierDto newSupplier = new SupplierDto() { Address = "123 Lake Street",
         Email = "test@test.com", Name = "Test Supplier", Id = 10009 };
 
         public SupplierTests()
         {
-            suppliers = new Suppliers();
-            suppliers._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
-
-            var newLogin = new LoginModel();
-            newLogin.Username = "admin1";
-            newLogin.Password = "@Admin123"; // Password requires a symbol, capital letter and 3 numbers
-            suppliers._client.LoginAsync(newLogin);
-            var loginCode = suppliers._client.LoginAsync(newLogin);
-            suppliers._client.Authorisation(loginCode.Result.Token);
+            _suppliers = new Suppliers();
+            _suppliers._client = new SetupClient().SignInAdmin();
         }
 
         #region AddNewSupplier
@@ -40,9 +33,9 @@ namespace FFSmartPlus_Tests
             string email = "test@test.com";
             string name = "Test Supplier";
 
-            await suppliers.AddNewSupplier(address, email, name);
+            await _suppliers.AddNewSupplier(address, email, name);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierAdditionSuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierAdditionSuccess);
 
 
         }
@@ -55,9 +48,9 @@ namespace FFSmartPlus_Tests
             string email = "";
             string name = "";
 
-            await suppliers.AddNewSupplier(address, email, name);
+            await _suppliers.AddNewSupplier(address, email, name);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, suppliers.supplierAdditionSuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, _suppliers.supplierAdditionSuccess);
         }
 
         #endregion
@@ -67,8 +60,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TB1_GetSuppliersToList()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            List<SupplierDto> suppliersList = suppliers.getSuppliersToList();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            List<SupplierDto> suppliersList = _suppliers.getSuppliersToList();
 
             Assert.IsTrue(suppliersList.Count() > 0);
 
@@ -78,12 +71,12 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TB2_GetSupplierById()
         {
-            suppliers.selectedSupplierId = newSupplier.Id;
+            _suppliers.selectedSupplierId = newSupplier.Id;
 
-            await suppliers.getSupplierById();
+            await _suppliers.getSupplierById();
 
-            Assert.AreEqual(newSupplier.Id, suppliers.selectedSupplier.Id);
-            Assert.AreEqual(newSupplier.Address, suppliers.selectedSupplier.Address);
+            Assert.AreEqual(newSupplier.Id, _suppliers.selectedSupplier.Id);
+            Assert.AreEqual(newSupplier.Address, _suppliers.selectedSupplier.Address);
         }
 
         #endregion
@@ -95,9 +88,9 @@ namespace FFSmartPlus_Tests
         {
             String validSupplierId = "1";
 
-            await suppliers.OnChangeSupplier(validSupplierId);
+            await _suppliers.OnChangeSupplier(validSupplierId);
 
-            Assert.AreEqual(validSupplierId, suppliers.selectedSupplierId.ToString());
+            Assert.AreEqual(validSupplierId, _suppliers.selectedSupplierId.ToString());
         }
 
         [TestMethod]
@@ -105,9 +98,9 @@ namespace FFSmartPlus_Tests
         {
             String validSupplierId = "500";
 
-            await suppliers.OnChangeSupplier(validSupplierId);
+            await _suppliers.OnChangeSupplier(validSupplierId);
 
-            Assert.AreNotEqual(validSupplierId, suppliers.selectedSupplierId.ToString());
+            Assert.AreNotEqual(validSupplierId, _suppliers.selectedSupplierId.ToString());
         }
 
         [TestMethod]
@@ -115,9 +108,9 @@ namespace FFSmartPlus_Tests
         {
             String validSupplierId = "abc";
 
-            await suppliers.OnChangeSupplier(validSupplierId);
+            await _suppliers.OnChangeSupplier(validSupplierId);
 
-            Assert.AreNotEqual(validSupplierId, suppliers.selectedSupplierId.ToString());
+            Assert.AreNotEqual(validSupplierId, _suppliers.selectedSupplierId.ToString());
         }
 
         #endregion
@@ -128,106 +121,106 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD1_ChangeSupplierDetails_Valid_AllParams()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            newSupplier = suppliers.allSuppliers.Last();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            newSupplier = _suppliers.allSuppliers.Last();
 
             string newAddress = "123 Angel Row";
             string newEmail = "test2@test.com";
             string newName = "Supplier Test 2";
-            await suppliers.changeSupplierDetails(newSupplier.Id,newAddress,newEmail,newName);
+            await _suppliers.changeSupplierDetails(newSupplier.Id,newAddress,newEmail,newName);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierModifySuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            Assert.AreNotEqual(newSupplier, suppliers.allSuppliers.Last());
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
         }
 
         [TestMethod]
         public async Task TD2_ChangeSupplierDetails_Valid_NullAddress()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            newSupplier = suppliers.allSuppliers.Last();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            newSupplier = _suppliers.allSuppliers.Last();
 
-            suppliers.selectedSupplier = newSupplier;
+            _suppliers.selectedSupplier = newSupplier;
 
             string newEmail = "test3@test.com";
             string newName = "Supplier Test 3";
-            await suppliers.changeSupplierDetails(id:newSupplier.Id, address:null, email:newEmail, name:newName);
+            await _suppliers.changeSupplierDetails(id:newSupplier.Id, address:null, email:newEmail, name:newName);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierModifySuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            Assert.AreNotEqual(newSupplier, suppliers.allSuppliers.Last());
-            Assert.AreEqual(newSupplier.Address, suppliers.allSuppliers.Last().Address);
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
+            Assert.AreEqual(newSupplier.Address, _suppliers.allSuppliers.Last().Address);
 
         }
 
         [TestMethod]
         public async Task TD3_ChangeSupplierDetails_Valid_NullEmail()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            newSupplier = suppliers.allSuppliers.Last();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            newSupplier = _suppliers.allSuppliers.Last();
 
-            suppliers.selectedSupplier = newSupplier;
+            _suppliers.selectedSupplier = newSupplier;
 
             string newAddress = "123 Street Street";
             string newName = "Test Supplier";
-            await suppliers.changeSupplierDetails(id: newSupplier.Id, address: newAddress, email: null, name: newName);
+            await _suppliers.changeSupplierDetails(id: newSupplier.Id, address: newAddress, email: null, name: newName);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierModifySuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            Assert.AreNotEqual(newSupplier, suppliers.allSuppliers.Last());
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
         }
 
 
         [TestMethod]
         public async Task TD4_ChangeSupplierDetails_Valid_NullName()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            newSupplier = suppliers.allSuppliers.Last();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            newSupplier = _suppliers.allSuppliers.Last();
 
-            suppliers.selectedSupplier = newSupplier;
+            _suppliers.selectedSupplier = newSupplier;
 
             string newAddress = "123 Lake Street";
             string newEmail = "test@test.com";
-            await suppliers.changeSupplierDetails(id: newSupplier.Id, address: newAddress, email: newEmail, name: null);
+            await _suppliers.changeSupplierDetails(id: newSupplier.Id, address: newAddress, email: newEmail, name: null);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierModifySuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            Assert.AreNotEqual(newSupplier, suppliers.allSuppliers.Last());
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
         }
 
         [TestMethod]
         public async Task TD5_ChangeSupplierDetails_Valid_AllNull()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            newSupplier = suppliers.allSuppliers.Last();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            newSupplier = _suppliers.allSuppliers.Last();
 
-            suppliers.selectedSupplier = newSupplier;
+            _suppliers.selectedSupplier = newSupplier;
 
-            await suppliers.changeSupplierDetails(id: newSupplier.Id, address: null, email: null, name: null);
+            await _suppliers.changeSupplierDetails(id: newSupplier.Id, address: null, email: null, name: null);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierModifySuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            Assert.AreNotEqual(newSupplier, suppliers.allSuppliers.Last());
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
         }
 
         [TestMethod]
         public async Task TD6_ChangeSupplierDetails_Invalid_Id()
         {
-            suppliers.selectedSupplier = newSupplier;
+            _suppliers.selectedSupplier = newSupplier;
 
             long invalidId = 500;
 
             string newAddress = "123 Angel Row";
             string newEmail = "test2@test.com";
             string newName = "Supplier Test 2";
-            await suppliers.changeSupplierDetails(invalidId, newAddress, newEmail, newName);
+            await _suppliers.changeSupplierDetails(invalidId, newAddress, newEmail, newName);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, suppliers.supplierModifySuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, _suppliers.supplierModifySuccess);
         }
         #endregion
 
@@ -237,17 +230,17 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TE1_DeleteSupplier_Valid()
         {
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            newSupplier = suppliers.allSuppliers.Last();
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            newSupplier = _suppliers.allSuppliers.Last();
 
-            await suppliers.deleteSupplier(newSupplier.Id);
+            await _suppliers.deleteSupplier(newSupplier.Id);
 
-            Assert.AreEqual(TestConsts.TRUE_STR, suppliers.supplierDeleteSuccess);
+            Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierDeleteSuccess);
 
-            suppliers.allSuppliers = await suppliers._client.SupplierAllAsync();
-            CollectionAssert.DoesNotContain(suppliers.allSuppliers.ToList(), newSupplier);
+            _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
+            CollectionAssert.DoesNotContain(_suppliers.allSuppliers.ToList(), newSupplier);
 
-            suppliers.supplierDeleteSuccess = "";
+            _suppliers.supplierDeleteSuccess = "";
         }
 
         [TestMethod]
@@ -255,11 +248,11 @@ namespace FFSmartPlus_Tests
         {
             long invalidId = 500;
 
-            await suppliers.deleteSupplier(invalidId);
+            await _suppliers.deleteSupplier(invalidId);
 
-            Assert.AreEqual(TestConsts.FALSE_STR, suppliers.supplierDeleteSuccess);
+            Assert.AreEqual(TestConsts.FALSE_STR, _suppliers.supplierDeleteSuccess);
 
-            suppliers.supplierDeleteSuccess = "";
+            _suppliers.supplierDeleteSuccess = "";
         }
 
         #endregion
