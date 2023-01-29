@@ -1,31 +1,43 @@
 ﻿@page "/OrderConfirm"
 @using MatBlazor
+
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="~/css/TabStylings.css" rel="stylesheet" />
+
+<div class="tabSubtitle">
+    <MatHeadline3>Items with low stock</MatHeadline3>
+</div>
+
 <div>
-
-    <h2>Items with low stock</h2>
-
-
-@foreach(var x in orderItems){
+    @foreach(var x in orderItems){
         @foreach (var v in x.Orders){
-            <p>@v.Name</p>
-            <p>@v.OrderQuantity</p>
-            <p>@v.UnitDesc</p>
-            <p><MatTextField @bind-Value="newQuantity" @oninput="@((e) => { newQuantity=(string)e.Value;})"> </MatTextField></p>
-            <MatButton @onclick="() => changeQuantity(v.Id, newQuantity)">Change Quantity</MatButton>
-            @if (additionSuccess == "True")
-            {
-                Toaster.Add("Item order has been confirmed", MatToastType.Success, "Item Order");
-                ToasterStatus();
+            <MatCard Class="item-card">
+                <MatCardContent>
+                    <MatHeadline2>@v.Name</MatHeadline2>
+                    <MatHeadline4>Unit Description: @v.UnitDesc</MatHeadline4>
+                    <MatHeadline4>Order Quantity: @v.OrderQuantity</MatHeadline4>
+                    <div class="tabSubtitle">
+                        <MatHeadline6>Please enter that quantity you want to re-order:</MatHeadline6>
+                    </div>
+                    <p><MatTextField @bind-Value="newQuantity" @oninput="@((e) => { newQuantity=(string)e.Value;})" PlaceHolder="Item Quantity"> </MatTextField></p>
+                    <MatButton @onclick="() => changeQuantity(v.Id, newQuantity)">Change Quantity</MatButton>
+                    @if (additionSuccess == "True")
+                    {
+                        Toaster.Add("Item order has been confirmed", MatToastType.Success, "Item Order");
+                        ToasterStatus();
 
-            }
-            else if (additionSuccess == "False")
-            {
-                Toaster.Add("Item order not successfull.", MatToastType.Warning, "Item Order");
-                ToasterStatus();
+                    }
+                    else if (additionSuccess == "False")
+                    {
+                        Toaster.Add("Item order not successfull.", MatToastType.Warning, "Item Order");
+                        ToasterStatus();
 
-            }
-       }
-}
+                    }
+                </MatCardContent>
+            </MatCard>
+        }
+ 
+    }
 
 
 </div>
