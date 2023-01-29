@@ -157,17 +157,21 @@
             <br />
 
         </div>
+
+        @if (stockModifySuccess == "True")
+        {
+            Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
+            toastStatus();
+        }
+        else if
+        (stockModifySuccess == "False")
+        {
+            Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+            toastStatus();
+        }
     </MatTab>
     
 
-    @if (stockModifySuccess == "True"){
-        Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
-        toastStatus();
-    }else if
-    (stockModifySuccess == "False"){
-        Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
-        toastStatus();
-    }
 
     <MatTab Label="Add Stock to Existing Item">
         <div class="tabSubtitle">
@@ -185,6 +189,18 @@
             </p>
             <MatButton @onclick="() => addStockExisting (inputUnitQuantity,inputUnitExpDate,inputItemIdE)">Add Stock</MatButton>
         </div>
+
+        @if (stockModifySuccess == "True")
+        {
+            Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
+            toastStatus();
+        }
+        else if
+        (stockModifySuccess == "False")
+        {
+            Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+            toastStatus();
+        }
     </MatTab>
 
     <MatTab Label = "Remove Stock">

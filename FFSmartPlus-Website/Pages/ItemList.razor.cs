@@ -90,6 +90,7 @@ namespace FFSmartPlus_Website.Pages
                 try
                 {
                     itemInfo = await _client.Item2Async(long.Parse(itemID));
+                    StateHasChanged();
                     try
                     {
                         await loadStock(itemID);
@@ -279,9 +280,14 @@ namespace FFSmartPlus_Website.Pages
                 {
                     modifyItem.UnitDesc = unitDesc;
                 }
+
+                modifyItem.Id = itemInfo.Id;
+
                 try
                 {
                     await _client.Item3Async(itemInfo.Id, modifyItem);
+                    StateHasChanged();
+                    loadItem(itemInfo.Id.ToString());
                     itemModifySuccess = "True";
                 }
                 catch
