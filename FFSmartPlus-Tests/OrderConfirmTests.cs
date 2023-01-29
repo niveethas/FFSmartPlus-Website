@@ -28,8 +28,10 @@ namespace FFSmartPlus_Tests
         #region changeQuantity
         //changeQuantity(long id, string quantity)
         [TestMethod]
-        public async Task T1_ChangeQuantity_Valid_Integer()
+        public async Task TA1_ChangeQuantity_Valid_Integer()
         {
+            // change order quantity - valid - integer value
+            // pre-loading the order
             _orderConfirm.orderItems = await _orderConfirm._client.GenerateOrderAsync();
             validId = _orderConfirm.orderItems.ElementAt(0).Orders.ElementAt(0).Id;
             originalQuantity = _orderConfirm.orderItems.ElementAt(0).Orders.ElementAt(0).OrderQuantity;
@@ -38,28 +40,22 @@ namespace FFSmartPlus_Tests
             await _orderConfirm.changeQuantity(validId, validQuantity);
 
             Assert.AreEqual(TestConsts.TRUE_STR, _orderConfirm.additionSuccess);
-
-            //originalQuantity += 5;
-
-            //Assert.AreEqual(originalQuantity, orderConfirm.orderItems.ElementAt(0).Orders.ElementAt(0).OrderQuantity);
         }
 
         [TestMethod]
-        public async Task T2_ChangeQuantity_Valid_Decimal()
+        public async Task TA2_ChangeQuantity_Valid_Decimal()
         {
+            // change order quantity - decimal
             string validQuantity = "0.5";
             await _orderConfirm.changeQuantity(validId, validQuantity);
 
             Assert.AreEqual(TestConsts.TRUE_STR, _orderConfirm.additionSuccess);
-
-            //originalQuantity += 0.5;
-            //Assert.AreEqual(originalQuantity, orderConfirm.orderItems.ElementAt(0).Orders.ElementAt(0).OrderQuantity);
-
         }
 
         [TestMethod]
-        public async Task T3_ChangeQuantity_Invalid_InvalidId()
+        public async Task TA3_ChangeQuantity_Invalid_InvalidId()
         {
+            // change order quantity - invalid item id
             string validQuantity = "5";
             long invalidId = 500;
             await _orderConfirm.changeQuantity(invalidId, validQuantity);
@@ -68,8 +64,9 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
-        public async Task T3_ChangeQuantity_Invalid_InvalidQuantity_StringChars()
+        public async Task TA4_ChangeQuantity_Invalid_InvalidQuantity_StringChars()
         {
+            // change order quantity - invalid quantitiy - non numerical
             string invalidQuantity = "abc";
             await _orderConfirm.changeQuantity(validId, invalidQuantity);
 

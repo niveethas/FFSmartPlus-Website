@@ -11,6 +11,8 @@ namespace FFSmartPlus_Tests
     [TestClass]
     public class DeliveriesTests
     {
+        // TODO: once deliveries page is functional
+
         Deliveries _deliveries;
         public DeliveriesTests()
         {

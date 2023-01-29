@@ -19,16 +19,14 @@ namespace FFSmartPlus_Tests
         private String adminUsername = "admin1";
         private String adminPassword = "@Admin123";
 
-        private String userUsername = "userTest";
-        private String userPassword = "@User123";
+        private string userUsername = "userTest";
+        private string userPassword = "@User123";
 
-        private String invalidUsername = "qwerty";
-        private String invalidPassword = "asdfgh";
+        private string invalidUsername = "qwerty";
+        private string invalidPassword = "asdfgh";
 
-        private String blankString = "";
+        private string blankString = "";
 
-        //private string trueStr = "true";
-        //private string falseStr = "false";
 
         public LoginTests()
         {
@@ -43,7 +41,10 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA1_Login_ValidUser_Admin()
         {
+            // login to valid admin user 
             await _login.userLogin(adminUsername, adminPassword);
+
+            // check role was added sucessfully
             CollectionAssert.Contains(CurrentUserRoles._role, "Admin");
 
             Assert.AreEqual(TestConsts.TRUE_STR, _login.loginSuccess);
@@ -53,10 +54,12 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA2_Login_ValidUser_User()
         {
+            // login - valid standard user
             await _login.userLogin(userUsername, userPassword);
 
             Assert.IsNotNull(_login.loginResponse);
-            CollectionAssert.DoesNotContain(CurrentUserRoles._role, "Admin");
+            // check role is read correctly
+            CollectionAssert.DoesNotContain(CurrentUserRoles._role, "Admin"); 
 
             Assert.AreEqual(TestConsts.TRUE_STR, _login.loginSuccess);
             _login.ToasterStatus();
@@ -65,6 +68,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA3_Login_InvalidUsername_ValidPassword()
         {
+            // login - invalid username but valid password combo
             await _login.userLogin(invalidUsername, adminPassword);
 
             Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
@@ -74,6 +78,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA4_Login_BlankUsername_ValidPassword()
         {
+            // login - empty username and valid password combo
             await _login.userLogin(blankString, adminPassword);
 
             Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
@@ -83,6 +88,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA5_Login_InvalidPassword_ValidUsername()
         {
+            // login - invalid password and valid username combo
             await _login.userLogin(adminUsername, invalidPassword);
 
             Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);
@@ -92,6 +98,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA6_Login_BlankPassword_ValidUsername()
         {
+            // login - blank password and valid username combo
             await _login.userLogin(adminUsername, blankString);
 
             Assert.AreEqual(TestConsts.FALSE_STR, _login.loginSuccess);

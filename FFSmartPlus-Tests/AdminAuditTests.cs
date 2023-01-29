@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace FFSmartPlus_Tests
 {
@@ -22,36 +23,41 @@ namespace FFSmartPlus_Tests
             _adminAudit._client = new SetupClient().SignInAdmin();
         }
 
-        //expStockToList()
         [TestMethod]
-        public async Task T1_expStockToList()
+        public async Task TA1_expStockToList()
         {
+            // testing expiring stock list function 
+
+            // adding an expired item to the stock to guarantee there is a value
             var newAUD = new NewUnitDto();
             newAUD.ExpiryDate = DateTime.Now.AddDays(-7);
             newAUD.Quantity = 5;
-
             long validId = 1;
-
             await _adminAudit._client.AddAsync(validId, newAUD);
 
+            // populating expired stock - usually done at page initiation 
             _adminAudit.allExpStock = await _adminAudit._client.ExpiryAsync();
 
+            // saving returned list - for this tc and later ones
             expStockList = _adminAudit.expStockToList();
 
-            Assert.IsTrue(expStockList.Count() > 0);
+            Assert.IsTrue(expStockList.Count() > 0); 
         }
 
         [TestMethod]
-        public async Task T2_deleteExpStock()
+        public async Task TA2_deleteExpStock()
         {
+            // delete the expired stock
             await _adminAudit.deleteExpStock();
 
             Assert.AreEqual(TestConsts.TRUE_STR, _adminAudit.deletionSuccess);
         }
 
         [TestMethod]
-        public async Task T3_expStockToList_NoneExpired()
+        public async Task TA3_expStockToList_NoneExpired()
         {
+            // getting stock list when there is no expired stock - from last tc
+            // refreshing stock list
             _adminAudit.allExpStock = await _adminAudit._client.ExpiryAsync();
             List<UnitListDto> newList = _adminAudit.expStockToList();
 
@@ -59,16 +65,18 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
-        public async Task T4_deleteExpStock_NoneExpired()
+        public async Task TA4_deleteExpStock_NoneExpired()
         {
+            // delete expired stock when there is non expired - from previous tc
             await _adminAudit.deleteExpStock();
 
             Assert.AreEqual(TestConsts.TRUE_STR, _adminAudit.deletionSuccess);
         }
 
         [TestMethod]
-        public async Task T5_getAuditHistory_Valid()
+        public async Task TA5_getAuditHistory_Valid()
         {
+            // get audit history
             string days = "3";
             await _adminAudit.getAuditHistory(days);
 
@@ -76,8 +84,9 @@ namespace FFSmartPlus_Tests
         }
 
         [TestMethod]
-        public async Task T6_getAuditHistory_Invalid_StrCha()
+        public async Task TA6_getAuditHistory_Invalid_StrCha()
         {
+            // get audit history - invalid days value - non numerical
             string daysInv = "ABC";
             await _adminAudit.getAuditHistory(daysInv);
 

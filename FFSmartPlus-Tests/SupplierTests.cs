@@ -29,6 +29,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TA1_AddNewSupplier_Valid()
         {
+            // adding a valid new supplier
             string address = "123 Lake Street";
             string email = "test@test.com";
             string name = "Test Supplier";
@@ -36,17 +37,29 @@ namespace FFSmartPlus_Tests
             await _suppliers.AddNewSupplier(address, email, name);
 
             Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierAdditionSuccess);
-
-
         }
 
 
         [TestMethod]
         public async Task TA2_AddNewSupplier_Invalid_Empty()
         {
+            // adding invalid new supplier - empty strings
             string address = "";
             string email = "";
             string name = "";
+
+            await _suppliers.AddNewSupplier(address, email, name);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, _suppliers.supplierAdditionSuccess);
+        }
+
+        [TestMethod]
+        public async Task TA3_AddNewSupplier_InvalidEmail()
+        {
+            // adding invalid new supplier - invalid email format - missing @ and .
+            string address = "123 Lake Street";
+            string email = "test";
+            string name = "Test Supplier";
 
             await _suppliers.AddNewSupplier(address, email, name);
 
@@ -60,17 +73,20 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TB1_GetSuppliersToList()
         {
+            // get a list of all suppliers
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             List<SupplierDto> suppliersList = _suppliers.getSuppliersToList();
 
             Assert.IsTrue(suppliersList.Count() > 0);
 
+            // save the supplier added in first tc
             newSupplier = suppliersList.Last();
         }
 
         [TestMethod]
         public async Task TB2_GetSupplierById()
         {
+            // getting supplier by id - valid id from previous tc
             _suppliers.selectedSupplierId = newSupplier.Id;
 
             await _suppliers.getSupplierById();
@@ -86,31 +102,32 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TC1_OnChangeSupplier_ValidSupplier()
         {
-            String validSupplierId = "1";
+            // on change supplier (occurs when new supplier is selected and loads new supplier into selected supplier)
+            await _suppliers.OnChangeSupplier(newSupplier.Id.ToString());
 
-            await _suppliers.OnChangeSupplier(validSupplierId);
-
-            Assert.AreEqual(validSupplierId, _suppliers.selectedSupplierId.ToString());
+            Assert.AreEqual(newSupplier.Id, _suppliers.selectedSupplierId);
         }
 
         [TestMethod]
         public async Task TC2_OnChangeSupplier_InvalidSupplier_NonExistent()
         {
-            String validSupplierId = "500";
+            // invalid supplier id - supplier does not exist
+            string invalidSupplierId = "500";
 
-            await _suppliers.OnChangeSupplier(validSupplierId);
+            await _suppliers.OnChangeSupplier(invalidSupplierId);
 
-            Assert.AreNotEqual(validSupplierId, _suppliers.selectedSupplierId.ToString());
+            Assert.AreNotEqual(invalidSupplierId, _suppliers.selectedSupplierId.ToString());
         }
 
         [TestMethod]
         public async Task TC3_OnChangeSupplier_InvalidSupplier_StringChar()
         {
-            String validSupplierId = "abc";
+            // invalid supplier id - supplier id is not numerical value
+            string invalidSupplierId = "abc";
 
-            await _suppliers.OnChangeSupplier(validSupplierId);
+            await _suppliers.OnChangeSupplier(invalidSupplierId);
 
-            Assert.AreNotEqual(validSupplierId, _suppliers.selectedSupplierId.ToString());
+            Assert.AreNotEqual(invalidSupplierId, _suppliers.selectedSupplierId.ToString());
         }
 
         #endregion
@@ -121,6 +138,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD1_ChangeSupplierDetails_Valid_AllParams()
         {
+            // updating supplier from previous tc - updating all values
+            // ensuring all suppliers are loaded correctly
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             newSupplier = _suppliers.allSuppliers.Last();
 
@@ -131,6 +150,7 @@ namespace FFSmartPlus_Tests
 
             Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
+            // reloading suppliers to ensure it was updated correctly
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
         }
@@ -138,6 +158,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD2_ChangeSupplierDetails_Valid_NullAddress()
         {
+            // updating a supplier from preious tc - valid - not updating address
+            // reloading suppliers
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             newSupplier = _suppliers.allSuppliers.Last();
 
@@ -149,6 +171,7 @@ namespace FFSmartPlus_Tests
 
             Assert.AreEqual(TestConsts.TRUE_STR, _suppliers.supplierModifySuccess);
 
+            // checking supplier was updated
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             Assert.AreNotEqual(newSupplier, _suppliers.allSuppliers.Last());
             Assert.AreEqual(newSupplier.Address, _suppliers.allSuppliers.Last().Address);
@@ -158,6 +181,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD3_ChangeSupplierDetails_Valid_NullEmail()
         {
+            // updating a supplier from preious tc - valid - not updating email
+            // reloading suppliers
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             newSupplier = _suppliers.allSuppliers.Last();
 
@@ -177,6 +202,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD4_ChangeSupplierDetails_Valid_NullName()
         {
+            // updating a supplier from preious tc - valid - not updating name
+            // reloading suppliers
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             newSupplier = _suppliers.allSuppliers.Last();
 
@@ -195,6 +222,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD5_ChangeSupplierDetails_Valid_AllNull()
         {
+            // updating a supplier from preious tc - valid - not updating any
+            // reloading suppliers
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             newSupplier = _suppliers.allSuppliers.Last();
 
@@ -211,6 +240,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TD6_ChangeSupplierDetails_Invalid_Id()
         {
+            // updating a supplier - invalid - supplier id does not exist
             _suppliers.selectedSupplier = newSupplier;
 
             long invalidId = 500;
@@ -222,6 +252,20 @@ namespace FFSmartPlus_Tests
 
             Assert.AreEqual(TestConsts.FALSE_STR, _suppliers.supplierModifySuccess);
         }
+
+        [TestMethod]
+        public async Task TD7_ChangeSupplierDetails_Invalid_Email()
+        {
+            // updating a supplier - invalid - invalid email format - no @ or .
+            _suppliers.selectedSupplier = newSupplier;
+
+            string newAddress = "123 Angel Row";
+            string newEmail = "test";
+            string newName = "Supplier Test 2";
+            await _suppliers.changeSupplierDetails(newSupplier.Id, newAddress, newEmail, newName);
+
+            Assert.AreEqual(TestConsts.FALSE_STR, _suppliers.supplierModifySuccess);
+        }
         #endregion
 
         #region deleteSupplier
@@ -230,6 +274,8 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TE1_DeleteSupplier_Valid()
         {
+            // delete existing supplier
+            // reloading suppliers - should delete one added from previous tc
             _suppliers.allSuppliers = await _suppliers._client.SupplierAllAsync();
             newSupplier = _suppliers.allSuppliers.Last();
 
@@ -246,6 +292,7 @@ namespace FFSmartPlus_Tests
         [TestMethod]
         public async Task TE1_DeleteSupplier_Invalid_NonExistent()
         {
+            // delete supplier - invalid - supplier id does not exist
             long invalidId = 500;
 
             await _suppliers.deleteSupplier(invalidId);
