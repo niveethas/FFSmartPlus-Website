@@ -11,8 +11,19 @@
     margin-top: 150px;
 }
 
+.successMessages {
+    margin-top: 520px;
+}
+
 @media only screen and (max-width: 640px) {
     .formInput {
         left: 20%;
+    }
+}
+
+/* Styling to ensure a margin gap between the Password Rules text and the sign up form */
+@media only screen and (max-width: 790px) {
+    .formInput {
+        margin-top: 170px;
     }
 }

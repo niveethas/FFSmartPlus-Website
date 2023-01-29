@@ -7,9 +7,9 @@
 <div class="formTitle">
     <h1>Account Registration</h1>
     <h3 class="mat-subtitle1">Please enter your registration details below to create an account</h3>
+    <p class="mat-subtitle2"> Password must contain a special character, at least one number, one uppercase letter and minimum of 6 digits.</p>
 </div>
 
-<p> Password must contain a special character, at least one number, one uppercase letter and minimum of 6 digits.</p>
 <!-- The form the user will enter their account details into for registration -->
 <div class="formInput">
     <p>
@@ -32,8 +32,10 @@
     ToasterStatus();
 } else if (signUpSuccess == "True"){
     Toaster.Add("Account Created!", MatToastType.Success, "Registration");
-    <p> Please make a note of your account details.</p>
-    <p> Contact your Admin with your username to ensure they register the correct roles for you!</p>
+    <div class="successMessages">
+        <MatHeadline6> Please make a note of your account details.</MatHeadline6>
+        <MatHeadline6> Contact your Admin with your username to ensure they register the correct roles for you!</MatHeadline6>
+    </div>
     ToasterStatus();
 }else if (signUpSuccess == "FalsePassword"){
     Toaster.Add("Registration failed, passwords do not match.", MatToastType.Warning, "Password");
