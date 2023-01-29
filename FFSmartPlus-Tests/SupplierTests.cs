@@ -23,7 +23,7 @@ namespace FFSmartPlus_Tests
             newLogin.Password = "@Admin123"; // Password requires a symbol, capital letter and 3 numbers
             suppliers._client.LoginAsync(newLogin);
             var loginCode = suppliers._client.LoginAsync(newLogin);
-            suppliers._client.AddAuth(loginCode.Result.Token);
+            suppliers._client.Authorisation(loginCode.Result.Token);
         }
 
     }
