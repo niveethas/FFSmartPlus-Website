@@ -11,6 +11,7 @@
     margin-left: 20%;
     margin-right: 20%;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 @media only screen and (max-width: 1250px) {
@@ -25,7 +26,7 @@
     color: grey;
 }
 
-.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText {
+.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText, .supplierInput {
     text-align: center;
 }
 
@@ -35,6 +36,10 @@
 
 .modifyRoleButtons {
     margin-top: 20px;
+}
+
+.supplierInput {
+    width: 100%;
 }
 
 /* Styling for the role selector in mobile view */
@@ -48,5 +53,13 @@
 @media only screen and (max-width: 980px) {
     .mdc-tab-scroller__scroll-area {
         overflow-x: hidden !important;
+    }
+}
+
+/* Media Query for the input form on the Add Supplier Tab */
+@media only screen and (max-width: 960px) {
+    .supplierInput {
+        width: 65%;
+        margin-left: 20%;
     }
 }
