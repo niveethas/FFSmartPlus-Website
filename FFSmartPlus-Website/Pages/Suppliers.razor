@@ -1,82 +1,108 @@
-﻿<h3>Suppliers</h3>
-@page "/Suppliers"
+﻿@page "/Suppliers"
 @using MatBlazor
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/TabStylings.css" rel="stylesheet" />
+<link href="css/TabStylings.css" rel="stylesheet" />
 
 @if (currentUserRole == null){
     <p> Please log in to view this page.</p>
 }else if (currentUserRole.Contains("Admin")|| currentUserRole.Contains("HeadChef")){
+    <MatTabGroup>
+        <!--The tab where supplier information can be viewed-->
+        <MatTab Label="View Suppliers">
+            <div class="tabSubtitle">
+                <MatHeadline3>View Suppliers</MatHeadline3>
+                <MatSubtitle1>Select a supplier from the dropdown below to view their information</MatSubtitle1>
+            </div>
+            <div class="itemInput">
+                <MatSelect Label="Pick a Supplier" Outlined="true" ValueChanged="(string i) => OnChangeSupplier(i)">
+                    <MatOptionString Value="-1"></MatOptionString>
+                    @foreach (var user in getSuppliersToList())
+                    {
+                        <MatOptionString Value="@user.Id.ToString()">@user.Name.ToString()</MatOptionString>
+                    }
+                </MatSelect>
+            </div>
+            <!--If no supplier has been selected, do not display the MatCard below-->
+            @if (@selectedSupplierId != 0)
+            {
+                <MatCard class="item-card">
+                    <MatCardContent>
+                        <div class="card-item-content">
+                            <MatHeadline2>@selectedSupplier.Name</MatHeadline2>
+                            <MatHeadline4>Address: @selectedSupplier.Address</MatHeadline4>
+                            <MatHeadline4>Email: @selectedSupplier.Email</MatHeadline4>
+                        </div>
+                    </MatCardContent>
+                    <MatCardActions>
+                        <MatButton @onclick="() => deleteSupplier(selectedSupplier.Id)">Delete Supplier</MatButton>
+                        <MatButton @onclick="() => changeSupplierOption()">Modify Supplier</MatButton>
+                    </MatCardActions>
+                </MatCard>
 
-    <MatSelect Label="Pick a Supplier" Outlined="true" ValueChanged="(string i) => OnChangeSupplier(i)">
-        <MatOptionString Value="-1"></MatOptionString>
-        @foreach (var user in getSuppliersToList())
-        {
-            <MatOptionString Value="@user.Id.ToString()">@user.Name.ToString()</MatOptionString>
-        }
-    </MatSelect>
-    <br />
-    @if (@selectedSupplierId != null)
-    {
-        <p>@selectedSupplier.Name</p>
-        <p>@selectedSupplier.Address</p>
-        <p>@selectedSupplier.Email</p>
-
-        <MatButton @onclick="() => deleteSupplier(selectedSupplier.Id)">Delete Supplier</MatButton>
-
-        <MatButton @onclick="() => changeSupplierOption()">Modify Supplier</MatButton>
-    }
-    <br />
-
-    @if (supplierDeleteSuccess == "True")
-    {
-        Toaster.Add("Supplier Successfully Deleted", MatToastType.Success, "Delete Supplier");
-        toastStatus();
-    }
-    else if (supplierDeleteSuccess == "False")
-    {
-        Toaster.Add("Supplier Not Deleted", MatToastType.Warning, "Delete Supplier");
-        toastStatus();
-    }
+                @if (supplierDeleteSuccess == "True")
+                {
+                    Toaster.Add("Supplier Successfully Deleted", MatToastType.Success, "Delete Supplier");
+                    toastStatus();
+                }
+                else if (supplierDeleteSuccess == "False")
+                {
+                    Toaster.Add("Supplier Not Deleted", MatToastType.Warning, "Delete Supplier");
+                    toastStatus();
+                }
+            }
 
 
-    @if (changeSupplierCheck == "True")
-    {
-        <MatTextField @bind-Value="inputName" Label="Name"></MatTextField>
-        <MatTextField @bind-Value="inputAddress" Label="Address"></MatTextField>
-        <MatTextField @bind-Value="inputEmail" Label="Username"></MatTextField>
+            @if (changeSupplierCheck == "True")
+            {
+                <div class="supplierInput">
+                    <MatTextField @bind-Value="inputName" Label="Name"></MatTextField>
+                    <MatTextField @bind-Value="inputAddress" Label="Address"></MatTextField>
+                    <MatTextField @bind-Value="inputEmail" Label="Username"></MatTextField>
+                
+                </div>
+                <div class="modifyRoleButtons">
+                    <MatButton @onclick="() => changeSupplierDetails(selectedSupplier.Id, inputAddress, inputEmail, inputName)">Confirm Changes</MatButton>
+                </div>
+                if (supplierModifySuccess == "True")
+                {
+                    Toaster.Add("Supplier Successfully Changed", MatToastType.Success, "Modify Supplier");
+                    toastStatus();
+                }
+                else if (supplierModifySuccess == "False")
+                {
+                    Toaster.Add("Supplier Change Not Successful", MatToastType.Warning, "Modify Supplier");
+                    toastStatus();
+                }
 
-        <MatButton @onclick="() => changeSupplierDetails(selectedSupplier.Id, inputAddress, inputEmail, inputName)">Confirm Changes</MatButton>
-
-        if (supplierModifySuccess == "True")
-        {
-            Toaster.Add("Supplier Successfully Changed", MatToastType.Success, "Modify Supplier");
-            toastStatus();
-        }
-        else if (supplierModifySuccess == "False")
-        {
-            Toaster.Add("Supplier Change Not Successful", MatToastType.Warning, "Modify Supplier");
-            toastStatus();
-        }
-
-    }
-    <br />
-    <h3>Add new supplier</h3>
-    <MatTextField @bind-Value="inputNameNew" Label="Name"></MatTextField>
-    <MatTextField @bind-Value="inputAddressNew" Label="Address"></MatTextField>
-    <MatTextField @bind-Value="inputEmailNew" Label="Username"></MatTextField>
-    <MatButton @onclick="() => AddNewSupplier(inputAddress, inputEmail, inputName)">Submit</MatButton>
-
-    if (supplierAdditionSuccess == "True")
-    {
-        Toaster.Add("Supplier Successfully Added", MatToastType.Success, "New Supplier");
-        toastStatus();
-    }
-    else if (supplierAdditionSuccess == "False")
-    {
-        Toaster.Add("New Supplier Not Saved", MatToastType.Warning, "New Supplier");
-        toastStatus();
-    }
+            }
+        </MatTab>
+        <!--The tab where a new supplier can be added into the application-->
+        <MatTab Label="Add Supplier">
+            <div class="tabSubtitle">
+                <MatHeadline3>Add Supplier</MatHeadline3>
+                <MatSubtitle1>Enter supplier information below to add a new supplier</MatSubtitle1>
+            </div>
+            <div class="supplierInput">
+                <MatTextField @bind-Value="inputNameNew" Label="Name"></MatTextField>
+                <MatTextField @bind-Value="inputAddressNew" Label="Address"></MatTextField>
+                <MatTextField @bind-Value="inputEmailNew" Label="Email"></MatTextField>
+                <div class="modifyRoleButtons">
+                    <MatButton @onclick="() => AddNewSupplier(inputAddress, inputEmail, inputName)">Submit</MatButton>
+                </div>      
+            </div>
+            @if (supplierAdditionSuccess == "True")
+            {
+                Toaster.Add("Supplier Successfully Added", MatToastType.Success, "New Supplier");
+                toastStatus();
+            }
+            else if (supplierAdditionSuccess == "False")
+            {
+                Toaster.Add("New Supplier Not Saved", MatToastType.Warning, "New Supplier");
+                toastStatus();
+            }
+        </MatTab>
+    </MatTabGroup>
 }else{
     <p>You do not have authorisation to view this page.</p>
 }
+
