@@ -16,8 +16,9 @@ namespace FFSmartPlus_Website.Pages
         public ICollection<SupplierOrderDto> orderItems = new List<SupplierOrderDto>();
 
 
-        public string newQuantity;
+        public string? newQuantity;
         public string additionSuccess;
+        public OrderItemDto selectedOrder = new OrderItemDto();
         public List<string> currentUserRole;
 
         protected async override Task OnInitializedAsync()
@@ -26,15 +27,46 @@ namespace FFSmartPlus_Website.Pages
             currentUserRole = CurrentUserRoles._role;
             StateHasChanged();
             orderItems = await _client.GenerateOrderAsync();
+
         }
 
-
-        public async Task changeQuantity(long id, string quantity)
+        protected List<OrderItemDto> getOrderItemsToList()
         {
+            List<OrderItemDto> temp = new List<OrderItemDto>();
+            foreach (var orderItem in orderItems)
+            {
+                temp.AddRange(orderItem.Orders);
+            }
+
+            return temp;
+        }
+
+        public void OnChangeOrderItem(string id)
+        {
+            foreach (var x in orderItems)
+            {
+                foreach (var y in x.Orders)
+                {
+                    if (y.Id == Int64.Parse(id))
+                    {
+                        selectedOrder.UnitDesc = y.UnitDesc;
+                        selectedOrder.OrderQuantity = y.OrderQuantity;
+                        selectedOrder.Name = y.Name;
+                        selectedOrder.Id = y.Id;
+                        StateHasChanged();
+                    }
+                }
+            }
+        }
+
+            public async Task changeQuantity(long id, string quantity)
+        {
+            Console.WriteLine(quantity);
             ItemRequestDto changedQuantityRequest = new ItemRequestDto();
             OrderRequestDto changedQuantityOrder = new OrderRequestDto();
             changedQuantityRequest.Id = id;
             ICollection<ItemRequestDto> itemRequests = new List<ItemRequestDto>();
+            
             try
             {
                 changedQuantityRequest.Quantity = Convert.ToDouble(quantity);
