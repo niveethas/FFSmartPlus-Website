@@ -1,4 +1,19 @@
-﻿.userContainer {
+﻿.manageUsersSubtitle {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.userInput {
+    text-align: center;
+}
+
+.deleteUsersList {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.userContainer {
     display: inline-block;
     width: 100%;
 }
@@ -24,42 +39,19 @@
     margin-bottom: 1em;
 }
 
-@media only screen and (max-width: 429px) {
+/* Media Queries for the Delete User Tab */
+@media only screen and (max-width: 1200px) {
     #userName {
-        width: 30%;
-    }
-
-    #userDeleteButton {
         width: 40%;
     }
-}
-
-@media only screen and (min-width: 430px) and (max-width: 514px) {
-    #userName {
-        width: 20%;
-    }
-
     #userDeleteButton {
-        width: 30%;
+        width: 50%;
     }
 }
 
-@media only screen and (min-width: 515px) and (max-width: 749px) {
-    #userName {
-        width: 15%;
-    }
-
-    #userDeleteButton {
-        width: 25%;
+@media only screen and (max-width: 440px) {
+    .deleteUsersList {
+        margin-left: 10%;
+        margin-right: 10%;
     }
 }
-
-@media only screen and (min-width: 750px) {
-    #userName {
-        width: 10%;
-    }
-
-    #userDeleteButton {
-        width: 20%;
-    }
-} 
