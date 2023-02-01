@@ -43,7 +43,7 @@ namespace FFSmartPlus_Website.Pages
         public string? inputItemMinStockM;
         public string? inputItemDesiredStockM;
 
-        public bool itemAdditionSuccess = false;
+        public string itemAdditionSuccess = "";
         public string stockModifySuccess = "";
         public string itemFound = "";
         public string showItemModifyContent = "";
@@ -158,13 +158,13 @@ namespace FFSmartPlus_Website.Pages
                 //checks an id has been returned before showing the stock information
                 if (newItemResponse.Id != null)
                 {
-                    itemAdditionSuccess = true;
+                    itemAdditionSuccess = "True";
                     returnedId = newItemResponse.Id;
                 }
             }
             catch(Exception e)
             {
-                itemAdditionSuccess = false;
+                itemAdditionSuccess = "False";
             }
            
         }
@@ -322,12 +322,17 @@ namespace FFSmartPlus_Website.Pages
         {
             stockModifySuccess = "";
             itemModifySuccess = "";
-
+            itemAdditionSuccess = "";
         }
 
         public void itemFoundStatus()
         {
             itemFound = "";
+        }
+
+        public void contentStatus()
+        {
+            showItemModifyContent = "";
         }
     }
 

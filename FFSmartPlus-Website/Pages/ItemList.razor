@@ -54,8 +54,13 @@
                             <div class="item-card-quantity-info">
                                 @foreach (var quantityData in unitStock)
                                 {
+                                    <br> 
+                                    <div class="itemID">
+                                        <small> Current Stock</small>
+                                        </div>
+                                        <br />
                                     <MatBody1>Quantity: @quantityData.Quantity units remaining<br>
-                                    Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy HH:mm")</MatBody1>
+                                    Expiry Date: @quantityData.ExpiryDate.ToString("dd/MM/yyyy")</MatBody1>
                                 }
 
 
@@ -102,7 +107,9 @@
                 @if (itemModifySuccess == "True"){
                     Toaster.Add("Item Successfully Changed", MatToastType.Success, "Change Item");
                     toastStatus();
-                }else if (itemModifySuccess == "False"){
+                    contentStatus();
+                    StateHasChanged();
+                    }else if (itemModifySuccess == "False"){
                     Toaster.Add("Item change not saved.", MatToastType.Warning, "Change Item");
                 }
 
@@ -114,7 +121,8 @@
             }
             else
             {
-                <p class="viewItemText"> Please enter item ID to view relevant information.</p>
+                <br />
+                <p class="viewItemText"> Please choose an item to view item information. </p>
             }
         </div>
 
@@ -145,9 +153,10 @@
 
                 <MatButton @onclick="() => addNewItem(inputItemName,inputUnitDesc, inputItemMinStock, inputSupplierID, inputItemDesiredStock )"> Add Item</MatButton>
 
-                @if (itemAdditionSuccess == true)
+                @if (itemAdditionSuccess == "True")
                 {
                     Toaster.Add("Item successfully added, please add stock information.", MatToastType.Info, "Stock");
+                    toastStatus();
 
                     <p>
                         <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
@@ -157,6 +166,11 @@
                         <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
                     </p>
                     <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+
+                }else if (itemAdditionSuccess == "False"){
+                        Toaster.Add("New item not saved", MatToastType.Info, "Item");
+                        toastStatus();
+                        StateHasChanged();
 
                 }
 
@@ -169,11 +183,12 @@
         {
             Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
             toastStatus();
+            StateHasChanged();
         }
         else if
         (stockModifySuccess == "False")
         {
-            Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+            Toaster.Add("Stock Not Added.", MatToastType.Warning, "Stock");
             toastStatus();
         }
     </MatTab>
@@ -194,13 +209,14 @@
             <p>
                 <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
             </p>
-            <MatButton @onclick="() => addStockExisting (inputUnitQuantity,inputUnitExpDate,inputItemIdE)">Add Stock</MatButton>
+            <MatButton @onclick="() => addStockExisting (inputUnitQuantityE,inputUnitExpDateE,inputItemIdE)">Add Stock</MatButton>
         </div>
 
         @if (stockModifySuccess == "True")
         {
             Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
             toastStatus();
+            StateHasChanged();
         }
         else if
         (stockModifySuccess == "False")
@@ -227,7 +243,8 @@
         {
             Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
             toastStatus();
-        }
+            StateHasChanged();
+       }
         else if
         (stockModifySuccess == "False")
         {
