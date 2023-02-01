@@ -7,6 +7,10 @@
 <div class="pageTitle">
     <MatHeadline3 id="pageTitle">Item Management</MatHeadline3>
 </div>
+@if (currentUserRole == null)
+{
+    <p> Please log in to view this page.</p>
+}else{
 <MatTabGroup id="tabGroup">
     <MatTab Label="View Item">
         <div class="tabSubtitle">
@@ -24,9 +28,9 @@
             </div>
 
             @*<MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>*@
-        <div class="tabSubtitle">
+        @*<div class="tabSubtitle">
             <h2> View Items</h2>
-        </div>
+        </div>*@
         <div class="InventoryView">
             @if (itemInfo != null)
             {
@@ -64,10 +68,13 @@
                             </div>
                         }
                     </MatCardContent>
-                    <MatCardActions>
-                        <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
+                    @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef"))
+                    {
+                        <MatCardActions>
+                            <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
                         <MatButton @onclick="() => modifyItemOption()"> Modify Item</MatButton>
                     </MatCardActions>
+                    }
                 </MatCard>
 
                 @if (showItemModifyContent == "True")
@@ -112,8 +119,7 @@
         </div>
 
     </MatTab>
-   @* @if (currentRoles.Contains("HeadChef") || currentRoles.Contains("Delivery"))
-    {*@
+   @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef")){
         <MatTab Label="Add Item">
             <div class="itemInput">
                 <div class="tabSubtitle">
@@ -154,6 +160,7 @@
 
                 }
 
+        
             <br />
 
         </div>
@@ -171,7 +178,7 @@
         }
     </MatTab>
     
-
+    }
 
     <MatTab Label="Add Stock to Existing Item">
         <div class="tabSubtitle">
@@ -232,3 +239,4 @@
 
 <br />
 <br />
+}

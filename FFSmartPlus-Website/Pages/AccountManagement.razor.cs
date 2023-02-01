@@ -22,11 +22,19 @@ namespace FFSmartPlus_Website.Pages
         public ICollection<string>? users = new List<string>();
 
 
+        public List<string> currentUserRole;
+
         protected async override Task OnInitializedAsync()
         {
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
+
             await getUsers();
             //load up all the users currently in the database to display in the dropdown menu
+
         }
+
         public async Task getUsers()
         {
                 users = await _client.AllAsync();

@@ -18,9 +18,13 @@ namespace FFSmartPlus_Website.Pages
 
         public string newQuantity;
         public string additionSuccess;
+        public List<string> currentUserRole;
 
         protected async override Task OnInitializedAsync()
         {
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
             orderItems = await _client.GenerateOrderAsync();
         }
 

@@ -3,6 +3,10 @@
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="~/css/TabStylings.css" rel="stylesheet" />
 
+@if (currentUserRole == null ){
+    <p>Please log in to view this page.</p>
+}
+else{
 <MatTabGroup>
     <!--Tab for viewing all users-->
     <MatTab Label="View All Users">
@@ -16,19 +20,25 @@
     }
 </MatSelect>
 </MatTab>
-    <MatTab Label="Modify Roles">
-        <div class="tabSubtitle">
-            <MatHeadline3>Modify Roles</MatHeadline3>
-        </div>
-        <MatTextField @bind-Value="inputUsername" Label="Username" ReadOnly="true"></MatTextField> 
-        <MatSelect Label="Pick a Role" Outlined="true" @bind-Value="inputRole">
-            <MatOptionString Value="Admin">Admin</MatOptionString>
-            <MatOptionString Value="Chef">Chef</MatOptionString>
-            <MatOptionString Value="Delivery">Delivery Driver</MatOptionString>
-        </MatSelect>
-        <MatButton @onclick="() => addRole(inputUsername,inputRole)">Add User Role</MatButton>
-        <MatButton @onclick="() => deleteRole(inputUsername, inputRole)">Delete Role</MatButton>
-    </MatTab>
+    @if (currentUserRole.Contains("Admin"))
+    {
+
+        <MatTab Label="Modify Roles">
+            <div class="tabSubtitle">
+                <MatHeadline3>Modify Roles</MatHeadline3>
+            </div>
+            <MatTextField @bind-Value="inputUsername" Label="Username" ReadOnly="true"></MatTextField> 
+            <MatSelect Label="Pick a Role" Outlined="true" @bind-Value="inputRole">
+                <MatOptionString Value="Admin">Admin</MatOptionString>
+                <MatOptionString Value="Chef">Chef</MatOptionString>
+                <MatOptionString Value="Delivery">Delivery Driver</MatOptionString>
+                <MatOptionString Value="HeadChef">Head Chef</MatOptionString>
+
+            </MatSelect>
+            <MatButton @onclick="() => addRole(inputUsername,inputRole)">Add User Role</MatButton>
+            <MatButton @onclick="() => deleteRole(inputUsername, inputRole)">Delete Role</MatButton>
+        </MatTab>
+    }
 </MatTabGroup>
  @if (success == "True")
  {
@@ -45,4 +55,5 @@
     Toaster.Add("Own Role Change Successful.", MatToastType.Info, "Own Role");
     ToasterStatus();
 
+ }
  }

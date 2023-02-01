@@ -28,9 +28,13 @@ namespace FFSmartPlus_Website.Pages
         public string supplierModifySuccess;
         public string supplierDeleteSuccess;
 
+        public List<string> currentUserRole;
 
         protected async override Task OnInitializedAsync()
         {
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
             allSuppliers = await _client.SupplierAllAsync();
             //get all the suppliers on load of page
         }

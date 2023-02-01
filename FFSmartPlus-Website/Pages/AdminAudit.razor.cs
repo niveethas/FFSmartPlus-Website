@@ -18,11 +18,18 @@ namespace FFSmartPlus_Website.Pages
         public string deletionSuccess;
         public string auditSuccess;
 
+        public List<string> currentUserRole;
+
         protected async override Task OnInitializedAsync()
         {
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
             allExpStock = await _client.ExpiryAsync();
             //get all the suppliers on load of page
+
         }
+
 
         public List<UnitListDto> expStockToList()
         {
@@ -53,7 +60,7 @@ namespace FFSmartPlus_Website.Pages
             try
             {
                 var temp = Int32.Parse(days);
-                await _client.AuditAsync(temp);
+                //await _client.AuditAsync(temp);
                 auditSuccess = "True";
             }
             catch

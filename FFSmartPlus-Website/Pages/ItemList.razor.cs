@@ -56,12 +56,15 @@ namespace FFSmartPlus_Website.Pages
         [Inject]
         public FFSBackEnd? _client { get; set; }
 
+        public List<string> currentUserRole;
 
 
         protected async override Task OnInitializedAsync()
         {
-            //CurrentUserRoles i = new CurrentUserRoles();
-            //currentRoles = CurrentUserRoles._role;
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
+
             itemsInfo = await _client.ItemAllAsync();
 
         }
@@ -117,7 +120,7 @@ namespace FFSmartPlus_Website.Pages
         public async Task loadStock(string itemID)
         {
             unitStock = await _client.UnitAsync(long.Parse(itemID));
-
+            StateHasChanged();
         }
 
         public async Task deleteItem(long id)
@@ -286,16 +289,22 @@ namespace FFSmartPlus_Website.Pages
 
                 modifyItem.Id = itemInfo.Id;
 
-                try
-                {
+                try {
+
                     await _client.Item3Async(itemInfo.Id, modifyItem);
                     StateHasChanged();
-                    loadItem(itemInfo.Id.ToString());
+                    await loadItem(itemInfo.Id.ToString());
                     itemModifySuccess = "True";
                 }
-                catch
+                catch (ApiException<ValidationResult> ex)
                 {
                     itemModifySuccess = "False";
+                    var errorMessages = ex.Result.Errors.Select(i => i.ErrorMessage).ToList();
+                    foreach (var x in errorMessages)
+                    {
+                        Console.WriteLine(errorMessages);
+                    }
+                    StateHasChanged();
                 }
             }
             catch

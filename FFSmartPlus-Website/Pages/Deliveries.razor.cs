@@ -21,6 +21,17 @@ namespace FFSmartPlus_Website.Pages
         public OrderConfirmationDTO orderConfirmation = new OrderConfirmationDTO();
         public long currentOrderId;
         public double currentOrderQuant;
+
+        public List<string> currentUserRole;
+
+        protected async override Task OnInitializedAsync()
+        {
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
+
+        }
+
         public async Task getDeliveriesOnDate(string id, DateTime date)
         {
             long supplierId = long.Parse(id);

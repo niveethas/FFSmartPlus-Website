@@ -21,9 +21,15 @@ namespace FFSmartPlus_Website.Pages
         [Inject]
         protected IMatToaster Toaster { get; set; }
 
+        public List<string> currentUserRole;
+
         protected async override Task OnInitializedAsync()
         {
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
             allUsers = await _client.AllAsync();
+
         }
 
         public async Task addUser(string username, string password, string email)
