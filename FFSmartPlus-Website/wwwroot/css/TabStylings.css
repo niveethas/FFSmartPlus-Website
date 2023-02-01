@@ -29,7 +29,22 @@
     text-align: center;
 }
 
-/* Styling for the Tab Group across the application*/
+#selectUser {
+    margin-bottom: 20px;
+}
+
+.modifyRoleButtons {
+    margin-top: 20px;
+}
+
+/* Styling for the role selector in mobile view */
+@media only screen and (max-width: 467px) {
+    #roleSelector {
+        margin-top: 15px;
+    }
+}
+
+/* Styling for the Tab Group across the application */
 @media only screen and (max-width: 980px) {
     .mdc-tab-scroller__scroll-area {
         overflow-x: hidden !important;

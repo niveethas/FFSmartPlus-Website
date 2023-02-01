@@ -2,7 +2,7 @@
 @using MatBlazor
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/manageUsers.css" rel="stylesheet" />
+<link href="css/manageUsers.css" rel="stylesheet" />
 
 <MatHeadline3>Manage Users</MatHeadline3>
 @if (currentUserRole == null)
@@ -12,9 +12,12 @@
 else if (currentUserRole.Contains("Admin"))
 {
     <MatTabGroup>
+        <!--The tab where a new user can be added into the application-->
         <MatTab Label="Add User">
-            <div class="tabSubtitle">
+            <div class="manageUsersSubtitle">
                 <MatHeadline4> Add User</MatHeadline4>
+            </div>
+            <div class="userInput">
                 <p>
                     <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
                 </p>
@@ -25,40 +28,37 @@ else if (currentUserRole.Contains("Admin"))
                     <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
                 </p>
                 <MatButton @onclick="() => addUser(inputUsername,inputPassword, inputEmail)"> Add New User</MatButton>
-
-                @if (additionSuccess == "True")
-                {
+            </div>
+            <!--Logic for the Toaster popup-->
+                @if (additionSuccess == "True"){
                     Toaster.Add("User has been successfully added.", MatToastType.Success, "User Addition");
                     ToasterStatus();
-                }
-                else if (additionSuccess == "False")
+                } else if (additionSuccess == "False")
                 {
                     Toaster.Add("User registration failed.", MatToastType.Warning, "User Registration");
                     ToasterStatus();
 
                 }
-                <!--Check that the toast actually shows useful information-->
-            </div>
         </MatTab>
+        <!--The tab where a user's account can be deleted-->
         <MatTab Label="Delete User">
-            <br />
-            <MatHeadline4> Delete User</MatHeadline4>
-            <br />
-            <!--Bring back all users and provide delete user functionality on each one-->
-
+            <div class="manageUsersSubtitle">
+                <MatHeadline4> Delete User</MatHeadline4>
+            </div>
             <MatList>
-                @foreach (var user in @allUsers)
-                {
-                    <div class="userContainer">
-                        <div class="userDataContainer">
-                            <p id="userName">@user</p>
-                            <MatButton id="userDeleteButton" class="deleteUserButton" @onclick="() => deleteUser(user)">Delete User</MatButton>
-                            <br>
-                            <MatDivider id="userDivider"></MatDivider>
+                <div class="deleteUsersList">
+                    @foreach (var user in @allUsers)
+                    {
+                        <div class="userContainer">
+                            <div class="userDataContainer">
+                                <p id="userName">@user</p>
+                                <MatButton id="userDeleteButton" class="deleteUserButton" @onclick="() => deleteUser(user)">Delete User</MatButton>
+                                <br>
+                                <MatDivider id="userDivider"></MatDivider>
+                            </div>
                         </div>
-
-                    </div>
-                }
+                    }
+                </div>
             </MatList>
 
             <!--Toast on successfull or failure of deletion-->
@@ -67,7 +67,7 @@ else if (currentUserRole.Contains("Admin"))
                 Toaster.Add("User is successfully deleted.", MatToastType.Success, "User Deletion");
             }
         </MatTab>
-</MatTabGroup>
+    </MatTabGroup>
 }else{
     <p> You do not have authorisation to view this page.</p>
 }
