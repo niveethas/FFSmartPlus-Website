@@ -1,6 +1,10 @@
 ﻿using ClientAPI;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.Text;
+using System;
+
 
 namespace FFSmartPlus_Website.Pages
 {
@@ -17,6 +21,8 @@ namespace FFSmartPlus_Website.Pages
 
         public string deletionSuccess;
         public string auditSuccess;
+        public string streamString;
+
 
         public List<string> currentUserRole;
 
@@ -59,8 +65,12 @@ namespace FFSmartPlus_Website.Pages
         {
             try
             {
-                var temp = Int32.Parse(days);
-                //await _client.AuditAsync(temp);
+                var daysInt = Int32.Parse(days);
+                ICollection < AuditDto > auditList = new List<AuditDto>();
+                auditList = await _client.AuditAllAsync(daysInt);
+                await DownloadText(auditList.ToList());
+                await DownloadFileFromStream();
+                StateHasChanged();
                 auditSuccess = "True";
             }
             catch
@@ -68,5 +78,43 @@ namespace FFSmartPlus_Website.Pages
                 auditSuccess = "False";
             }
         }
+
+        //function below has been derived: https://codereview.stackexchange.com/questions/249241/creating-a-csv-stream-from-an-object
+        protected async Task DownloadText(List<AuditDto> auditDto)
+        {
+            List<string> headers = typeof(AuditDto).GetProperties().Select(x => x.Name).ToList();
+            streamString = string.Join(",", headers) + Environment.NewLine;
+
+            foreach (AuditDto audit in auditDto)
+            {
+                List<object> values = typeof(AuditDto).GetProperties().Select(prop => prop.GetValue(audit)).ToList();
+                string ss = string.Join(",", values);
+                streamString += $"{ss}{Environment.NewLine}";
+            }
+
+        }
+
+        //functions below have been derived from https://learn.microsoft.com/en-us/aspnet/core/blazor/file-downloads?view=aspnetcore-7.0
+        private Stream GetFileStream(string stream)
+        {
+
+            byte[] bytes = Encoding.ASCII.GetBytes(stream);
+
+            
+            var fileStream = new MemoryStream(bytes);
+
+            return fileStream;
+        }
+
+        private async Task DownloadFileFromStream()
+        {
+            var fileStream = GetFileStream(streamString);
+            var fileName = "Audit.csv";
+
+            using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+            await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+        }
     }
 }
+

@@ -1,24 +1,31 @@
 ﻿@page "/Audit"
 @using MatBlazor
+@using System.IO
+@inject IJSRuntime JS
 
-    @if (currentUserRole == null){
-    }else if (currentUserRole.Contains("Admin")){
+
+@if (currentUserRole == null){
+    <p>Please login to access this page.</p>
+}
+else if (currentUserRole.Contains("Admin") || currentUserRole.Contains("Chef") || currentUserRole.Contains("HeadChef"))
+{
     <div>
 
-    <h2>Items with expired stock</h2>
-    
-    @foreach (var x in allExpStock){
-        <p>Item id: @x.ItemId</p>
-        <p>quantity: @x.Quantity</p>
-        <p>Expiry Date: @x.ExpiryDate</p>
-    }
+        <h2>Items with expired stock</h2>
 
-    <p>
-        If expired stock has been removed, please delete them from the system below.
-    </p>
+        @if (allExpStock != null)
+        {
+            @foreach (var x in allExpStock)
+            {
+                <p>Item id: @x.ItemId</p>
+                <p>quantity: @x.Quantity</p>
+                <p>Expiry Date: @x.ExpiryDate</p>
+            }
 
-    <MatButton @onclick="() => deleteExpStock() "> Delete Expired Stock</MatButton>
-
+            <p>
+                If all expired stock has been removed, please update them from the system below.
+            </p>   <MatButton @onclick="() => deleteExpStock() "> Delete Expired Stock</MatButton>
+        }
     @if(deletionSuccess == "True"){
         Toaster.Add("End of day tasks completed", MatToastType.Success, "End of Day");
         ToasterStatus();
@@ -27,24 +34,28 @@
         ToasterStatus();
     }
 
+        @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef"))
+        {
+            <h2>View audit history </h2>
+            <p> Enter how many days worth of auditing history you would like to view.</p>
+            <p> History will be returned as a downloadedable file.</p>
+            <p> Specify ID for a specific item if you do not want full history.</p>
 
-    <h2>View audit history </h2>
-    <p> Enter how many days worth of auditing history you would like to view.</p>
-    <p> History will be returned as a downloadedable file.</p>
-    <p> Specify ID for a specific item if you do not want full history.</p>
+            <p>
+                <MatTextField @bind-Value="@inputHistory" Label="Days"></MatTextField>
+            </p>    <MatButton @onclick="() => getAuditHistory(inputHistory)"> Download Audit History</MatButton>
 
-    <p>
-    <MatTextField @bind-Value="@inputHistory" Label="Days"></MatTextField>
-    </p>
-    <MatButton @onclick="() => getAuditHistory(inputHistory)"> Download Audit History</MatButton>
+            @if (auditSuccess == "False")
+            {
+                Toaster.Add("Audit could not be displayed", MatToastType.Warning, "Audit");
+                ToasterStatus();
 
-    @if (auditSuccess == "False")
-    {
-        Toaster.Add("Audit could not be displayed", MatToastType.Warning, "Audit");
-        ToasterStatus();
-    }
+            }else if (auditSuccess == "True"){
+                Toaster.Add("Audit file downloaded", MatToastType.Success, "Audit");
+                ToasterStatus();
+            }
 
-
+        }
 
 </div>
 }
