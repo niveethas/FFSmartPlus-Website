@@ -1,6 +1,9 @@
 ﻿@page "/Audit"
 @using MatBlazor
-<div>
+
+    @if (currentUserRole == null){
+    }else if (currentUserRole.Contains("Admin")){
+    <div>
 
     <h2>Items with expired stock</h2>
     
@@ -44,3 +47,7 @@
 
 
 </div>
+}
+else{
+    <p>You do not have authorisation to view this page.</p>
+}

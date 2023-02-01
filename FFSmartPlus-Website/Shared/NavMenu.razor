@@ -26,13 +26,18 @@
                 </NavLink>
             </div>
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="OrderConfirm">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Confirm Orders
+                <NavLink class="nav-link" href="Account">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Roles
                 </NavLink>
             </div>
             <div class="nav-item px-3">
-                <NavLink class="nav-link" href="Account">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Account
+                <NavLink class="nav-link" href="Suppliers">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Suppliers
+                </NavLink>
+             </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="OrderConfirm">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Confirm Orders
                 </NavLink>
             </div>
             <div class="nav-item px-3">
@@ -40,8 +45,14 @@
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Check Deliveries
                 </NavLink>
             </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="AdminAudit">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Auditing
+            </NavLink>
+        </div>
+            
 
-            <MatButtonLink Href="/Login"><span class="oi oi-account-logout" aria-hidden="true"></span>Sign Out</MatButtonLink>
+        <MatButtonLink Href="/" @onclick="() => signOutRole()"><span class=" oi oi-account-logout" aria-hidden="true"></span>Sign Out</MatButtonLink>
     </nav>
 </div>
 
