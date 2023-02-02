@@ -11,6 +11,35 @@
 {
     <p> Please log in to view this page.</p>
 }else{
+    @if (currentUserRole.Contains("HeadChef"))
+    {
+        <!--Only head chefs need to see expiring and low in stock items-->
+        <MatDialog @bind-IsOpen="@dialogIsOpen">
+            <MatDialogTitle> Items are expired or low in stock.</MatDialogTitle>
+                <MatDialogContent>
+                    @if (lowStockItems != null && expItems != null){
+                    <p>Low in stock: </p>
+                    @foreach(var stockItem in lowStockItems){
+                            <p><span>Item Name: </span>@stockItem.Item.Name</p>
+                        }
+                    
+                    <!--TO DO INTRODUCE ANOTHER METHOD THAT SHOWS ITEM CLOSE TO MIN NOT ACTUALLY AT MIN-->
+
+                    <br>
+                    <p>Expired Items: </p>
+                    @foreach(var items in expItems){
+                        <p><span>Item Name: </span>@items.Id</p>
+                    }
+                    <!--TO DO INTRODUCE ANOTHER METHOD THAT SHOWS ITEM NAME AND IS NOT ADMIN-->
+                    }else{
+                        <p>Congrats! All items are in stock and in date!</p>
+                    }
+                </MatDialogContent>
+                <MatDialogActions>
+                    <MatButton OnClick="@(e => { dialogIsOpen = false; })">Close</MatButton>
+                </MatDialogActions>
+        </MatDialog>
+    }
 <MatTabGroup id="tabGroup">
     <MatTab Label="View Item">
         <div class="tabSubtitle">

@@ -14,6 +14,9 @@ namespace FFSmartPlus_Website.Pages
     {
         [Inject]
         protected IMatToaster Toaster { get; set; }
+
+        [Inject]
+        public FFSBackEnd? _client { get; set; }
         public ICollection<UnitsDto> unitStock { get; set; }
         public ICollection<ItemDto> itemsInfo = new List<ItemDto>();
         public ItemDto newItemResponse;
@@ -42,19 +45,15 @@ namespace FFSmartPlus_Website.Pages
         public string? inputUnitDescM;
         public string? inputItemMinStockM;
         public string? inputItemDesiredStockM;
+        public ICollection<CurrentStockDto> lowStockItems = new List<CurrentStockDto>();
+        public ICollection<UnitListDto> expItems = new List<UnitListDto>();
 
         public string itemAdditionSuccess = "";
         public string stockModifySuccess = "";
         public string itemFound = "";
         public string showItemModifyContent = "";
         public string itemModifySuccess = "";
-
-        public List<string> currentRoles;
-
-        private string inputID { get; set; }
-
-        [Inject]
-        public FFSBackEnd? _client { get; set; }
+        public bool dialogIsOpen = false;
 
         public List<string> currentUserRole;
 
@@ -66,7 +65,9 @@ namespace FFSmartPlus_Website.Pages
             StateHasChanged();
 
             itemsInfo = await _client.ItemAllAsync();
-
+            dialogIsOpen = true;
+            loadLowStockItems();
+            loadExpItems();
         }
 
         public List<ItemDto> itemsToList()
@@ -80,11 +81,33 @@ namespace FFSmartPlus_Website.Pages
             loadItem(selectedItemId);
         }
 
-        public async Task GetRoles()
+        public async Task loadLowStockItems()
         {
-           
+            try
+            {
+                lowStockItems = await _client.BelowMinAsync();
+                StateHasChanged();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
+        public async Task loadExpItems()
+        {
+            try
+            {
+                expItems = await _client.ExpiryAsync();
+                StateHasChanged();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
         public async Task loadItem(string itemID)
         {
