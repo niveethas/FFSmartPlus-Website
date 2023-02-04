@@ -182,7 +182,6 @@
                 @if (itemAdditionSuccess == "True")
                 {
                     Toaster.Add("Item successfully added, please add stock information.", MatToastType.Info, "Stock");
-                    toastStatus();
 
                     <p>
                         <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
@@ -192,6 +191,7 @@
                         <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
                     </p>
                     <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+
 
                 }else if (itemAdditionSuccess == "False"){
                         Toaster.Add("New item not saved", MatToastType.Info, "Item");
@@ -252,7 +252,7 @@
         }
     </MatTab>
 
-        @if (!currentUserRole.Contains("Delivery"))
+        @if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef")||currentUserRole.Contains("Chef"))
         {
             <MatTab Label = "Remove Stock">
                 <div class="tabSubtitle">
