@@ -9,6 +9,7 @@
     <h3 class="mat-subtitle1">Please enter your login details to log in</h3>
 </div>
 
+@if (currentUserRole == null){
 <!-- The form the user will enter their login details into -->
 <div class="formInput">
     <p>
@@ -27,3 +28,8 @@
     ToasterStatus();
     }
 </div>
+}else{
+    <div>
+        <p>You have already logged in.</p>
+    </div>
+}

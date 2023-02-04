@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFSmartPlus-Website", "FFSmartPlus-Website\FFSmartPlus-Website.csproj", "{AFC0579C-6ECD-474A-ABE8-F184DFE4A179}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFSmartPlus-Tests", "FFSmartPlus-Tests\FFSmartPlus-Tests.csproj", "{775BE345-8701-4183-9EC4-1E03B19CFD4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFSmartPlus-Tests", "FFSmartPlus-Tests\FFSmartPlus-Tests.csproj", "{775BE345-8701-4183-9EC4-1E03B19CFD4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
