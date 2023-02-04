@@ -34,73 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="OpenAPIs\swagger3.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger4.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger5.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger14.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger15.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger17.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger18.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger19.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger20.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger21.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger22.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger23.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger24.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger25.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="OpenAPIs\swagger26.json" ClassName="FFSBackEnd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <OpenApiReference Include="OpenAPIs\swagger27.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
+    <OpenApiReference Include="OpenAPIs\swagger28.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
       <SourceUri>https://localhost:7041/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="OpenAPIs\index1.html" ClassName="FFSBackEnd" />
   </ItemGroup>
 
 </Project>
