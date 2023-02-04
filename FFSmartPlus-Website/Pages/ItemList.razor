@@ -7,9 +7,9 @@
 <div class="pageTitle">
     <MatHeadline3 id="pageTitle">Item Management</MatHeadline3>
 </div>
-@if (currentUserRole == null)
+@if (currentUserRole.Count == 0)
 {
-    <p> Please log in to view this page.</p>
+    <p> Please ensure you are logged in and have the appropriate roles set to view this page.</p>
 }else{
     @if (currentUserRole.Contains("HeadChef"))
     {
@@ -252,34 +252,37 @@
         }
     </MatTab>
 
-    <MatTab Label = "Remove Stock">
-        <div class="tabSubtitle">
-            <MatHeadline4>Remove Stock</MatHeadline4>
-        </div>
-        <div class="itemInput">
-            <p>
-                <MatTextField @bind-Value="@inputItemIdR" Label="Item Id"></MatTextField>
-            </p>
-            <p>
-                <MatTextField @bind-Value="@inputUnitQuantityR" Label="Unit Quantity"></MatTextField>
-            </p>
-            <MatButton @onclick="() => removeStock (inputUnitQuantityR,inputItemIdR)">Remove Stock</MatButton>
-        </div>
-        @if (stockModifySuccess == "True")
+        @if (!currentUserRole.Contains("Delivery"))
         {
-            Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
-            toastStatus();
-            StateHasChanged();
-       }
-        else if
-        (stockModifySuccess == "False")
-        {
-            Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
-            toastStatus();
+            <MatTab Label = "Remove Stock">
+                <div class="tabSubtitle">
+                    <MatHeadline4>Remove Stock</MatHeadline4>
+                </div>
+                <div class="itemInput">
+                    <p>
+                        <MatTextField @bind-Value="@inputItemIdR" Label="Item Id"></MatTextField>
+                    </p>
+                    <p>
+                        <MatTextField @bind-Value="@inputUnitQuantityR" Label="Unit Quantity"></MatTextField>
+                    </p>
+                    <MatButton @onclick="() => removeStock (inputUnitQuantityR,inputItemIdR)">Remove Stock</MatButton>
+                </div>
+                @if (stockModifySuccess == "True")
+                {
+                    Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
+                    toastStatus();
+                    StateHasChanged();
+                }
+                else if
+                (stockModifySuccess == "False")
+                {
+                    Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+                    toastStatus();
+                }
+            </MatTab>
         }
-    </MatTab>
+    
 </MatTabGroup>
 
-<br />
-<br />
+
 }

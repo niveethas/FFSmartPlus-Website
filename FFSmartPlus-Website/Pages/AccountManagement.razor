@@ -22,7 +22,7 @@ else{
         </MatSelect>
     </div>
 
-    @if (currentUserRole.Contains("Admin"))
+    @if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef"))
     {
         <!--The form where the target user's username will appear and where their roles can be modified-->
         <div class="tabSubtitle">
