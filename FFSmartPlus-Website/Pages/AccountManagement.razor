@@ -3,10 +3,11 @@
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="~/css/TabStylings.css" rel="stylesheet" />
 
-@if (currentUserRole == null ){
-    <p>Please log in to view this page.</p>
+@if (currentUserRole.Count == 0 ){
+    <p>Please log in to view this page and ensure you have roles assigned. </p>
 }
-else{
+else if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef"))
+    {
     <!--The dropdown where the target user will be selected-->
     <div class="tabSubtitle">
         <MatHeadline3>View All Users</MatHeadline3>
@@ -22,8 +23,7 @@ else{
         </MatSelect>
     </div>
 
-    @if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef"))
-    {
+    
         <!--The form where the target user's username will appear and where their roles can be modified-->
         <div class="tabSubtitle">
             <MatHeadline3>Modify Roles</MatHeadline3>
@@ -62,5 +62,9 @@ else{
             ToasterStatus();
 
         }
-    }   
-    }
+}   else{
+    <div>
+       <p> You do not have authorisation to view this page.</p>
+    </div>
+}
+    
