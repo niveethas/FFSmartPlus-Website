@@ -25,9 +25,13 @@ namespace FFSmartPlus_Website.Pages
         public LoginRespDto loginResponse;
         public string loginSuccess = "";
 
+        public List<string>? currentUserRole;
+  
         protected async override Task OnInitializedAsync()
         {
-           
+            CurrentUserRoles? i = new CurrentUserRoles();
+            currentUserRole = CurrentUserRoles._role;
+            StateHasChanged();
 
         }
 
