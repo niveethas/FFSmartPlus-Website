@@ -1,58 +1,69 @@
 ﻿@page "/Deliveries"
 @using MatBlazor
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<h1>Deliveries
-</h1>
+<link href="css/deliveries.css" rel="stylesheet" />
 
 @if (currentUserRole == null){
     <p> Please log in to view this page. </p>
-}else if (currentUserRole.Contains("Delivery")){
-    <p>Please provide supplier Id, as stated in your email, to check the delivery.</p>
-    <p>
-        <MatTextField @bind-Value="@inputSupplierId" Label="Supplier Id"></MatTextField>
-    </p>
+} else if (currentUserRole.Contains("Delivery")){
+    <!--The form where the Supplier ID and Order Date will be entered-->
+    <div class="title">
+        <MatHeadline3>View Orders</MatHeadline3>
+        <MatSubtitle1>Enter the Supplier ID as stated in your email and the Date of Order</MatSubtitle1>
+    </div>
+    <div class="deliveryInput">
+        <p>
+            <MatTextField @bind-Value="@inputSupplierId" Label="Supplier Id"></MatTextField>
+        </p>
 
-    <p>
-        <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Order Date" @bind-Value="@inputOrderDate"> </MatDatePicker>
-    </p>
+        <p>
+            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Order Date" @bind-Value="@inputOrderDate"> </MatDatePicker>
+        </p>
+        <MatButton @onclick="() => getDeliveriesOnDate(inputSupplierId,inputOrderDate)"> Get Orders</MatButton>
+    </div>
 
     @if(findDelivery == "False"){
         Toaster.Add("No deliveries available for this date", MatToastType.Warning, "Delivery");
     }
 
-    <MatButton @onclick="() => getDeliveriesOnDate(inputSupplierId,inputOrderDate)"> Get Orders</MatButton>
-
     @if (findDelivery == "True")
     {
-        <br />
-        <div>
-        <MatSelect Label="Pick an Order Item" Outlined="true" ValueChanged="(string i) => onChangeOrder(i)">
-            <MatOptionString Value="-1"></MatOptionString>
-            @foreach (var delivery in getDeliveriesToList())
-            {
-                <MatOptionString Value="@delivery.Id.ToString()">ID:@delivery.Id  @delivery.Name - @delivery.QuantityOrdered</MatOptionString>
-            }
-        </MatSelect>
+        <!--The dropdown to select the order delivered on the selected date-->
+        <div class="deliveryInput">
+            <MatSelect Label="Pick an Order Item" Outlined="true" ValueChanged="(string i) => onChangeOrder(i)">
+                <MatOptionString Value="-1"></MatOptionString>
+                @foreach (var delivery in getDeliveriesToList())
+                {
+                    <MatOptionString Value="@delivery.Id.ToString()">ID:@delivery.Id  @delivery.Name - @delivery.QuantityOrdered</MatOptionString>
+                }
+            </MatSelect>
         </div>
 
         if (currentOrderId != 0){
+            <!--The order information for the selected order-->
             <div>
-            <MatCard>
-            <MatCardContent>
-            <MatHeadline2>@currentOrderName</MatHeadline2>
-            <MatHeadline4>Unit Description: @currentOrderDescription</MatHeadline4>
-            <MatHeadline4>Expected Quanity: @currentOrderQuant</MatHeadline4>
-            </MatCardContent>
-            </MatCard>
-            <p> Please confirm the quantity actually delivered for this order. If same please leave blank </p>
-                <p><MatTextField @bind-Value="@deliveredQuant" Label="Quantity Ordered"> </MatTextField></p>
-                <p>Please confirm expiry date for ordered unit: </p>
-                <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Select Expiry Date" @bind-Value="@inputExpDate"> </MatDatePicker>
-        </div>
-        <br />
-        <MatButton @onclick="() => ConfirmCurrentDelivery(inputExpDate,deliveredQuant)">Confirm Order</MatButton>
+                <MatCard class="item-card">
+                    <MatCardContent class="item-card-content">
+                        <MatHeadline2>@currentOrderName</MatHeadline2>
+                        <MatHeadline4>Unit Description: @currentOrderDescription</MatHeadline4>
+                        <MatHeadline4>Expected Quantity: @currentOrderQuant</MatHeadline4>
+                    </MatCardContent>
+                </MatCard>
+                <!--The form where the order will be confirmed-->
+                <div class="deliveryConfirmation">
+                    <MatSubtitle1> Please confirm the quantity actually delivered for this order. </MatSubtitle1>
+                    <MatSubtitle1> If the quantity delivered is the same, please leave the text field blank. </MatSubtitle1>
+                    <MatSubtitle1><MatTextField @bind-Value="@deliveredQuant" Label="Quantity Ordered"> </MatTextField></MatSubtitle1>
+                    <MatSubtitle1>Please confirm the expiry date for the ordered unit: </MatSubtitle1>
+                    <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Select Expiry Date" @bind-Value="@inputExpDate"> </MatDatePicker>
+                    <div class="deliveryConfirmButton">
+                        <MatButton @onclick="() => ConfirmCurrentDelivery(inputExpDate,deliveredQuant)">Confirm Order</MatButton>
+                    </div>
+                </div>
+            </div>
             
         }
+        <!--Logic for the Toaster popup-->
         @if (confirmationSuccess == "False")
         {
             Toaster.Add("Delivery order could not be confirmed", MatToastType.Warning, "Order");
@@ -67,5 +78,7 @@
        
     }
 }else{
-    <p> You do not have authorisation to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6> You do not have authorisation to view this page.</MatHeadline6>
+    </div>
 }

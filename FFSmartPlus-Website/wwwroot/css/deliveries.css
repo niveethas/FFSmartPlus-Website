@@ -1,0 +1,31 @@
+﻿.title, .deliveryConfirmButton {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.deliveryInput {
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.title, .deliveryInput, .accessDeniedMessage, .deliveryConfirmation, deliveryConfirmButton {
+    text-align: center;
+}
+
+/* Styling for the MatCard */
+.item-card {
+    padding: 10px;
+    padding-top: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 1250px) {
+    .item-card {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
