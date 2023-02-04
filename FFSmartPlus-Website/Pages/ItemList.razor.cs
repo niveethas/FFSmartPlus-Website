@@ -46,7 +46,7 @@ namespace FFSmartPlus_Website.Pages
         public string? inputItemMinStockM;
         public string? inputItemDesiredStockM;
         public ICollection<CurrentStockDto> lowStockItems = new List<CurrentStockDto>();
-        public ICollection<UnitListDto> expItems = new List<UnitListDto>();
+        public ICollection<string> expItems = new List<string>();
 
         public string itemAdditionSuccess = "";
         public string stockModifySuccess = "";
@@ -85,7 +85,7 @@ namespace FFSmartPlus_Website.Pages
         {
             try
             {
-                lowStockItems = await _client.BelowMinAsync();
+                lowStockItems = await _client.BelowMin30percentAsync();
                 StateHasChanged();
 
             }
@@ -99,7 +99,7 @@ namespace FFSmartPlus_Website.Pages
         {
             try
             {
-                expItems = await _client.ExpiryAsync();
+                expItems = await _client.ExpiredNamesAsync();
                 StateHasChanged();
 
             }

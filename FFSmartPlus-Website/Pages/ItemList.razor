@@ -20,17 +20,14 @@
                     @if (lowStockItems != null && expItems != null){
                     <p>Low in stock: </p>
                     @foreach(var stockItem in lowStockItems){
-                            <p><span>Item Name: </span>@stockItem.Item.Name</p>
+                        <ul><li>@stockItem.Item.Name</li></ul>
                         }
                     
-                    <!--TO DO INTRODUCE ANOTHER METHOD THAT SHOWS ITEM CLOSE TO MIN NOT ACTUALLY AT MIN-->
-
                     <br>
                     <p>Expired Items: </p>
                     @foreach(var items in expItems){
-                        <p><span>Item Name: </span>@items.Id</p>
+                        <ul><li>@items</li></ul>
                     }
-                    <!--TO DO INTRODUCE ANOTHER METHOD THAT SHOWS ITEM NAME AND IS NOT ADMIN-->
                     }else{
                         <p>Congrats! All items are in stock and in date!</p>
                     }
