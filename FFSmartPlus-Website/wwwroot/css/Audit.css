@@ -1,0 +1,28 @@
+﻿.viewAuditHistory {
+    margin-top: 50px;
+}
+
+.auditHistory, .accessDeniedMessage {
+    text-align: center;
+}
+
+.auditHistoryTitle {
+    margin-bottom: 20px;
+}
+
+/* Styling for the MatCard */
+.item-card {
+    padding: 10px;
+    padding-top: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+@media only screen and (max-width: 1250px) {
+    .item-card {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

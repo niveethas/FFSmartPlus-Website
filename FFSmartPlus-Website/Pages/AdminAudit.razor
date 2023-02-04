@@ -3,48 +3,69 @@
 @using System.IO
 @inject IJSRuntime JS
 
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="css/Audit.css" rel="stylesheet" />
 
 @if (currentUserRole == null){
-    <p>Please login to access this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
 }
 else if (currentUserRole.Contains("Admin") || currentUserRole.Contains("Chef") || currentUserRole.Contains("HeadChef"))
 {
-    <div>
-
-        <h2>Items with expired stock</h2>
+    <div class="auditHistory">
+        <MatHeadline3>Items with Expired Stock</MatHeadline3>
 
         @if (allExpStock != null)
         {
+            <!--Display the basic item information relevant to auditing-->
             @foreach (var x in allExpStock)
             {
-                <p>Item id: @x.ItemId</p>
-                <p>quantity: @x.Quantity</p>
-                <p>Expiry Date: @x.ExpiryDate</p>
+                <MatCard class="item-card">
+                    <MatCardContent>
+                        <MatHeadline4>Item ID: @x.ItemId</MatHeadline4>
+                        <MatHeadline4>Quantity: @x.Quantity</MatHeadline4>
+                        <MatHeadline4>Expiry Date: @x.ExpiryDate</MatHeadline4>
+                    </MatCardContent>
+                </MatCard>
             }
 
-            <p>
-                If all expired stock has been removed, please update them from the system below.
-            </p>   <MatButton @onclick="() => deleteExpStock() "> Delete Expired Stock</MatButton>
+            <div class="expiredStockMessage">
+                <MatSubtitle1>If all expired stock has been removed, please update them from the system below.</MatSubtitle1>
+            </div>   
+            <div class="deleteExpiredStock">
+                <MatButton @onclick="() => deleteExpStock() "> Delete Expired Stock</MatButton>
+            </div>
+      
         }
-    @if(deletionSuccess == "True"){
-        Toaster.Add("End of day tasks completed", MatToastType.Success, "End of Day");
-        ToasterStatus();
-    }else if (deletionSuccess == "False"){
-        Toaster.Add("End of day failed", MatToastType.Danger, "End of Day");
-        ToasterStatus();
-    }
+
+        <!--Logic for the Toaster popup-->
+        @if(deletionSuccess == "True"){
+            Toaster.Add("End of day tasks completed", MatToastType.Success, "End of Day");
+            ToasterStatus();
+        }else if (deletionSuccess == "False"){
+            Toaster.Add("End of day failed", MatToastType.Danger, "End of Day");
+            ToasterStatus();
+        }
 
         @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef"))
         {
-            <h2>View audit history </h2>
-            <p> Enter how many days worth of auditing history you would like to view.</p>
-            <p> History will be returned as a downloadedable file.</p>
-            <p> Specify ID for a specific item if you do not want full history.</p>
+            <!--The form where the audit history is downloaded from-->
+            <div class="viewAuditHistory">
+                <div class="auditHistoryTitle">
+                    <MatHeadline3>View audit history </MatHeadline3>
+                </div>
+                <MatSubtitle1>Enter how many days worth of auditing history you would like to view.</MatSubtitle1>
+                <MatSubtitle1> History will be returned as a downloadedable file.</MatSubtitle1>
+                <MatSubtitle1> If you do not want the full history, please specify a specific item ID.</MatSubtitle1>
 
-            <p>
-                <MatTextField @bind-Value="@inputHistory" Label="Days"></MatTextField>
-            </p>    <MatButton @onclick="() => getAuditHistory(inputHistory)"> Download Audit History</MatButton>
+                <p>
+                    <MatTextField @bind-Value="@inputHistory" Label="Days"></MatTextField>
+                </p>    
+                <MatButton @onclick="() => getAuditHistory(inputHistory)"> Download Audit History</MatButton>
+            </div>
 
+            <!--Logic for the Toaster popup-->
             @if (auditSuccess == "False")
             {
                 Toaster.Add("Audit could not be displayed", MatToastType.Warning, "Audit");
@@ -60,5 +81,7 @@ else if (currentUserRole.Contains("Admin") || currentUserRole.Contains("Chef") |
 </div>
 }
 else{
-    <p>You do not have authorisation to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
+    </div>
 }

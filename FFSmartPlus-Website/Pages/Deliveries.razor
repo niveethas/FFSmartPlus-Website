@@ -4,7 +4,9 @@
 <link href="css/deliveries.css" rel="stylesheet" />
 
 @if (currentUserRole == null){
-    <p> Please log in to view this page. </p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
 } else if (currentUserRole.Contains("Delivery")){
     <!--The form where the Supplier ID and Order Date will be entered-->
     <div class="title">
@@ -43,7 +45,7 @@
             <!--The order information for the selected order-->
             <div>
                 <MatCard class="item-card">
-                    <MatCardContent class="item-card-content">
+                    <MatCardContent>
                         <MatHeadline2>@currentOrderName</MatHeadline2>
                         <MatHeadline4>Unit Description: @currentOrderDescription</MatHeadline4>
                         <MatHeadline4>Expected Quantity: @currentOrderQuant</MatHeadline4>
