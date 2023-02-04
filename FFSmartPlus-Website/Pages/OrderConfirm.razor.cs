@@ -59,7 +59,7 @@ namespace FFSmartPlus_Website.Pages
             }
         }
 
-            public async Task changeQuantity(long id, string quantity)
+        public async Task changeQuantity(long id, string quantity)
         {
             Console.WriteLine(quantity);
             ItemRequestDto changedQuantityRequest = new ItemRequestDto();

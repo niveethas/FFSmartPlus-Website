@@ -87,7 +87,7 @@
                 <MatTextField @bind-Value="inputAddressNew" Label="Address"></MatTextField>
                 <MatTextField @bind-Value="inputEmailNew" Label="Email"></MatTextField>
                 <div class="modifyRoleButtons">
-                    <MatButton @onclick="() => AddNewSupplier(inputAddress, inputEmail, inputName)">Submit</MatButton>
+                    <MatButton @onclick="() => AddNewSupplier(inputAddressNew, inputEmailNew, inputNameNew)">Submit</MatButton>
                 </div>      
             </div>
             @if (supplierAdditionSuccess == "True")
