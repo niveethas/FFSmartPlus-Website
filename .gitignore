@@ -363,7 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Swagger Service Connections Folder
-OpenAPIs/
+#OpenAPIs/
 
 #Config files
 FFSmartPlus-Website.csproj
