@@ -4,7 +4,6 @@
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="css/TabStylings.css" rel="stylesheet" />
-<link href="css/Audit.css" rel="stylesheet" />
 <link href="css/SharedStyling.css" rel="stylesheet" />
 
 @if (currentUserRole == null)
@@ -42,15 +41,14 @@
                 </MatDialogActions>
         </MatDialog>
     }
-<MatTabGroup id="tabGroup">
+<MatTabGroup>
+    <!--The tab where an item's information is displayed and can be modified or deleted-->
     <MatTab Label="View Item">
         <div class="tabSubtitle">
             <MatHeadline4>Choose Item to Manage</MatHeadline4>
         </div>
-            @*<p><MatTextField @bind-Value="@inputID" @oninput="@((e) => { inputID=(string)e.Value;})" Label="Item ID"></MatTextField> </p>
-            <p @bind="@itemErrorMessage" id="ItemErrorMessage" style="color:red; display:none;"> Item can not be found. </p>
-            *@
             <div class="itemInput">
+                <!--The dropdown to select an item to view-->
                 <MatSelect Label="Pick an Item" Outlined="true" ValueChanged="(string i) => onChangeItem(i)">
                 @foreach (var item in itemsToList()){
                     <MatOptionString Value="@item.Id.ToString()">@item.Name.ToString()</MatOptionString>
@@ -58,13 +56,10 @@
                 </MatSelect>
             </div>
 
-            @*<MatButton @onclick="() => loadItem(inputID)"> Find Item</MatButton>*@
-        @*<div class="tabSubtitle">
-            <h2> View Items</h2>
-        </div>*@
         <div class="InventoryView">
             @if (itemInfo != null)
             {
+                <!--The MatCard where an item's information will be displayed-->
                 <MatCard class="item-card">
                     <MatCardContent>
                         <div class="item-card-content">
@@ -114,23 +109,26 @@
 
                 @if (showItemModifyContent == "True")
                 {
-                    <p> Leave field blank if you would like to take the original values.</p>
-                    <p>
-                        <MatTextField Label="Item Name" @bind-Value="@inputItemNameM"></MatTextField>
-                    </p>
-                    <p>
-                        <MatTextField @bind-Value="@inputItemMinStockM" Label="Minimum Stock"></MatTextField>
-                    </p>
-                    <p>
-                        <MatTextField @bind-Value="@inputItemDesiredStockM" Label="Desired Stock"></MatTextField>
-                    </p>
-                    <p>
-                        <MatTextField @bind-Value="@inputSupplierIDM" Label="Supplier ID"></MatTextField>
-                    </p>
-                    <p>
-                        <MatTextField @bind-Value="@inputUnitDescM" Label="Unit Description"></MatTextField>
-                    </p>
-                    <MatButton @onclick="() => modifyItem(inputItemNameM, inputItemMinStockM, inputItemDesiredStockM, inputSupplierIDM, inputUnitDescM)"> Modify Item</MatButton>
+                    <!--The form where an item's information is modified-->
+                    <div class="modifyItemForm">
+                            <MatSubtitle1> If you would like the item to use its original value, leave the text field blank.</MatSubtitle1>
+                        <p>
+                            <MatTextField Label="Item Name" @bind-Value="@inputItemNameM"></MatTextField>
+                        </p>
+                        <p>
+                            <MatTextField @bind-Value="@inputItemMinStockM" Label="Minimum Stock"></MatTextField>
+                        </p>
+                        <p>
+                            <MatTextField @bind-Value="@inputItemDesiredStockM" Label="Desired Stock"></MatTextField>
+                        </p>
+                        <p>
+                            <MatTextField @bind-Value="@inputSupplierIDM" Label="Supplier ID"></MatTextField>
+                        </p>
+                        <p>
+                            <MatTextField @bind-Value="@inputUnitDescM" Label="Unit Description"></MatTextField>
+                        </p>
+                            <MatButton @onclick="() => modifyItem(inputItemNameM, inputItemMinStockM, inputItemDesiredStockM, inputSupplierIDM, inputUnitDescM)"> Modify Item</MatButton>
+                    </div>
 
                 }
 
@@ -159,9 +157,10 @@
     </MatTab>
    @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef")){
         <MatTab Label="Add Item">
+            <!--The tab where a new item is added-->
             <div class="itemInput">
                 <div class="tabSubtitle">
-                    <MatHeadline4>Add Item Management</MatHeadline4>
+                    <MatHeadline4>Add Item</MatHeadline4>
                 </div>
                 <p>
                     <MatTextField Label="Item Name" @bind-Value="@inputItemName"></MatTextField>
@@ -225,9 +224,10 @@
     
     }
 
-    <MatTab Label="Add Stock to Existing Item">
+    <MatTab Label="Add Stock">
+        <!--The tab where stock is added to an existing item-->
         <div class="tabSubtitle">
-            <MatHeadline4>Add Stock to Existing Item</MatHeadline4>
+            <MatHeadline4>Add Stock</MatHeadline4>
         </div>
         <div class="itemInput">
             <p>
@@ -259,6 +259,7 @@
         @if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef")||currentUserRole.Contains("Chef"))
         {
             <MatTab Label = "Remove Stock">
+                <!--The tab where stock is removed from an item-->
                 <div class="tabSubtitle">
                     <MatHeadline4>Remove Stock</MatHeadline4>
                 </div>
@@ -287,6 +288,5 @@
         }
     
 </MatTabGroup>
-
 
 }

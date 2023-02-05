@@ -6,17 +6,19 @@
 
 <div class="formTitle">
     <MatHeadline3>Welcome to the Future Fridges Stock Management System</MatHeadline3>
-    <MatSubtitle1>Please enter your login details to log in</MatSubtitle1>
 </div>
 
 @if (currentUserRole == null){
 <!-- The form the user will enter their login details into -->
 <div class="formInput">
+    <div class="inputTitle">
+            <MatSubtitle1>Please enter your login details to log in</MatSubtitle1>
+    </div>
     <p>
         <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
     </p>
     <p>
-        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+            <MatTextField Label="Password" @bind-Value="@inputPassword" Type="password"></MatTextField> <!--The 'Type="password"' attribute was found on MatBlazor "MatTextField" (https://www.matblazor.com/TextField)-->
     </p>
     <MatButton Raised="true" @onclick="() => userLogin(inputUsername,inputPassword)"> Login</MatButton>
     <br />

@@ -9,8 +9,16 @@
     color: grey;
 }
 
-.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText, .supplierInput {
+.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText, .supplierInput, .modifyItemForm {
     text-align: center;
+}
+
+.modifyItemForm {
+    margin-bottom: 20px;
+}
+
+.inputTitle {
+    margin-bottom: 20px;
 }
 
 #selectUser {
@@ -29,13 +37,6 @@
 @media only screen and (max-width: 467px) {
     #roleSelector {
         margin-top: 15px;
-    }
-}
-
-/* Styling for the Tab Group across the application */
-@media only screen and (max-width: 980px) {
-    .mdc-tab-scroller__scroll-area {
-        overflow-x: hidden !important;
     }
 }
 
