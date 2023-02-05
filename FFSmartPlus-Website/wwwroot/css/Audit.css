@@ -2,10 +2,14 @@
     margin-top: 50px;
 }
 
-.auditHistory {
+.auditHistory, .viewAuditHistory {
     text-align: center;
 }
 
 .auditHistoryTitle {
     margin-bottom: 20px;
+}
+
+.expiredStockMessage{
+    margin-top: 20px;
 }

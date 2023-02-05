@@ -22,6 +22,7 @@ namespace FFSmartPlus_Website.Pages
         public string deletionSuccess;
         public string auditSuccess;
         public string streamString;
+        public string inputEmail;
 
 
         public List<string> currentUserRole;
@@ -48,6 +49,9 @@ namespace FFSmartPlus_Website.Pages
             {
                 await _client.EndOfDayAsync();
                 deletionSuccess = "True";
+                allExpStock = await _client.ExpiryAsync();
+                StateHasChanged();
+                    //call the updated list of expired stock to dynamically change the website
             }
             catch (Exception ex)
             {
@@ -61,13 +65,13 @@ namespace FFSmartPlus_Website.Pages
 
         }
 
-        public async Task getAuditHistory(string days)
+        public async Task getAuditHistory(string days, string? email)
         {
             try
             {
                 var daysInt = Int32.Parse(days);
                 ICollection < AuditDto > auditList = new List<AuditDto>();
-                auditList = await _client.AuditAllAsync(daysInt);
+                auditList = await _client.AuditAllAsync(daysInt,email);
                 await DownloadText(auditList.ToList());
                 await DownloadFileFromStream();
                 StateHasChanged();

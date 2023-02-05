@@ -22,10 +22,10 @@
         <MatDialog @bind-IsOpen="@dialogIsOpen">
             <MatDialogTitle> Items are expired or low in stock.</MatDialogTitle>
                 <MatDialogContent>
-                    @if (lowStockItems != null && expItems != null){
-                    <p>Low in stock: </p>
+                    @if (lowStockItems.Count > 0 && expItems.Count > 0){
+                    <p>Low In Stock: </p>
                     @foreach(var stockItem in lowStockItems){
-                        <ul><li>@stockItem.Item.Name</li></ul>
+                        <ul><li>Stock ID: @stockItem.Id, Quantity: @stockItem.Quantity</li></ul>
                         }
                     
                     <br>
@@ -67,7 +67,6 @@
             {
                 <MatCard class="item-card">
                     <MatCardContent>
-                        <MatCardMedia Wide="false" ImageUrl=""></MatCardMedia>
                         <div class="item-card-content">
                             <div class="itemID">
                                 <small>Item ID: @itemInfo.Id</small>

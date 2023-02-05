@@ -7,64 +7,83 @@
 <link href="css/Audit.css" rel="stylesheet" />
 <link href="css/SharedStyling.css" rel="stylesheet" />
 
-@if (currentUserRole == null){
+@if (currentUserRole == null)
+{
     <div class="accessDeniedMessage">
         <MatHeadline6>Please log in to view this page.</MatHeadline6>
     </div>
 }
 else if (currentUserRole.Contains("Admin") || currentUserRole.Contains("Chef") || currentUserRole.Contains("HeadChef"))
 {
+
     <div class="auditHistory">
         <MatHeadline3>Items with Expired Stock</MatHeadline3>
-
+        
+        <div class="expiredStockMessage">
+            <MatSubtitle1>If all expired stock has been removed, please update them from the system below.</MatSubtitle1>
+        </div>
+        <div class="deleteExpiredStock">
+            <MatButton @onclick="() => deleteExpStock() "> Delete Expired Stock</MatButton>
+        </div>
         @if (allExpStock != null)
         {
-            <!--Display the basic item information relevant to auditing-->
-            @foreach (var x in allExpStock)
+            @if (allExpStock.Count != 0)
             {
-                <MatCard class="item-card">
-                    <MatCardContent>
-                        <MatHeadline4>Item ID: @x.ItemId</MatHeadline4>
-                        <MatHeadline4>Quantity: @x.Quantity</MatHeadline4>
-                        <MatHeadline4>Expiry Date: @x.ExpiryDate</MatHeadline4>
-                    </MatCardContent>
-                </MatCard>
+                <!--Display the basic item information relevant to auditing-->
+                @foreach (var x in allExpStock)
+                {
+                    <MatCard class="item-card">
+                        <MatCardContent>
+                            <MatHeadline5>Item ID: @x.ItemId</MatHeadline5>
+                            <MatHeadline5>Quantity: @x.Quantity</MatHeadline5>
+                            <MatHeadline6>Expiry Date: @x.ExpiryDate</MatHeadline6>
+                        </MatCardContent>
+                    </MatCard>
+                }
+
+                
+            }
+            else
+            {
+                <div class="expiredStockMessage">
+                    <MatSubtitle1>No expired stock to update!</MatSubtitle1>
+                </div>
             }
 
-            <div class="expiredStockMessage">
-                <MatSubtitle1>If all expired stock has been removed, please update them from the system below.</MatSubtitle1>
-            </div>   
-            <div class="deleteExpiredStock">
-                <MatButton @onclick="() => deleteExpStock() "> Delete Expired Stock</MatButton>
-            </div>
-      
         }
 
-        <!--Logic for the Toaster popup-->
-        @if(deletionSuccess == "True"){
-            Toaster.Add("End of day tasks completed", MatToastType.Success, "End of Day");
-            ToasterStatus();
-        }else if (deletionSuccess == "False"){
-            Toaster.Add("End of day failed", MatToastType.Danger, "End of Day");
-            ToasterStatus();
-        }
+    </div>
 
-        @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef"))
-        {
-            <!--The form where the audit history is downloaded from-->
-            <div class="viewAuditHistory">
-                <div class="auditHistoryTitle">
-                    <MatHeadline3>View audit history </MatHeadline3>
-                </div>
-                <MatSubtitle1>Enter how many days worth of auditing history you would like to view.</MatSubtitle1>
-                <MatSubtitle1> History will be returned as a downloadedable file.</MatSubtitle1>
-                <MatSubtitle1> If you do not want the full history, please specify a specific item ID.</MatSubtitle1>
+    <!--Logic for the Toaster popup-->
+    @if (deletionSuccess == "True")
+    {
+        Toaster.Add("End of day tasks completed", MatToastType.Success, "End of Day");
+        ToasterStatus();
+    }
+    else if (deletionSuccess == "False")
+    {
+        Toaster.Add("End of day failed", MatToastType.Danger, "End of Day");
+        ToasterStatus();
+    }
 
-                <p>
-                    <MatTextField @bind-Value="@inputHistory" Label="Days"></MatTextField>
-                </p>    
-                <MatButton @onclick="() => getAuditHistory(inputHistory)"> Download Audit History</MatButton>
+    @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef"))
+    {
+        <!--The form where the audit history is downloaded from-->
+
+        <div class="viewAuditHistory">
+            <div class="auditHistoryTitle">
+                <MatHeadline3>View audit history </MatHeadline3>
             </div>
+            <MatSubtitle1>Enter how many days worth of auditing history you would like to view.</MatSubtitle1>
+            <MatSubtitle1> History will be returned as a downloadedable file.</MatSubtitle1>
+            <MatSubtitle1> Specify an email address if you would also like for it to be emailed, otherwise leave blank.</MatSubtitle1>
+
+            <p>
+                <MatTextField @bind-Value="@inputHistory" Label="Days" Required=true></MatTextField>
+                <MatTextField @bind-Value="@inputEmail" Label="Email"></MatTextField>
+            </p>
+
+            <MatButton @onclick="() => getAuditHistory(inputHistory,inputEmail)">Download Audit History</MatButton>
 
             <!--Logic for the Toaster popup-->
             @if (auditSuccess == "False")
@@ -72,16 +91,25 @@ else if (currentUserRole.Contains("Admin") || currentUserRole.Contains("Chef") |
                 Toaster.Add("Audit could not be displayed", MatToastType.Warning, "Audit");
                 ToasterStatus();
 
-            }else if (auditSuccess == "True"){
+            }
+            else if (auditSuccess == "True")
+            {
                 Toaster.Add("Audit file downloaded", MatToastType.Success, "Audit");
                 ToasterStatus();
+
+
+
             }
 
-        }
+            
 
-</div>
+        </div>
+    }
+
+
 }
-else{
+else
+{
     <div class="accessDeniedMessage">
         <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
     </div>
