@@ -4,23 +4,6 @@
     padding-bottom: 20px;
 }
 
-/* Styling for the MatCard in the View Item Management tab */
-.item-card {
-    padding: 10px;
-    padding-top: 10px;
-    margin-left: 20%;
-    margin-right: 20%;
-    margin-bottom: 20px;
-    margin-top: 10px;
-}
-
-@media only screen and (max-width: 1250px) {
-    .item-card {
-        margin-left: 0;
-        margin-right: 0;
-    }
-}
-
 /* Styling for the Item ID in the View Item Management tab */
 .itemID {
     color: grey;

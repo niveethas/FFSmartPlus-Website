@@ -1,13 +1,9 @@
 ﻿/*For Login and Sign Up pages */
-.formTitle {
-    margin: auto;
-    position: absolute;
-    margin-right: 5%;
+.formTitle, .formInput, .successMessages, .signUpMessages {
+    text-align: center;
 }
 
 .formInput {
-    margin: auto;
-    position: absolute;
     margin-top: 150px;
 }
 
@@ -15,15 +11,10 @@
     margin-top: 520px;
 }
 
-@media only screen and (max-width: 640px) {
-    .formInput {
-        left: 20%;
-    }
+.signUpMessages {
+    margin-top: 100px;
 }
 
-/* Styling to ensure a margin gap between the Password Rules text and the sign up form */
-@media only screen and (max-width: 790px) {
-    .formInput {
-        margin-top: 170px;
-    }
+.passwordRules {
+    color: red;
 }

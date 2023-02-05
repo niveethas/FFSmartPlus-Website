@@ -2,14 +2,17 @@
 @using MatBlazor
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/TabStylings.css" rel="stylesheet" />
+<link href="css/TabStylings.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
 
 @if (currentUserRole == null){
-    <p>Please log in to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
 }else if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef")){
     
 <div class="tabSubtitle">
-    <MatHeadline3>Items with low stock</MatHeadline3>
+    <MatHeadline3>Items with Low Stock</MatHeadline3>
 </div>
 
 <div>
@@ -27,16 +30,18 @@
                 <MatCardContent>
                     @if (selectedOrder != null)
                     {
-                        <MatHeadline2>@selectedOrder.Name</MatHeadline2>
-                        <MatHeadline4>Unit Description: @selectedOrder.UnitDesc</MatHeadline4>
-                        <MatHeadline4>Order Quantity: @selectedOrder.OrderQuantity</MatHeadline4>
+                        <div class="item-card-contents">
+                            <MatHeadline2>@selectedOrder.Name</MatHeadline2>
+                            <MatHeadline4>Unit Description: @selectedOrder.UnitDesc</MatHeadline4>
+                            <MatHeadline4>Order Quantity: @selectedOrder.OrderQuantity</MatHeadline4>
 
-                        <div class="tabSubtitle">
-                            <MatHeadline6>Please amend or confirm the quantity you want to re-order:</MatHeadline6>
-                        </div> 
-                        <p><MatTextField @bind-Value="@newQuantity" @oninput="@((e) => { newQuantity=(string)e.Value;})" PlaceHolder="Item Quantity"> </MatTextField></p>
+                            <div class="tabSubtitle">
+                                <MatHeadline6>Please amend or confirm the quantity you want to re-order:</MatHeadline6>
+                            </div> 
+                            <p><MatTextField @bind-Value="@newQuantity" @oninput="@((e) => { newQuantity=(string)e.Value;})" PlaceHolder="Item Quantity"> </MatTextField></p>
 
-                        <MatButton @onclick="() => changeQuantity(selectedOrder.Id, newQuantity)">Change Quantity</MatButton>
+                            <MatButton @onclick="() => changeQuantity(selectedOrder.Id, newQuantity)">Change Quantity</MatButton>
+                        </div>
                     }
                     @if (additionSuccess == "True")
                     {
@@ -57,5 +62,7 @@
 
 </div>
 }else{
-    <p> You do not have authorisation to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
+    </div>
 }

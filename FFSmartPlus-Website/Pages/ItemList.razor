@@ -3,14 +3,19 @@
 
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/TabStylings.css" rel="stylesheet" />
-<div class="pageTitle">
-    <MatHeadline3 id="pageTitle">Item Management</MatHeadline3>
-</div>
-@if (currentUserRole.Count == 0)
+<link href="css/TabStylings.css" rel="stylesheet" />
+<link href="css/Audit.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
+
+@if (currentUserRole == null)
 {
-    <p> Please ensure you are logged in and have the appropriate roles set to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
 }else{
+    <div class="pageTitle">
+        <MatHeadline3 id="pageTitle">Item Management</MatHeadline3>
+    </div>
     @if (currentUserRole.Contains("HeadChef"))
     {
         <!--Only head chefs need to see expiring and low in stock items-->

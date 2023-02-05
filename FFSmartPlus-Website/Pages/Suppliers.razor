@@ -2,9 +2,12 @@
 @using MatBlazor
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="css/TabStylings.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
 
 @if (currentUserRole == null){
-    <p> Please log in to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
 }else if (currentUserRole.Contains("Admin")|| currentUserRole.Contains("HeadChef")){
     <MatTabGroup>
         <!--The tab where supplier information can be viewed-->
@@ -28,7 +31,9 @@
                 <MatCard class="item-card">
                     <MatCardContent>
                         <div class="card-item-content">
-                            <MatHeadline4>ID: @selectedSupplier.Id</MatHeadline4>
+                            <div class="itemID">
+                                <small>ID: @selectedSupplier.Id</small>
+                            </div>
                             <MatHeadline2>@selectedSupplier.Name</MatHeadline2>
                             <MatHeadline4>Address: @selectedSupplier.Address</MatHeadline4>
                             <MatHeadline4>Email: @selectedSupplier.Email</MatHeadline4>
@@ -104,6 +109,8 @@
         </MatTab>
     </MatTabGroup>
 }else{
-    <p>You do not have authorisation to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
+    </div>
 }
 

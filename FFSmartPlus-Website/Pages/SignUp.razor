@@ -2,12 +2,12 @@
 @using MatBlazor
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/Forms.css" rel="stylesheet" />
+<link href="css/Forms.css" rel="stylesheet" />
 
 <div class="formTitle">
-    <h1>Account Registration</h1>
-    <h3 class="mat-subtitle1">Please enter your registration details below to create an account</h3>
-    <p class="mat-subtitle2"> Password must contain a special character, at least one number, one uppercase letter and minimum of 6 digits.</p>
+    <MatHeadline3>Account Registration</MatHeadline3>
+    <MatSubtitle1>Please enter your registration details below to create an account</MatSubtitle1>
+    <MatSubtitle1 class="passwordRules"><b>Password must contain a special character, at least one number, one uppercase letter and minimum of 6 digits.</b></MatSubtitle1>
 </div>
 
 <!-- The form the user will enter their account details into for registration -->
@@ -32,7 +32,7 @@
     ToasterStatus();
 } else if (signUpSuccess == "True"){
     Toaster.Add("Account Created!", MatToastType.Success, "Registration");
-    <div class="successMessages">
+    <div class="signUpMessages">
         <MatHeadline6> Please make a note of your account details.</MatHeadline6>
         <MatHeadline6> Contact your Admin with your username to ensure they register the correct roles for you!</MatHeadline6>
     </div>

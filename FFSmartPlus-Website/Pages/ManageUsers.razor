@@ -3,14 +3,19 @@
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
 <link href="css/manageUsers.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
 
-<MatHeadline3>Manage Users</MatHeadline3>
 @if (currentUserRole == null)
 {
-    <p> Please log in to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
 }
 else if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef"))
 {
+    <div class="manageUsersSubtitle">
+        <MatHeadline3>Manage Users</MatHeadline3>
+    </div>
     <MatTabGroup>
         <!--The tab where a new user can be added into the application-->
         <MatTab Label="Add User">
@@ -69,5 +74,7 @@ else if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef")
         </MatTab>
     </MatTabGroup>
 }else{
-    <p> You do not have authorisation to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
+    </div>
 }

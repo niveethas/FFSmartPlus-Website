@@ -1,10 +1,13 @@
 ﻿@page "/Account"
 @using MatBlazor
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/TabStylings.css" rel="stylesheet" />
+<link href="css/TabStylings.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
 
-@if (currentUserRole.Count == 0 ){
-    <p>Please log in to view this page and ensure you have roles assigned. </p>
+@if (currentUserRole == null){
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page and ensure you have roles assigned.</MatHeadline6>
+    </div>
 }
 else if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef"))
     {
@@ -63,8 +66,8 @@ else if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef")
 
         }
 }   else{
-    <div>
-       <p> You do not have authorisation to view this page.</p>
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
     </div>
 }
     
