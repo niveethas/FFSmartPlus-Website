@@ -107,6 +107,13 @@
                     }
                 </MatCard>
 
+                 @if (itemDeleteSuccess == "False")
+                    {
+                    Toaster.Add("Item Not Deleted", MatToastType.Warning, "Delete Item");
+                    toastStatus();
+
+                }
+
                 @if (showItemModifyContent == "True")
                 {
                     <!--The form where an item's information is modified-->
@@ -140,11 +147,12 @@
                     }else if (itemModifySuccess == "False"){
                     Toaster.Add("Item change not saved.", MatToastType.Warning, "Change Item");
                 }
+               
 
             }
             else if (itemFound == "False")
             {
-                Toaster.Add("Item could not be found", MatToastType.Danger, "Item");
+                Toaster.Add("Item not found or deleted", MatToastType.Danger, "Item");
                 itemFoundStatus();
             }
             else
@@ -288,5 +296,6 @@
         }
     
 </MatTabGroup>
+
 
 }
