@@ -112,6 +112,13 @@
                     }
                 </MatCard>
 
+                 @if (itemDeleteSuccess == "False")
+                    {
+                    Toaster.Add("Item Not Deleted", MatToastType.Warning, "Delete Item");
+                    toastStatus();
+
+                }
+
                 @if (showItemModifyContent == "True")
                 {
                     <p> Leave field blank if you would like to take the original values.</p>
@@ -142,6 +149,7 @@
                     }else if (itemModifySuccess == "False"){
                     Toaster.Add("Item change not saved.", MatToastType.Warning, "Change Item");
                 }
+               
 
             }
             else if (itemFound == "False")

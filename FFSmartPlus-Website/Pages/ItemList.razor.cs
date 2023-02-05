@@ -53,6 +53,7 @@ namespace FFSmartPlus_Website.Pages
         public string itemFound = "";
         public string showItemModifyContent = "";
         public string itemModifySuccess = "";
+        public string itemDeleteSuccess = "";
         public bool dialogIsOpen = false;
 
         public List<string> currentUserRole;
@@ -153,13 +154,15 @@ namespace FFSmartPlus_Website.Pages
                 await _client.Item4Async(id);
                 itemsInfo = await _client.ItemAllAsync();
                 itemInfo = null;
+                StateHasChanged();
                 //function is called when the user presses the delete item button
                 //the is of the item on display is passed in and the items are reloaded
                 //itemInfo is set as null so the page resets
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);                
+                itemDeleteSuccess = "False";
+                StateHasChanged();
             }
         }
 
@@ -346,6 +349,7 @@ namespace FFSmartPlus_Website.Pages
             stockModifySuccess = "";
             itemModifySuccess = "";
             itemAdditionSuccess = "";
+            itemDeleteSuccess = "";
         }
 
         public void itemFoundStatus()
