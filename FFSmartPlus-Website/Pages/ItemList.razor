@@ -193,16 +193,18 @@
                 @if (itemAdditionSuccess == "True")
                 {
                     Toaster.Add("Item successfully added, please add stock information.", MatToastType.Info, "Stock");
+                    <!--The section where stock is added to the new item-->
+                    <div class="addStockToNewItem">
+                        <MatHeadline4>Add Stock to the New Item</MatHeadline4>
+                        <p>
+                            <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
+                        </p>
 
-                    <p>
-                        <MatTextField @bind-Value="@inputUnitQuantity" Label="Unit Quantity"></MatTextField>
-                    </p>
-
-                    <p>
-                        <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
-                    </p>
-                    <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
-
+                        <p>
+                            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDate"> </MatDatePicker>
+                        </p>
+                        <MatButton @onclick="() => addStock (inputUnitQuantity,inputUnitExpDate)">Add Stock</MatButton>
+                    </div>
 
                 }else if (itemAdditionSuccess == "False"){
                         Toaster.Add("New item not saved", MatToastType.Info, "Item");
@@ -210,9 +212,6 @@
                         StateHasChanged();
 
                 }
-
-        
-            <br />
 
         </div>
 
@@ -228,41 +227,40 @@
             Toaster.Add("Stock Not Added.", MatToastType.Warning, "Stock");
             toastStatus();
         }
+        <div class="addStockToExistingItem">
+            <!--The section where stock is added to an existing item-->
+
+            <div class="tabSubtitle">
+                <MatHeadline4>Add Stock to an Existing Item</MatHeadline4>
+            </div>
+            <div class="itemInput">
+                <p>
+                    <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
+                </p>
+                <p>
+                    <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
+                </p>
+                <p>
+                    <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
+                </p>
+                <MatButton @onclick="() => addStockExisting (inputUnitQuantityE,inputUnitExpDateE,inputItemIdE)">Add Stock</MatButton>
+            </div>
+
+            @if (stockModifySuccess == "True")
+            {
+                Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
+                toastStatus();
+                StateHasChanged();
+            }
+            else if (stockModifySuccess == "False")
+            {
+                Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+                toastStatus();
+            }
+        </div>
     </MatTab>
     
     }
-
-    <MatTab Label="Add Stock">
-        <!--The tab where stock is added to an existing item-->
-        <div class="tabSubtitle">
-            <MatHeadline4>Add Stock</MatHeadline4>
-        </div>
-        <div class="itemInput">
-            <p>
-                <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
-            </p>
-            <p>
-                <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
-            </p>
-            <p>
-                <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
-            </p>
-            <MatButton @onclick="() => addStockExisting (inputUnitQuantityE,inputUnitExpDateE,inputItemIdE)">Add Stock</MatButton>
-        </div>
-
-        @if (stockModifySuccess == "True")
-        {
-            Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
-            toastStatus();
-            StateHasChanged();
-        }
-        else if
-        (stockModifySuccess == "False")
-        {
-            Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
-            toastStatus();
-        }
-    </MatTab>
 
         @if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef")||currentUserRole.Contains("Chef"))
         {

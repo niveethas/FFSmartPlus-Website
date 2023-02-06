@@ -33,6 +33,10 @@
     width: 100%;
 }
 
+.addStockToExistingItem, .addStockToNewItem {
+    margin-top: 20px;
+}
+
 /* Styling for the role selector in mobile view */
 @media only screen and (max-width: 467px) {
     #roleSelector {
