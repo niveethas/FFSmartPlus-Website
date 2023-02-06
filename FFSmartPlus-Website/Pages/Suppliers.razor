@@ -60,13 +60,17 @@
 
             @if (changeSupplierCheck == "True")
             {
+                <div class="tabSubtitle">
+                    <MatHeadline3>Modify Supplier</MatHeadline3>
+                    <MatSubtitle1>Enter the information for the selected supplier below.</MatSubtitle1>
+                </div>
                 <div class="supplierInput">
                     <MatTextField @bind-Value="inputName" Label="Name"></MatTextField>
                     <MatTextField @bind-Value="inputAddress" Label="Address"></MatTextField>
                     <MatTextField @bind-Value="inputEmail" Label="Email"></MatTextField>
                 
                 </div>
-                <div class="modifyRoleButtons">
+                <div class="modifySupplierButton">
                     <MatButton @onclick="() => changeSupplierDetails(selectedSupplier.Id, inputAddress, inputEmail, inputName)">Confirm Changes</MatButton>
                 </div>
                 if (supplierModifySuccess == "True")

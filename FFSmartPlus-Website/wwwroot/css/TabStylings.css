@@ -9,7 +9,7 @@
     color: grey;
 }
 
-.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText, .supplierInput, .modifyItemForm {
+.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText, .supplierInput, .modifyItemForm, .modifySupplierButton {
     text-align: center;
 }
 
@@ -25,12 +25,17 @@
     margin-bottom: 20px;
 }
 
-.modifyRoleButtons {
+.modifyRoleButtons, .modifySupplierButton {
     margin-top: 20px;
+}
+
+.modifySupplierButton {
+    margin-bottom: 20px;
 }
 
 .supplierInput {
     width: 100%;
+    margin-top: 20px;
 }
 
 .addStockToExistingItem, .addStockToNewItem {
