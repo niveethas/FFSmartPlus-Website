@@ -12,28 +12,23 @@ namespace FFSmartPlus_Tests
     [TestClass]
     public class ManageUsersTests
     {
-        private readonly ManageUsers manageUsers;
+        private readonly ManageUsers _manageUsers;
 
-        private String validUsername = "UnitUser";
-        private String validPassword = "@UnitTests123";
-        private String validEmail = "Email@email.com";
+        private string validUsername = "UnitUser";
+        private string validPassword = "@UnitTests123";
+        private string validEmail = "Email@email.com";
 
-        private String validUsernameToo = "UnitUser2";
+        private string validUsernameToo = "UnitUser2";
 
-        private String blankString = "";
+        private string blankString = "";
 
         public ManageUsersTests()
         {
-            manageUsers = new ManageUsers();
-            manageUsers._client = new FFSBackEnd("https://localhost:7041/", new HttpClient());
+            _manageUsers = new ManageUsers();
+            _manageUsers._client = new SetupClient().SignInAdmin();
 
-            var newLogin = new LoginModel();
-            newLogin.Username = "admin1";
-            newLogin.Password = "@Admin123"; // Password requires a symbol, capital letter and 3 numbers
-            manageUsers._client.LoginAsync(newLogin);
-
-            Task<ICollection<String>> allUsers = manageUsers._client.AllAsync();
-            manageUsers.allUsers = allUsers.Result;
+            Task<ICollection<String>> allUsers = _manageUsers._client.AllAsync();
+            _manageUsers.allUsers = allUsers.Result;
         }
 
 
@@ -41,72 +36,97 @@ namespace FFSmartPlus_Tests
         // --- addUser(string username, string password, string email) Tests ---
 
         [TestMethod]
-        public async Task AddUser_ValidUser()
+        public async Task TA1_AddUser_ValidUser()
         {
-            await manageUsers.addUser(validUsername, validPassword, validEmail);
-            Assert.IsTrue(manageUsers.additionSuccess);
-            CollectionAssert.Contains((System.Collections.ICollection)manageUsers.allUsers, validUsername);
+            // add new user - valid details
+            // deletes user first to ensure they are being added
+            await _manageUsers.deleteUser(validUsername);
 
+            await _manageUsers.addUser(validUsername, validPassword, validEmail);
+            Assert.AreEqual(TestConsts.TRUE_STR, _manageUsers.additionSuccess);
+            CollectionAssert.Contains((System.Collections.ICollection)_manageUsers.allUsers, validUsername);
         }
 
         [TestMethod]
-        public async Task AddUser_ExistingUser()
+        public async Task TA2_AddUser_ExistingUser()
         {
-            await manageUsers.addUser(validUsername, validPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // add user that already exists - from previous tc
+            await _manageUsers.addUser(validUsername, validPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidPassword_NoNumbers()
+        public async Task TA3_AddUser_InvalidPassword_NoNumbers()
         {
-            String invalidPassword = "@Password";
-            await manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // 
+            string invalidPassword = "@Password";
+            await _manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidPassword_NoSpecial()
+        public async Task TA4_AddUser_InvalidPassword_NoSpecial()
         {
-            String invalidPassword = "Password123";
-            await manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // invalid password - no special character
+            string invalidPassword = "Password123";
+            await _manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidPassword_NoCapital()
+        public async Task TA5_AddUser_InvalidPassword_NoCapital()
         {
-            String invalidPassword = "@password123";
-            await manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // invalid password - no capital letter
+            string invalidPassword = "@password123";
+            await _manageUsers.addUser(validUsernameToo, invalidPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidPassword_Blank()
+        public async Task TA6_AddUser_InvalidPassword_Blank()
         {
-            await manageUsers.addUser(validUsernameToo, blankString, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // invalid password - no value
+            await _manageUsers.addUser(validUsernameToo, blankString, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidUsername_Blank()
+        public async Task TA7_AddUser_InvalidUsername_Blank()
         {
-            await manageUsers.addUser(blankString, validPassword, validEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // invalid username - no value
+            await _manageUsers.addUser(blankString, validPassword, validEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidEmail_InvalidFormat()
+        public async Task TA8_AddUser_InvalidEmail_InvalidFormat()
         {
-            String invalidEmail = "test";
-            await manageUsers.addUser(validUsernameToo, validPassword, invalidEmail);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // invalid email - incorrect email format - not [name]@[address].[etc]
+            string invalidEmail = "test";
+            await _manageUsers.addUser(validUsernameToo, validPassword, invalidEmail);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
 
         [TestMethod]
-        public async Task AddUser_InvalidEmail_Blank()
+        public async Task TA9_AddUser_InvalidEmail_Blank()
         {
-            await manageUsers.addUser(validUsernameToo, validPassword, blankString);
-            Assert.IsFalse(manageUsers.additionSuccess);
+            // invalid email - no email
+            await _manageUsers.addUser(validUsernameToo, validPassword, blankString);
+            Assert.AreEqual(TestConsts.FALSE_STR, _manageUsers.additionSuccess);
+
+            _manageUsers.additionSuccess = null;
         }
         #endregion
 
@@ -115,25 +135,28 @@ namespace FFSmartPlus_Tests
 
 
         [TestMethod]
-        public async Task DeleteUser_ValidUser()
+        public async Task TB1_DeleteUser_ValidUser()
         {
-            await manageUsers.deleteUser(validUsername);
-            Assert.IsTrue(manageUsers.successDelete);
-            CollectionAssert.DoesNotContain((System.Collections.ICollection)manageUsers.allUsers, validUsername);
+            // delete user - valid user - added in first tc
+            await _manageUsers.deleteUser(validUsername);
+            Assert.IsTrue(_manageUsers.successDelete);
+            CollectionAssert.DoesNotContain((System.Collections.ICollection)_manageUsers.allUsers, validUsername);
         }
 
         [TestMethod]
-        public async Task DeleteUser_InvalidUser_NonExistent()
+        public async Task TB2_DeleteUser_InvalidUser_NonExistent()
         {
-            await manageUsers.deleteUser(validUsername);
-            Assert.IsFalse(manageUsers.successDelete);
+            // delete user - user that does not exist - deleted in previous tc
+            await _manageUsers.deleteUser(validUsername);
+            Assert.IsFalse(_manageUsers.successDelete);
         }
 
         [TestMethod]
-        public async Task DeleteUser_InvalidUser_Blank()
+        public async Task TB3_DeleteUser_InvalidUser_Blank()
         {
-            await manageUsers.deleteUser(blankString);
-            Assert.IsFalse(manageUsers.successDelete);
+            // attempt to delete user - blank string
+            await _manageUsers.deleteUser(blankString);
+            Assert.IsFalse(_manageUsers.successDelete);
         }
         #endregion
     }

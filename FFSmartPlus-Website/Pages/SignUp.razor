@@ -2,11 +2,12 @@
 @using MatBlazor
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/Forms.css" rel="stylesheet" />
+<link href="css/Forms.css" rel="stylesheet" />
 
 <div class="formTitle">
-    <h1>Account Registration</h1>
-    <h3 class="mat-subtitle1">Please enter your registration details below to create an account</h3>
+    <MatHeadline3>Account Registration</MatHeadline3>
+    <MatSubtitle1>Please enter your registration details below to create an account</MatSubtitle1>
+    <MatSubtitle1 class="passwordRules"><b>Password must contain a special character, at least one number, one uppercase letter and minimum of 6 digits.</b></MatSubtitle1>
 </div>
 
 <!-- The form the user will enter their account details into for registration -->
@@ -15,13 +16,29 @@
         <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
     </p>
     <p>
-        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+        <MatTextField Label="Password" @bind-Value="@inputPassword" Type="password"></MatTextField> <!--The 'Type="password"' attribute was found on MatBlazor "MatTextField" (https://www.matblazor.com/TextField)-->
+    </p>
+    <p>
+        <MatTextField Label="Re-type password" @bind-Value="@inputPasswordR" Type="password"></MatTextField> <!--The 'Type="password"' attribute was found on MatBlazor "MatTextField" (https://www.matblazor.com/TextField)-->
     </p>
     <p>
         <MatTextField Label="Email" @bind-Value="@inputEmail"></MatTextField>
     </p>
-    <MatButton @onclick="() => userSignUp(inputUsername,inputPassword, inputEmail)"> Sign Up</MatButton>
+    <MatButton @onclick="() => userSignUp(inputUsername,inputPassword, inputEmail, inputPasswordR)"> Sign Up</MatButton>
 </div>
-@code {
+
+@if (signUpSuccess == "False"){
+    Toaster.Add("Sign Up Unsuccessful.", MatToastType.Danger, "Registration");
+    ToasterStatus();
+} else if (signUpSuccess == "True"){
+    Toaster.Add("Account Created!", MatToastType.Success, "Registration");
+    <div class="signUpMessages">
+        <MatHeadline6> Please make a note of your account details.</MatHeadline6>
+        <MatHeadline6> Contact your Admin with your username to ensure they register the correct roles for you!</MatHeadline6>
+    </div>
+    ToasterStatus();
+}else if (signUpSuccess == "FalsePassword"){
+    Toaster.Add("Registration failed, passwords do not match.", MatToastType.Warning, "Password");
+    ToasterStatus();
 
 }

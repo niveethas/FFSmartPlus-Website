@@ -1,0 +1,58 @@
+﻿/* Padding for subtitles inside MatTabs across the application */
+.tabSubtitle {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Styling for the Item ID in the View Item Management tab */
+.itemID {
+    color: grey;
+}
+
+.item-card, #pageTitle, .tabSubtitle, .itemInput, .viewItemText, .supplierInput, .modifyItemForm, .modifySupplierButton {
+    text-align: center;
+}
+
+.modifyItemForm {
+    margin-bottom: 20px;
+}
+
+.inputTitle {
+    margin-bottom: 20px;
+}
+
+#selectUser {
+    margin-bottom: 20px;
+}
+
+.modifyRoleButtons, .modifySupplierButton {
+    margin-top: 20px;
+}
+
+.modifySupplierButton {
+    margin-bottom: 20px;
+}
+
+.supplierInput {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.addStockToExistingItem, .addStockToNewItem {
+    margin-top: 20px;
+}
+
+/* Styling for the role selector in mobile view */
+@media only screen and (max-width: 467px) {
+    #roleSelector {
+        margin-top: 15px;
+    }
+}
+
+/* Media Query for the input form on the Add Supplier Tab */
+@media only screen and (max-width: 960px) {
+    .supplierInput {
+        width: 65%;
+        margin-left: 20%;
+    }
+}

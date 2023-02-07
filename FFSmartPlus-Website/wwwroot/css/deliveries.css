@@ -1,0 +1,14 @@
+﻿.title, .deliveryConfirmButton {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.deliveryInput {
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.title, .deliveryInput, .accessDeniedMessage, .deliveryConfirmation, deliveryConfirmButton {
+    text-align: center;
+}

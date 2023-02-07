@@ -1,0 +1,73 @@
+﻿@page "/Account"
+@using MatBlazor
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="css/TabStylings.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
+
+@if (currentUserRole == null){
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page and ensure you have roles assigned.</MatHeadline6>
+    </div>
+}
+else if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef"))
+    {
+    <!--The dropdown where the target user will be selected-->
+    <div class="tabSubtitle">
+        <MatHeadline3>View All Users</MatHeadline3>
+        <MatSubtitle1>Select a user below to modify their role</MatSubtitle1>
+    </div>
+    <div class="itemInput" id="selectUser">
+        <MatSelect Label="Pick a User" Outlined="true" ValueChanged="(string i) => OnChangeUser(i)">
+            <MatOptionString Value="-1"></MatOptionString>
+            @foreach (var user in getUsersToList())
+            {
+                <MatOptionString Value="@user.ToString()">@user.ToString()</MatOptionString>
+            }
+        </MatSelect>
+    </div>
+
+    
+        <!--The form where the target user's username will appear and where their roles can be modified-->
+        <div class="tabSubtitle">
+            <MatHeadline3>Modify Roles</MatHeadline3>
+            <MatSubtitle1>Select a role for the selected user using the dropdown below</MatSubtitle1>
+        </div>
+        <div class="itemInput">
+            <MatTextField @bind-Value="inputUsername" Label="Username" ReadOnly="true"></MatTextField>
+            <MatSelect id="roleSelector" Label="Pick a Role" Outlined="true" @bind-Value="inputRole">
+                <MatOptionString Value="Admin">Admin</MatOptionString>
+                <MatOptionString Value="Chef">Chef</MatOptionString>
+                <MatOptionString Value="Delivery">Delivery Driver</MatOptionString>
+                <MatOptionString Value="HeadChef">Head Chef</MatOptionString>
+            </MatSelect>
+            <div class="modifyRoleButtons">
+                <MatButton @onclick="() => addRole(inputUsername,inputRole)">Add User Role</MatButton>
+                <MatButton @onclick="() => deleteRole(inputUsername, inputRole)">Delete Role</MatButton>
+            </div>
+        </div>
+
+        <!--Logic for the Toaster popup-->
+        @if (success == "True")
+        {
+            Toaster.Add("Role Change Successful.", MatToastType.Success, "Role");
+            ToasterStatus();
+
+        }
+        else if (success == "False")
+        {
+            Toaster.Add("Role Change Unsuccessful.", MatToastType.Warning, "Role");
+            ToasterStatus();
+
+        }
+        else if (success == "TrueSelf")
+        {
+            Toaster.Add("Own Role Change Successful.", MatToastType.Info, "Own Role");
+            ToasterStatus();
+
+        }
+}   else{
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
+    </div>
+}
+    

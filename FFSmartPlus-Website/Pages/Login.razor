@@ -1,23 +1,37 @@
-﻿@page "/Login"
+﻿@page "/"
 @using MatBlazor
 
 <link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
-<link href="~/css/Forms.css" rel="stylesheet" />
+<link href="css/Forms.css" rel="stylesheet" />
 
 <div class="formTitle">
-    <h1>Welcome to the Future Fridges Stock Management System</h1>
-    <h3 class="mat-subtitle1">Please enter your login details to log in</h3>
+    <MatHeadline3>Welcome to the Future Fridges Stock Management System</MatHeadline3>
 </div>
 
+@if (currentUserRole == null){
 <!-- The form the user will enter their login details into -->
 <div class="formInput">
+    <div class="inputTitle">
+            <MatSubtitle1>Please enter your login details to log in</MatSubtitle1>
+    </div>
     <p>
         <MatTextField Label="Username" @bind-Value="@inputUsername"></MatTextField>
     </p>
     <p>
-        <MatTextField Label="Password" @bind-Value="@inputPassword"></MatTextField>
+            <MatTextField Label="Password" @bind-Value="@inputPassword" Type="password"></MatTextField> <!--The 'Type="password"' attribute was found on MatBlazor "MatTextField" (https://www.matblazor.com/TextField)-->
     </p>
-    <MatButton @onclick="() => userLogin(inputUsername,inputPassword)"> Login</MatButton>
+    <MatButton Raised="true" @onclick="() => userLogin(inputUsername,inputPassword)"> Login</MatButton>
     <br />
-    <MatButton @onclick="() => userLogin(inputUsername,inputPassword)"> Sign Up A New Account</MatButton>
+    <br />
+    <br />
+    <MatButton @onclick="() => SignUpPageRedirect()">Register A New Account</MatButton>
+    @if (loginSuccess == "False"){
+    Toaster.Add("Login Unsuccessful.", MatToastType.Warning, "Login");
+    ToasterStatus();
+    }
 </div>
+}else{
+    <div class="successMessages">
+        <MatHeadline6>You have already logged in.</MatHeadline6>
+    </div>
+}

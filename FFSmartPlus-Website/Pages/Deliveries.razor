@@ -1,0 +1,87 @@
+﻿@page "/Deliveries"
+@using MatBlazor
+<link href="_content/MatBlazor/dist/matBlazor.css" rel="stylesheet" />
+<link href="css/deliveries.css" rel="stylesheet" />
+<link href="css/SharedStyling.css" rel="stylesheet" />
+
+@if (currentUserRole == null){
+    <div class="accessDeniedMessage">
+        <MatHeadline6>Please log in to view this page.</MatHeadline6>
+    </div>
+} else if (currentUserRole.Contains("Delivery")){
+    <!--The form where the Supplier ID and Order Date will be entered-->
+    <div class="title">
+        <MatHeadline3>View Deliveries</MatHeadline3>
+        <MatSubtitle1>Enter the Supplier ID as stated in your email and the Date of Order</MatSubtitle1>
+    </div>
+    <div class="deliveryInput">
+        <p>
+            <MatTextField @bind-Value="@inputSupplierId" Label="Supplier Id"></MatTextField>
+        </p>
+
+        <p>
+            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Order Date" @bind-Value="@inputOrderDate"> </MatDatePicker>
+        </p>
+        <MatButton @onclick="() => getDeliveriesOnDate(inputSupplierId,inputOrderDate)"> Get Orders</MatButton>
+    </div>
+
+    @if(findDelivery == "False"){
+        Toaster.Add("No deliveries available for this date", MatToastType.Warning, "Delivery");
+    }
+
+    @if (findDelivery == "True")
+    {
+        <!--The dropdown to select the order delivered on the selected date-->
+        <div class="deliveryInput">
+            <MatSelect Label="Pick an Order Item" Outlined="true" ValueChanged="(string i) => onChangeOrder(i)">
+                <MatOptionString Value="-1"></MatOptionString>
+                @foreach (var delivery in getDeliveriesToList())
+                {
+                    <MatOptionString Value="@delivery.Id.ToString()">ID:@delivery.Id  @delivery.Name - @delivery.QuantityOrdered</MatOptionString>
+                }
+            </MatSelect>
+        </div>
+
+        if (currentOrderId != 0){
+            <!--The order information for the selected order-->
+            <div>
+                <MatCard class="item-card">
+                    <MatCardContent>
+                        <MatHeadline2>@currentOrderName</MatHeadline2>
+                        <MatHeadline4>Unit Description: @currentOrderDescription</MatHeadline4>
+                        <MatHeadline4>Expected Quantity: @currentOrderQuant</MatHeadline4>
+                    </MatCardContent>
+                </MatCard>
+                <!--The form where the order will be confirmed-->
+                <div class="deliveryConfirmation">
+                    <MatSubtitle1> Please confirm the quantity actually delivered for this order. </MatSubtitle1>
+                    <MatSubtitle1> If the quantity delivered is the same, please leave the text field blank. </MatSubtitle1>
+                    <MatSubtitle1><MatTextField @bind-Value="@deliveredQuant" Label="Quantity Ordered"> </MatTextField></MatSubtitle1>
+                    <MatSubtitle1>Please confirm the expiry date for the ordered unit: </MatSubtitle1>
+                    <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Select Expiry Date" @bind-Value="@inputExpDate"> </MatDatePicker>
+                    <div class="deliveryConfirmButton">
+                        <MatButton @onclick="() => ConfirmCurrentDelivery(inputExpDate,deliveredQuant)">Confirm Order</MatButton>
+                    </div>
+                </div>
+            </div>
+            
+        }
+        <!--Logic for the Toaster popup-->
+        @if (confirmationSuccess == "False")
+        {
+            Toaster.Add("Delivery order could not be confirmed", MatToastType.Warning, "Order");
+            toastStatus();
+        }
+        else if (confirmationSuccess == "True")
+        {
+            Toaster.Add("Delivery order confirmed", MatToastType.Success, "Order");
+            toastStatus();
+
+        }
+       
+    }
+}else{
+    <div class="accessDeniedMessage">
+        <MatHeadline6> You do not have authorisation to view this page.</MatHeadline6>
+    </div>
+}
