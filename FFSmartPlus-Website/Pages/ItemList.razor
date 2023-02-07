@@ -11,7 +11,7 @@
     <div class="accessDeniedMessage">
         <MatHeadline6>Please log in to view this page.</MatHeadline6>
     </div>
-}else{
+}else if(currentUserRole.Count > 0){
     <div class="pageTitle">
         <MatHeadline3 id="pageTitle">Item Management</MatHeadline3>
     </div>
@@ -21,20 +21,34 @@
         <MatDialog @bind-IsOpen="@dialogIsOpen">
             <MatDialogTitle> Items are expired or low in stock.</MatDialogTitle>
                 <MatDialogContent>
-                    @if (lowStockItems.Count > 0 && expItems.Count > 0){
+                @if (lowStockItems.Count > 0) {
                     <p>Low In Stock: </p>
-                    @foreach(var stockItem in lowStockItems){
-                        <ul><li>Stock ID: @stockItem.Id, Quantity: @stockItem.Quantity</li></ul>
-                        }
-                    
+                    @foreach (var stockItem in lowStockItems) {
+                        <ul><li>@stockItem.Item.Name</li></ul>
+                    }
+
                     <br>
-                    <p>Expired Items: </p>
-                    @foreach(var items in expItems){
-                        <ul><li>@items</li></ul>
+                }
+                else
+                {
+                    <p>All items are in stock!</p>
+                }
+                <p>Expired Items: </p>
+                @if (expItems.Count > 0)
+                {
+                    @foreach (var items in expItems)
+                    {
+                        <ul><li>ID: @items.ItemId, Quantity: @items.Quantity</li></ul>
+
                     }
-                    }else{
-                        <p>Congrats! All items are in stock and in date!</p>
-                    }
+
+                }
+
+                else
+                {
+                    <p>All items are in date!</p>
+                }
+
                 </MatDialogContent>
                 <MatDialogActions>
                     <MatButton OnClick="@(e => { dialogIsOpen = false; })">Close</MatButton>
@@ -98,7 +112,7 @@
                             </div>
                         }
                     </MatCardContent>
-                    @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef"))
+                    @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef") || currentUserRole.Contains("Chef"))
                     {
                         <MatCardActions>
                             <MatButton @onclick="() => deleteItem(itemInfo.Id)"> Remove Item</MatButton>
@@ -163,7 +177,8 @@
         </div>
 
     </MatTab>
-   @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef")){
+        @if (currentUserRole.Contains("Admin") || currentUserRole.Contains("HeadChef") || currentUserRole.Contains("Chef"))
+        {
         <MatTab Label="Add Item">
             <!--The tab where a new item is added-->
             <div class="itemInput">
@@ -227,44 +242,48 @@
             Toaster.Add("Stock Not Added.", MatToastType.Warning, "Stock");
             toastStatus();
         }
-        <div class="addStockToExistingItem">
-            <!--The section where stock is added to an existing item-->
-
-            <div class="tabSubtitle">
-                <MatHeadline4>Add Stock to an Existing Item</MatHeadline4>
-            </div>
-            <div class="itemInput">
-                <p>
-                    <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
-                </p>
-                <p>
-                    <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
-                </p>
-                <p>
-                    <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
-                </p>
-                <MatButton @onclick="() => addStockExisting (inputUnitQuantityE,inputUnitExpDateE,inputItemIdE)">Add Stock</MatButton>
-            </div>
-
-            @if (stockModifySuccess == "True")
-            {
-                Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
-                toastStatus();
-                StateHasChanged();
-            }
-            else if (stockModifySuccess == "False")
-            {
-                Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
-                toastStatus();
-            }
-        </div>
+        
     </MatTab>
     
     }
 
         @if (currentUserRole.Contains("Admin")||currentUserRole.Contains("HeadChef")||currentUserRole.Contains("Chef"))
         {
-            <MatTab Label = "Remove Stock">
+            <MatTab Label = "Modify Stock">
+
+                <div class="addStockToExistingItem">
+                    <!--The section where stock is added to an existing item-->
+
+                    <div class="tabSubtitle">
+                        <MatHeadline4>Add Stock to an Existing Item</MatHeadline4>
+                    </div>
+                    <div class="itemInput">
+                        <p>
+                            <MatTextField @bind-Value="@inputItemIdE" Label="Item Id"></MatTextField>
+                        </p>
+                        <p>
+                            <MatTextField @bind-Value="@inputUnitQuantityE" Label="Unit Quantity"></MatTextField>
+                        </p>
+                        <p>
+                            <MatDatePicker TValue="DateTime" AllowInput="true" EnableTime="true" Label="Unit Expiry Date" @bind-Value="@inputUnitExpDateE"> </MatDatePicker>
+                        </p>
+                        <MatButton @onclick="() => addStockExisting (inputUnitQuantityE,inputUnitExpDateE,inputItemIdE)">Add Stock</MatButton>
+                    </div>
+
+                    @if (stockModifySuccess == "True")
+                    {
+                        Toaster.Add("Stock Changed Successfully", MatToastType.Success, "Stock");
+                        toastStatus();
+                        StateHasChanged();
+                    }
+                    else if (stockModifySuccess == "False")
+                    {
+                        Toaster.Add("Stock not changed.", MatToastType.Warning, "Stock");
+                        toastStatus();
+                    }
+                </div>
+
+
                 <!--The tab where stock is removed from an item-->
                 <div class="tabSubtitle">
                     <MatHeadline4>Remove Stock</MatHeadline4>
@@ -296,4 +315,9 @@
 </MatTabGroup>
 
 
+}
+else {
+    <div class="accessDeniedMessage">
+        <MatHeadline6>You do not have authorisation to view this page.</MatHeadline6>
+    </div>
 }
