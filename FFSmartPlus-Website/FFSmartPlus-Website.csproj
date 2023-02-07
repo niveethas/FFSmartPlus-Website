@@ -35,7 +35,7 @@
 
 
   <ItemGroup>
-    <OpenApiReference Include="OpenAPIs\swagger29.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
+    <OpenApiReference Include="OpenAPIs\swagger3.json" CodeGenerator="NSwagCSharp" Namespace="ClientAPI" ClassName="FFSBackEnd">
       <SourceUri>https://localhost:7041/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
   </ItemGroup>
