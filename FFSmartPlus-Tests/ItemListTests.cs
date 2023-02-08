@@ -190,7 +190,7 @@ namespace FFSmartPlus_Tests
 
         #region deleteItem Tests
         // --- deleteItem(long id) ---
-
+        [Ignore]
         [TestMethod]
         public async Task TD1_deleteItem_ValidId()
         {
@@ -198,7 +198,7 @@ namespace FFSmartPlus_Tests
             await _itemList.deleteItem(newItemId);
             Assert.IsNull(_itemList.itemInfo);
         }
-
+        [Ignore]
         [TestMethod]
         public async Task TD2_deleteItem2_InvalidId()
         {

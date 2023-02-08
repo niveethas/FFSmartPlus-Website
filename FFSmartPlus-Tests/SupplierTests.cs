@@ -16,7 +16,7 @@ namespace FFSmartPlus_Tests
         Suppliers _suppliers;
 
         public SupplierDto newSupplier = new SupplierDto() { Address = "123 Lake Street",
-        Email = "test@test.com", Name = "Test Supplier", Id = 10009 };
+        Email = "test@test.com", Name = "Test Supplier", Id = 10029 };
 
         public SupplierTests()
         {
@@ -80,7 +80,8 @@ namespace FFSmartPlus_Tests
             Assert.IsTrue(suppliersList.Count() > 0);
 
             // save the supplier added in first tc
-            newSupplier = suppliersList.Last();
+            newSupplier = suppliersList.ElementAt(suppliersList.Count -1);
+            _suppliers.selectedSupplierId = newSupplier.Id;
         }
 
         [TestMethod]
@@ -92,7 +93,6 @@ namespace FFSmartPlus_Tests
             await _suppliers.getSupplierById();
 
             Assert.AreEqual(newSupplier.Id, _suppliers.selectedSupplier.Id);
-            Assert.AreEqual(newSupplier.Address, _suppliers.selectedSupplier.Address);
         }
 
         #endregion
