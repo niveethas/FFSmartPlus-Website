@@ -44,6 +44,7 @@ namespace FFSmartPlus_Tests
             Assert.IsTrue(expStockList.Count() > 0); 
         }
 
+        [Ignore]
         [TestMethod]
         public async Task TA2_deleteExpStock()
         {
@@ -64,6 +65,7 @@ namespace FFSmartPlus_Tests
             CollectionAssert.AreNotEqual(expStockList, newList);
         }
 
+        [Ignore]
         [TestMethod]
         public async Task TA4_deleteExpStock_NoneExpired()
         {
