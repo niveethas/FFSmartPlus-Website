@@ -19,7 +19,7 @@
     {
         <!--Only head chefs need to see expiring and low in stock items-->
         <MatDialog @bind-IsOpen="@dialogIsOpen">
-            <MatDialogTitle> Items are expired or low in stock.</MatDialogTitle>
+            <MatDialogTitle> Items to expire or low in stock.</MatDialogTitle>
                 <MatDialogContent>
                 @if (lowStockItems.Count > 0) {
                     <p>Low In Stock: </p>
@@ -33,7 +33,7 @@
                 {
                     <p>All items are in stock!</p>
                 }
-                <p>Expired Items: </p>
+                <p>Expiring Soon: </p>
                 @if (expItems.Count > 0)
                 {
                     @foreach (var items in expItems)
